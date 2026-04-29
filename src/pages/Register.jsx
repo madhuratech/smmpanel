@@ -52,7 +52,7 @@ const Register = () => {
           name: formData.fullname,
           email: formData.email,
           password: formData.password,
-          confirmpassword:formData.confirmpassword
+          confirmpassword:formData.confirmpasswordcd
         }),
       });
 
