@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import { getFromStorage, removeFromStorage } from '../utils';
 
+import TikyTop from "../assets/icons/TikyTop.svg"
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -94,7 +96,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 border-b border-white/40 shadow-lg">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 border-b border-white/40 shadow-lg ">
       <style>{`
         .glass-button {
           background: linear-gradient(135deg, #FF6B35, #FFA500);
@@ -117,12 +119,16 @@ const Navbar = () => {
       `}</style>
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
-          <Link 
-            to="/" 
-            className="text-2xl font-bold text-[#FF6B35]"
+          <Link
+            to="/"
+            className="flex items-center"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            SocialBoost
+            <img
+              src={TikyTop} 
+              alt="Tikytop"
+              className="h-20 w-auto object-contain"
+            />
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
@@ -132,7 +138,7 @@ const Navbar = () => {
               onMouseLeave={handleMouseLeave}
             >
               <button
-                className="font-medium transition-colors flex items-center space-x-1 text-gray-700 hover:text-[#FF6B35]"
+                className="font-medium transition-colors flex items-center space-x-1 text-gray-700 hover:text-[#bb0ea1]"
               >
                 <span>All Services</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,7 +148,7 @@ const Navbar = () => {
 
               <AnimatePresence>
                 {activeDropdown === 'all-services' && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -153,7 +159,7 @@ const Navbar = () => {
                   >
                     <div className="grid grid-cols-4 gap-6 px-6">
                       {platforms.map((platform, platformIndex) => (
-                        <motion.div 
+                        <motion.div
                           key={platform.name}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -179,11 +185,11 @@ const Navbar = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: (platformIndex * 0.05) + (serviceIndex * 0.03), duration: 0.2 }}
                                 onClick={() => handleServiceClick(platform.path)}
-                                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#FF6B35] transition-all rounded-lg group"
+                                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-all rounded-lg group"
                                 whileHover={{ x: 4 }}
                               >
                                 <span className="flex items-center gap-2">
-                                  <span className="w-1 h-1 rounded-full bg-[#FFA500] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                  <span className="w-1 h-1 rounded-full bg-[#FFA500]  transition-opacity"></span>
                                   {service.name}
                                 </span>
                               </motion.button>
@@ -206,11 +212,10 @@ const Navbar = () => {
               >
                 <Link
                   to={platform.path}
-                  className={`font-medium transition-colors flex items-center space-x-1 ${
-                    isActive(platform.path)
+                  className={`font-medium transition-colors flex items-center space-x-1 ${isActive(platform.path)
                       ? 'text-[#FF6B35]'
-                      : 'text-gray-700 hover:text-[#FF6B35]'
-                  }`}
+                      : 'text-gray-700 hover:text-[#bb0ea1]'
+                    }`}
                 >
                   <span>{platform.name}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,7 +225,7 @@ const Navbar = () => {
 
                 <AnimatePresence>
                   {activeDropdown === platform.name && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -236,10 +241,10 @@ const Navbar = () => {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.05, duration: 0.2 }}
                           onClick={() => handleServiceClick(platform.path)}
-                          className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#FF6B35] transition-all group flex items-center gap-2"
+                          className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-all group flex items-center gap-2"
                           whileHover={{ x: 4 }}
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#FFA500] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FFA500]   transition-opacity"></span>
                           {service.name}
                         </motion.button>
                       ))}
@@ -251,7 +256,7 @@ const Navbar = () => {
 
             <Link
               to="/free-trial"
-              className="font-medium transition-colors text-gray-700 hover:text-[#FF6B35]"
+              className="font-medium transition-colors text-gray-700 hover:text-[#bb0ea1]"
             >
               Free Trial
             </Link>
@@ -262,9 +267,9 @@ const Navbar = () => {
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-[#FF6B35] to-[#FFA500] rounded-full flex items-center justify-center text-white font-semibold">
+                  <div className="w-8 h-8 bg-gradient-to-br from-[#FF6B35] to-[#b24eac] rounded-full flex items-center justify-center text-white font-semibold">
                     {user.name?.charAt(0).toUpperCase()}
-                  </div>
+                  </div>  
                   <span className="font-medium text-gray-700">{user.name}</span>
                   <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -273,7 +278,7 @@ const Navbar = () => {
 
                 <AnimatePresence>
                   {showUserMenu && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -288,14 +293,14 @@ const Navbar = () => {
                         <Link
                           to="/profile"
                           onClick={() => setShowUserMenu(false)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#FF6B35] transition-colors"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-colors"
                         >
                           My Profile
                         </Link>
                         <Link
                           to="/my-orders"
                           onClick={() => setShowUserMenu(false)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#FF6B35] transition-colors"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-colors"
                         >
                           My Orders
                         </Link>
@@ -339,22 +344,50 @@ const Navbar = () => {
 
         <AnimatePresence>
           {isOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
               className="md:hidden pb-4 max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain"
             >
-            <div className="space-y-3 pt-4">
-              <div className="space-y-2">
-                <div className="py-2 font-medium text-gray-900">All Services</div>
-                {platforms.map((platform) => (
-                  <div key={`mobile-${platform.name}`} className="pl-4 space-y-2">
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      {platform.name}
+              <div className="space-y-3 pt-4 ">
+                <div className="space-y-2">
+                  <div className="py-2 font-medium text-gray-900">All Services</div>
+                  {platforms.map((platform) => (
+                    <div key={`mobile-${platform.name}`} className="pl-4 space-y-2">
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        {platform.name}
+                      </div>
+                      <div className="pl-2 space-y-1">
+                        {platform.services.map((service) => (
+                          <button
+                            key={service.service}
+                            onClick={() => {
+                              handleServiceClick(platform.path)
+                              setIsOpen(false)
+                            }}
+                            className="block w-full text-left py-1 text-sm text-gray-600 hover:text-primary-600"
+                          >
+                            {service.name}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    <div className="pl-2 space-y-1">
+                  ))}
+                </div>
+
+                {platforms.map((platform) => (
+                  <div key={platform.name} className="space-y-2">
+                    <Link
+                      to={platform.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`block py-2 font-medium ${isActive(platform.path) ? 'text-primary-600' : 'text-gray-700'
+                        }`}
+                    >
+                      {platform.name}
+                    </Link>
+                    <div className="pl-4 space-y-1">
                       {platform.services.map((service) => (
                         <button
                           key={service.service}
@@ -370,54 +403,25 @@ const Navbar = () => {
                     </div>
                   </div>
                 ))}
-              </div>
 
-              {platforms.map((platform) => (
-                <div key={platform.name} className="space-y-2">
-                  <Link
-                    to={platform.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`block py-2 font-medium ${
-                      isActive(platform.path) ? 'text-primary-600' : 'text-gray-700'
-                    }`}
-                  >
-                    {platform.name}
+                <Link
+                  to="/free-trial"
+                  onClick={() => setIsOpen(false)}
+                  className="block py-2 font-medium text-gray-700 text-center"
+                >
+                  Free Trial
+                </Link>
+
+                <div className="space-y-2 pt-2">
+                  <Link to="/login" onClick={() => setIsOpen(false)}>
+                    <Button fullWidth variant="secondary" size="sm" className='mb-2'>Login</Button>
                   </Link>
-                  <div className="pl-4 space-y-1">
-                    {platform.services.map((service) => (
-                      <button
-                        key={service.service}
-                        onClick={() => {
-                          handleServiceClick(platform.path)
-                          setIsOpen(false)
-                        }}
-                        className="block w-full text-left py-1 text-sm text-gray-600 hover:text-primary-600"
-                      >
-                        {service.name}
-                      </button>
-                    ))}
-                  </div>
+                  <Link to="/register" onClick={() => setIsOpen(false)}>
+                    <Button fullWidth size="sm">Register</Button>
+                  </Link>
                 </div>
-              ))}
-
-              <Link
-                to="/free-trial"
-                onClick={() => setIsOpen(false)}
-                className="block py-2 font-medium text-gray-700 text-center"
-              >
-                Free Trial
-              </Link>
-
-              <div className="space-y-2 pt-2">
-                <Link to="/login" onClick={() => setIsOpen(false)}>
-                  <Button fullWidth variant="secondary" size="sm" className='mb-2'>Login</Button>
-                </Link>
-                <Link to="/register" onClick={() => setIsOpen(false)}>
-                  <Button fullWidth size="sm">Register</Button>
-                </Link>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>

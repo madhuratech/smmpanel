@@ -1,76 +1,128 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { Plus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
+export default function FAQSection() {
+  const [openIndex, setOpenIndex] = useState(0);
 
   const faqs = [
     {
-      question: 'What service does Booster provide?',
-      answer: 'We have TikTok, Instagram, YouTube, and Facebook social media growth services, such as, but not limited to, followers, likes, views, and engagement.'
+      question: "What service does Tikytop provide?",
+      answer:
+        "We offer TikTok, Instagram, YouTube, and Facebook social media growth services, including but not limited to followers, likes, views, and engagement.",
     },
     {
-      question: 'When does my order start?',
-      answer: 'Most of our orders are processed within minutes of you placing an order. However, delivery speed varies depending on the service and how many you ordered.'
+      question: "Do I have to give you my account password?",
+      answer:
+        "No. We do not ask for passwords or any kind of sensitive login information. All we need is only the link to your profile or the content you would like to grow.",
     },
     {
-      question: 'Do I have to give you my account password?',
-      answer: 'No. We do not ask for passwords or any kind of sensitive login information. All we need is only the link to your profile or the content you would like to grow.'
+      question: "When does my order start being delivered?",
+      answer:
+        "Most of our orders are processed within minutes of you placing an order. However, delivery speed varies depending on the service and how many you ordered.",
     },
     {
-      question: 'What are the platforms I can grow using these services?',
-      answer: 'Our services will allow you to grow your account on TikTok, Instagram, YouTube, and Facebook.'
+      question: "Can Tikytop help if my account growth is stuck?",
+      answer:
+        "Absolutely. Tikytop is commonly used by creators who are experiencing slow or stagnant growth and need an initial push.",
     },
     {
-      question: 'Who are these services for?',
-      answer: 'Anyone who wants to grow their social media engagement and presence can benefit from our services, especially creators, influencers, and business owners.'
-    }
+      question: " Can I choose how many followers or likes I want?",
+      answer:
+        "Yes, Tikytop offers flexible packages so you can select the amount that fits your needs and budget.",
+    },
+    {
+      question: "Can I order multiple services at the same time?",
+      answer:
+        "Of course, yes! You can combine followers, likes, views, and comments to set a balanced growth strategy and yield better results from it",
+    },
+    {
+      question: "What if I face an issue with my order?",
+      answer:
+        "Don’t get tense! TikyTop provides 24*7 customer support to resolve any issues or concerns as soon as possible.",
+    },
   ];
 
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <div className="py-20 px-6">
-      <div className="max-w-4xl mx-auto">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-            Frequently Asked Questions
+    <section className="bg-gradient-to-b from-pink-50 to-white py-24 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
+
+        {/* LEFT */}
+        <div className="space-y-6">
+          <span className="inline-block px-5 py-2 bg-pink-100 text-pink-600 rounded-full text-sm font-medium">
+            FAQs
+          </span>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+            Frequently asked <br /> question
           </h2>
+
+          <p className="text-gray-500 text-lg max-w-lg">
+            Everything you need to know to get started and solve common issues.
+          </p>
+
+        
         </div>
 
-        {/* FAQ Items */}
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index}
-              className="bg-white/50 backdrop-blur-xl rounded-2xl border border-white/60 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-white/30 transition-colors"
+        {/* RIGHT */}
+        <div className="space-y-5">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+
+            return (
+              <div
+                key={index}
+                className={`bg-white rounded-2xl border transition-all duration-300 ${
+                  isOpen
+                    ? "shadow-lg border-pink-200"
+                    : "shadow-sm border-gray-100"
+                }`}
               >
-                <span className="text-lg font-bold text-black pr-8">{faq.question}</span>
-                <svg 
-                  className={`w-6 h-6 text-[#FF6B35] transition-transform duration-300 flex-shrink-0 ${openIndex === index ? 'rotate-180' : ''}`}
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
+                {/* HEADER */}
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex justify-between items-center px-8 py-6"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              
-              <div 
-                className={`transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
-              >
-                <div className="px-8 pb-6 text-gray-700 leading-relaxed">
-                  {faq.answer}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                  <span className="text-lg font-semibold text-gray-800">
+                    {faq.question}
+                  </span>
 
+                  {/* ICON ANIMATION */}
+                  <motion.div
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-pink-500"
+                  >
+                    <Plus size={22} />
+                  </motion.div>
+                </button>
+
+                {/* CONTENT ANIMATION */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-8 pb-6 text-gray-600 text-base leading-relaxed">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

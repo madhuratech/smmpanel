@@ -25,6 +25,8 @@
 
   body {
     @apply bg-[var(--color-bg)] text-[var(--color-text)] antialiased transition-colors duration-300;
+      font-family: "Shadows Into Light", cursive;
+       /* font-family: "Great Vibes", cursive; */
   }
 }
 

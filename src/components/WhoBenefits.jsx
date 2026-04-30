@@ -1,84 +1,170 @@
-export default function WhoBenefits() {
-  const beneficiaries = [
-    {
-      title: 'Content Creators',
-      description: 'Boost your online presence and reach a larger audience with increased engagement.',
-      icon: '🎬',
-      gradient: 'from-purple-500 to-pink-500'
-    },
-    {
-      title: 'Influencers',
-      description: 'Increase your engagement to attract more brand deals and partnerships.',
-      icon: '⭐',
-      gradient: 'from-pink-500 to-rose-500'
-    },
-    {
-      title: 'Small Businesses',
-      description: 'Build trust with potential customers by boosting your social media presence.',
-      icon: '🏪',
-      gradient: 'from-blue-500 to-cyan-500'
-    },
-    {
-      title: 'Entrepreneurs',
-      description: 'Expand your reach and establish credibility in your industry.',
-      icon: '💼',
-      gradient: 'from-orange-500 to-red-500'
-    },
-    {
-      title: 'Musicians & Artists',
-      description: 'Showcase your talent to a wider audience and grow your fanbase.',
-      icon: '🎵',
-      gradient: 'from-indigo-500 to-purple-500'
-    },
-    {
-      title: 'Educators',
-      description: 'Share your knowledge with more students and build an educational community.',
-      icon: '📚',
-      gradient: 'from-green-500 to-teal-500'
-    }
-  ];
+import {
+  Users,
+  Briefcase,
+  Star,
+  Video,
+  Rocket,
+  Layers,
+  User,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
+const data = [
+  {
+    icon: Users,
+    title: "Influencers",
+    desc: "If your followers have been stuck at the same number for a long time, this can help you move forward. More likes and comments also make your profile look active, which attracts real people and collabs.",
+  },
+  {
+    icon: Briefcase,
+    title: "Businesses",
+    desc: "If you’re trying to promote products but not getting enough views, TikyTop helps more people see your content. When your posts have good engagement, there is a high chance that customers will trust and check your page.",
+  },
+  {
+    icon: Star,
+    title: "Brands",
+    desc: "New or growing brands often struggle to get attention at first. This helps you look more established. It makes your posts feel more engaging, so people are more likely to stop and watch.",
+  },
+  {
+    icon: Video,
+    title: "Content Creators",
+    desc: "If you’re putting a lot of effort into content but getting very low likes or views, this gives you a boost. Seeing better numbers can also motivate you to stay consistent and keep posting.",
+  },
+  {
+    icon: Rocket,
+    title: "Startups",
+    desc: "Startups need visibility, especially in the beginning. This helps you get noticed faster. It gives your page a more active look, which helps people take your brand seriously.",
+  },
+  {
+    icon: Layers,
+    title: "Agencies",
+    desc: "If you manage client accounts, this can help you improve their engagement quickly. It makes your work look more effective when clients see better activity on their pages.",
+  },
+  {
+    icon: User,
+    title: "Personal Profiles",
+    desc: "If you just want to grow your account or don't feel like you’re posting to no one, this can make a huge difference. It makes your profile look more active and helps you get out of that “no response” phase.",
+  },
+];
+
+// Animation container
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+// Card animation
+const item = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export default function WhoBenefit() {
   return (
-    <div className="py-20 px-6">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-            Who Can Benefit From Our Services
-          </h2>
-          <p className="text-lg text-gray-800 max-w-4xl mx-auto leading-relaxed">
-            Our services are beneficial to a wide range of users in different industries.
-          </p>
-        </div>
+    <section className="relative bg-[#050508] text-white py-20 px-6 overflow-hidden">
+      
+      {/* 🌸 Glow Background */}
+      <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] bg-pink-500/20 rounded-full blur-[140px] animate-pulse"></div>
+      <div className="absolute bottom-[-120px] right-[-80px] w-[280px] h-[280px] bg-pink-400/10 rounded-full blur-[140px]"></div>
 
-        {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {beneficiaries.map((item, index) => (
-            <div 
-              key={index}
-              className="bg-white/50 backdrop-blur-xl rounded-3xl border border-white/60 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group"
-            >
-              {/* Icon with gradient background */}
-              <div className={`w-16 h-16 bg-gradient-to-r ${item.gradient} rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                {item.icon}
-              </div>
-              
-              {/* Content */}
-              <h3 className="text-2xl font-bold text-black mb-4">{item.title}</h3>
-              <p className="text-gray-700 leading-relaxed">{item.description}</p>
-            </div>
-          ))}
-        </div>
+      {/* 🌈 Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-pink-500/5 to-transparent pointer-events-none"></div>
 
-        {/* Bottom Message */}
-        <div className="text-center bg-gradient-to-r from-[#FF6B35]/10 to-[#FFA500]/10 backdrop-blur-xl rounded-3xl border border-white/60 p-8 shadow-lg">
-          <p className="text-xl text-gray-800 font-medium">
-            Regardless of your niche and audience, our services can greatly boost your online content.
-          </p>
-        </div>
-
+      {/* ✨ Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(15)].map((_, i) => (
+          <span
+            key={i}
+            className="absolute w-1 h-1 bg-pink-400/40 rounded-full animate-pulse"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+          />
+        ))}
       </div>
-    </div>
+
+      {/* CONTENT */}
+      <div className="relative z-10 max-w-6xl mx-auto">
+
+        {/* Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-3xl md:text-5xl font-bold text-center mb-4"
+        >
+          Who Can Benefit the Most?
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="text-gray-400 text-center max-w-2xl mx-auto mb-16"
+        >
+          TikyTop helps you boost reach, engagement, and visibility — no matter your niche.
+        </motion.p>
+
+        {/* 🔥 GRID LAYOUT */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {data.map((itemData, index) => {
+            const Icon = itemData.icon;
+
+            return (
+              <motion.div
+                key={index}
+                variants={item}
+                whileHover={{ y: -8, scale: 1.03 }}
+                className="group relative overflow-hidden 
+                bg-[#0B0B0F] border border-white/5 rounded-2xl p-6 
+                transition duration-300 hover:border-pink-500/40 
+                hover:shadow-[0_0_40px_rgba(236,72,153,0.25)]"
+              >
+                {/* Glow Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+                {/* Icon */}
+                <div className="bg-pink-500/10 p-4 rounded-xl w-fit mb-4 group-hover:bg-pink-500/20 transition">
+                  <Icon className="text-pink-500" size={26} />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-semibold mb-2">
+                  {itemData.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  {itemData.desc}
+                </p>
+
+                {/* Bottom Line */}
+                <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-pink-500 group-hover:w-full transition-all duration-500"></div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
   );
 }

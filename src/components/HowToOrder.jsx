@@ -1,173 +1,112 @@
+import { motion } from "framer-motion";
+
 export default function HowToOrder() {
   const steps = [
     {
-      number: '01',
-      title: 'Choose Your Platform',
-      description: 'Select TikTok, Instagram, YouTube, or Facebook',
-      icon: '🎯'
+      number: "01",
+      title: "Choose Platform",
+      description:
+        "Select your preferred platform such as TikTok, Instagram, YouTube, or Facebook.",
+      
     },
     {
-      number: '02',
-      title: 'Select Your Service',
-      description: 'Pick followers, likes, views, or engagement',
-      icon: '✨'
+      number: "02",
+      title: "Select Service",
+      description:
+        "Pick the service that fits your goal. This could be followers, likes, views, or other engagement options.",
+      
     },
     {
-      number: '03',
-      title: 'Enter Your Details',
-      description: 'Provide your profile link and quantity',
-      icon: '📝'
+      number: "03",
+      title: "Enter Details",
+      description:
+        "Provide your profile or content link and choose the quantity you want.",
+      
     },
     {
-      number: '04',
-      title: 'Complete Order',
-      description: 'Checkout and start processing',
-      icon: '✅'
-    }
+      number: "04",
+      title: "Complete Order",
+      description:
+        "Finish checkout and your order will begin processing shortly.",
+      
+    },
+    {
+      number: "05",
+      title: "Final Step",
+      description:
+        "Your engagement will start appearing on your content.",
+      
+    },
   ];
 
   return (
-    <div className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-            How to Place an Order
+    <section className="py-24 px-6 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold  bg-clip-text mb-4 ">
+            How It Works
           </h2>
-          <p className="text-lg text-gray-800 max-w-3xl mx-auto leading-relaxed">
-            Getting started is quick and simple. Just follow these steps to boost your social media engagement.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            A simple step-by-step process to get started quickly.
           </p>
+        </motion.div>
+
+        {/* Stepper */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 relative">
+
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2 }}
+              className="text-center relative group"
+            >
+
+              {/* Connector Line */}
+              {index !== steps.length - 1 && (
+                <div className="hidden md:block absolute top-6 left-1/2 w-full h-1 bg-gradient-to-r from-pink-300 to-purple-300 opacity-40"></div>
+              )}
+
+              {/* Circle */}
+              <div className="relative z-10 w-14 h-14 mx-auto flex items-center justify-center rounded-full 
+              bg-white text-sm font-bold text-gray-900 mb-4 shadow-lg border border-pink-200 
+              group-hover:scale-110 group-hover:bg-gradient-to-r  
+              transition-all duration-300">
+                {step.number}
+              </div>
+
+              {/* Icon */}
+              <div className="text-3xl mb-3 transition-transform duration-300 group-hover:scale-125">
+                {step.icon}
+              </div>
+
+              {/* Title */}
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-pink-500 transition">
+                {step.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {step.description}
+              </p>
+
+            </motion.div>
+          ))}
+
         </div>
-
-        {/* Flowing Steps Design */}
-        <div className="relative">
-          
-          {/* Connecting Dotted Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 border-l-2 border-dotted border-gray-400 transform -translate-x-1/2 hidden lg:block"></div>
-          
-          {/* Steps */}
-          <div className="space-y-16">
-            
-            {/* Step 1 - Right Side */}
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-              <div className="lg:w-1/2 lg:text-right lg:pr-16">
-                <div className="bg-gradient-to-r from-[#FF6B35] to-[#FFA500] rounded-full px-8 py-4 inline-flex items-center gap-4 shadow-2xl hover:scale-105 transition-all duration-300">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-2xl">{steps[0].icon}</span>
-                  </div>
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold">{steps[0].title}</h3>
-                    <p className="text-sm opacity-90">{steps[0].description}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl">
-                  {steps[0].number}
-                </div>
-              </div>
-              
-              <div className="lg:w-1/2 lg:pl-16">
-                <div className="text-4xl font-bold text-gray-300 lg:text-left text-center">
-                  STEP
-                </div>
-              </div>
-            </div>
-
-            {/* Step 2 - Left Side */}
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-              <div className="lg:w-1/2 lg:text-right lg:pr-16">
-                <div className="text-4xl font-bold text-gray-300 lg:text-right text-center">
-                  STEP
-                </div>
-              </div>
-              
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#FFA500] to-[#FFB3D9] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl">
-                  {steps[1].number}
-                </div>
-              </div>
-              
-              <div className="lg:w-1/2 lg:pl-16">
-                <div className="bg-gradient-to-r from-[#FFA500] to-[#FFB3D9] rounded-full px-8 py-4 inline-flex items-center gap-4 shadow-2xl hover:scale-105 transition-all duration-300">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-2xl">{steps[1].icon}</span>
-                  </div>
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold">{steps[1].title}</h3>
-                    <p className="text-sm opacity-90">{steps[1].description}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 3 - Right Side */}
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-              <div className="lg:w-1/2 lg:text-right lg:pr-16">
-                <div className="bg-gradient-to-r from-[#FFB3D9] to-[#FF6B9D] rounded-full px-8 py-4 inline-flex items-center gap-4 shadow-2xl hover:scale-105 transition-all duration-300">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-2xl">{steps[2].icon}</span>
-                  </div>
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold">{steps[2].title}</h3>
-                    <p className="text-sm opacity-90">{steps[2].description}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#FFB3D9] to-[#FF6B9D] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl">
-                  {steps[2].number}
-                </div>
-              </div>
-              
-              <div className="lg:w-1/2 lg:pl-16">
-                <div className="text-4xl font-bold text-gray-300 lg:text-left text-center">
-                  STEP
-                </div>
-              </div>
-            </div>
-
-            {/* Step 4 - Left Side */}
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-              <div className="lg:w-1/2 lg:text-right lg:pr-16">
-                <div className="text-4xl font-bold text-gray-300 lg:text-right text-center">
-                  STEP
-                </div>
-              </div>
-              
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#FF6B9D] to-[#8B5CF6] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-2xl">
-                  {steps[3].number}
-                </div>
-              </div>
-              
-              <div className="lg:w-1/2 lg:pl-16">
-                <div className="bg-gradient-to-r from-[#FF6B9D] to-[#8B5CF6] rounded-full px-8 py-4 inline-flex items-center gap-4 shadow-2xl hover:scale-105 transition-all duration-300">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-2xl">{steps[3].icon}</span>
-                  </div>
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold">{steps[3].title}</h3>
-                    <p className="text-sm opacity-90">{steps[3].description}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        {/* Bottom Note */}
-        <div className="text-center mt-20 bg-white/40 backdrop-blur-xl rounded-2xl border border-white/60 p-8 shadow-lg max-w-4xl mx-auto">
-          <p className="text-gray-800 text-lg leading-relaxed">
-            Once confirmed, your selected engagement will start appearing on your profile or content.
-          </p>
-        </div>
-
       </div>
-    </div>
+
+      {/* Background Glow Effects */}
+      <div className="absolute top-0 left-0 w-72 h-72 bg-pink-300 opacity-20 blur-3xl rounded-full"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-300 opacity-20 blur-3xl rounded-full"></div>
+    </section>
   );
 }
