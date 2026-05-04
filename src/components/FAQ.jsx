@@ -32,6 +32,10 @@ export default function FAQSection() {
         "Yes, Tikytop offers flexible packages so you can select the amount that fits your needs and budget.",
     },
     {
+      question:"Can businesses use TikyTop for promotion?",
+      answer: "Definitely. Many small businesses use TikyTop to boost product visibility and build social proof on TikTok"
+    },
+    {
       question: "Can I order multiple services at the same time?",
       answer:
         "Of course, yes! You can combine followers, likes, views, and comments to set a balanced growth strategy and yield better results from it",
@@ -40,7 +44,7 @@ export default function FAQSection() {
       question: "What if I face an issue with my order?",
       answer:
         "Don’t get tense! TikyTop provides 24*7 customer support to resolve any issues or concerns as soon as possible.",
-    },
+    }
   ];
 
   const toggleFAQ = (index) => {
@@ -49,80 +53,124 @@ export default function FAQSection() {
 
   return (
     <section className="bg-gradient-to-b from-pink-50 to-white py-24 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
+  <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
 
-        {/* LEFT */}
-        <div className="space-y-6">
-          <span className="inline-block px-5 py-2 bg-pink-100 text-pink-600 rounded-full text-sm font-medium">
-            FAQs
-          </span>
+    {/* LEFT */}
+    <div className="space-y-8">
+      {/* Heading */}
+      <div className="space-y-6">
+     
 
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-            Frequently asked <br /> question
-          </h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+          Frequently asked <br /> question
+        </h2>
 
-          <p className="text-gray-500 text-lg max-w-lg">
-            Everything you need to know to get started and solve common issues.
-          </p>
-
-        
-        </div>
-
-        {/* RIGHT */}
-        <div className="space-y-5">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-
-            return (
-              <div
-                key={index}
-                className={`bg-white rounded-2xl border transition-all duration-300 ${
-                  isOpen
-                    ? "shadow-lg border-pink-200"
-                    : "shadow-sm border-gray-100"
-                }`}
-              >
-                {/* HEADER */}
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full flex justify-between items-center px-8 py-6"
-                >
-                  <span className="text-lg font-semibold text-gray-800">
-                    {faq.question}
-                  </span>
-
-                  {/* ICON ANIMATION */}
-                  <motion.div
-                    animate={{ rotate: isOpen ? 45 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-pink-500"
-                  >
-                    <Plus size={22} />
-                  </motion.div>
-                </button>
-
-                {/* CONTENT ANIMATION */}
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="content"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-8 pb-6 text-gray-600 text-base leading-relaxed">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
       </div>
-    </section>
+
+      {/* LEFT FAQs (2 items) */}
+      <div className="space-y-5">
+        {faqs.slice(0, 3).map((faq, index) => {
+          const isOpen = openIndex === index;
+
+          return (
+            <div
+              key={index}
+              className={`bg-white rounded-2xl border transition-all duration-300 ${
+                isOpen
+                  ? "shadow-lg border-pink-200"
+                  : "shadow-sm border-gray-100"
+              }`}
+            >
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full flex justify-between items-center px-6 py-5 text-left"
+              >
+                <span className="text-lg font-semibold text-gray-800">
+                  {faq.question}
+                </span>
+
+                <motion.div
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-pink-500"
+                >
+                  <Plus size={20} />
+                </motion.div>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-5 text-gray-600">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    {/* RIGHT FAQs (6 items) */}
+    <div className="space-y-5">
+      {faqs.slice(3, 8).map((faq, index) => {
+        const actualIndex = index + 3;
+
+        const isOpen = openIndex === actualIndex;
+
+        return (
+          <div
+            key={actualIndex}
+            className={`bg-white rounded-2xl border transition-all duration-300 ${
+              isOpen
+                ? "shadow-lg border-pink-200"
+                : "shadow-sm border-gray-100"
+            }`}
+          >
+            <button
+              onClick={() => toggleFAQ(actualIndex)}
+              className="w-full flex justify-between items-center px-6 py-5 text-left"
+            >
+              <span className="text-lg font-semibold text-gray-800">
+                {faq.question}
+              </span>
+
+              <motion.div
+                animate={{ rotate: isOpen ? 45 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-pink-500"
+              >
+                <Plus size={20} />
+              </motion.div>
+            </button>
+
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-5 text-gray-600">
+                    {faq.answer}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
   );
 }

@@ -123,9 +123,7 @@ export default function Testimonials() {
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             What Our Esteemed Users Say About TikyTop
           </h2>
-          <p className="text-gray-600 max-w-xl mx-auto">
-            Real feedback from customers who boosted their social media growth.
-          </p>
+        
         </div>
 
         {/* Carousel */}

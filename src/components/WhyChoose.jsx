@@ -48,18 +48,16 @@ export default function WhyChoose() {
     <section className="bg-[#f9fafb] py-16 px-4 ">
       <div className="max-w-7xl mx-auto text-center">
 
-        {/* Top Label */}
-        <p className="text-pink-500 text-sm font-semibold tracking-widest mb-3">
-          WHY TIKYTOP
-        </p>
 
         {/* Heading */}
-        <h2 className="font-bold text-gray-900 leading-tight
-          text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-          Why Choose TikyTop for <br />
-          <span className="text-pink-500">TikTok Growth?</span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-tight">
+          <span className="block mb-2">
+            Why Choose TikyTop for
+          </span>
+          <span className="block bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+            TikTok Growth?
+          </span>
         </h2>
-
         {/* Subtitle */}
         <p className="mt-4 text-gray-500 max-w-2xl mx-auto
           text-sm sm:text-base md:text-lg">

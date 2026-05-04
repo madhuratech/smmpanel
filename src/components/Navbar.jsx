@@ -96,7 +96,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 border-b border-white/40 shadow-lg ">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 border-white/40 shadow-lg ">
       <style>{`
         .glass-button {
           background: linear-gradient(135deg, #FF6B35, #FFA500);

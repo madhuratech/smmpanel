@@ -38,10 +38,6 @@ export default function Steps() {
     <section className="bg-[#f8f8fb] py-28 px-6 md:px-10">
       <div className="max-w-7xl mx-auto text-center">
 
-        {/* Top Label */}
-        <p className="text-sm text-pink-500 font-semibold tracking-widest uppercase">
-          Simple Process
-        </p>
 
         {/* Heading */}
         <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mt-4 leading-tight">

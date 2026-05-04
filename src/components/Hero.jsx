@@ -69,7 +69,7 @@ export default function Hero() {
 
   return (
     <div
-      className="relative min-h-screen flex items-center justify-center text-white px-4 bg-cover bg-center"
+      className="relative min-h-screen flex items-center justify-center text-white px-4 bg-cover bg-center" id="hero"
       style={{
         backgroundImage: `url(${Tiky})`,
       }}
@@ -84,12 +84,12 @@ export default function Hero() {
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight font-righteous">
+        <h1 className="text-4xl md:text-6xl font-bold leading-relaxed font-righteous">
           Trusted Site to Turn Your Profile into a Powerful Platform
         </h1>
 
         {/* Description */}
-        <p className="mt-6 text-gray-300 text-lg max-w-2xl mx-auto">
+        <p className="mt-6 text-gray-300 text-lg max-w-2xl mx-auto leading-loose">
           Grow your audience and increase engagement across TikTok, Instagram,
           and YouTube with TikyTop.
         </p>

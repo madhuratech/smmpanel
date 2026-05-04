@@ -24,10 +24,7 @@ export default function WhyUSer() {
     <section className="bg-[#f7f7f9] py-16 px-4 sm:px-6 lg:px-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
-        <p className="text-sm tracking-widest text-red-500 font-semibold mb-3">
-          LOVED BY CREATORS
-        </p>
-
+  
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
           Why Social Media Users{" "}
           <span className="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
