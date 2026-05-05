@@ -1,160 +1,111 @@
-import { FaTiktok, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaTiktok, FaInstagram, FaYoutube, FaFacebook } from "react-icons/fa";
 import RazorPay from "../assets/logos/RazorPay.png"
 import Paytm from "../assets/logos/Paytm.svg"
 import PayPal from "../assets/logos/PayPal.svg"
 import PayU from "../assets/logos/PayU.svg"
-import cashfreeLogo from "../assets/logos/cashfreeLogo.png"
+import TikyTop from "../assets/logos/TikyTop.png"
+import Cashfree from "../assets/logos/Cashfree.svg"
+// import { FaInstagram, FaYoutube, FaTiktok, FaFacebook, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-gray-300 pt-16 pb-8 px-6">
+    <footer className="bg-black text-white pt-16 pb-8 px-6">
 
       <div className="max-w-7xl mx-auto">
 
-        {/* Grid Layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12">
 
-          {/* TikTok */}
-          <div>
-            <h3 className="text-lg font-semibold text-pink-500 flex items-center gap-2 mb-4">
-              <FaTiktok /> TikTok Services
-            </h3>
-            <ul className="space-y-2">
-              {[
-                "Buy TikTok Likes",
-                "Buy TikTok Views",
-                "Buy TikTok Followers/Fans",
-                "Buy TikTok Comments",
-                "Buy TikTok Saves",
-                "Buy TikTok Shares",
-                "Buy TikTok Mentions",
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="hover:text-pink-400 hover:translate-x-1 transition duration-300 cursor-pointer"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+          {/* LOGO */}
+          <div className="space-y-4">
+            <img src={TikyTop} alt="Logo" className="h-24 object-contain" />
+            <p className="text-white/90 leading-relaxed max-w-xs">
+              Your trusted platform for smart shopping. Fast, secure, and reliable services.
+            </p>
+          </div>
+
+
+          {/* RESOURCES */}
+          <div className="flex flex-col items-center">
+
+            <div className="w-fit">
+              <h3 className="font-semibold text-lg mb-4 text-pink-500 ">
+                Resources
+              </h3>
+
+              <ul className="space-y-2 text-left">
+                {["Blog", "Press", "Support", "Terms of Service", "Privacy Policy"].map((item) => (
+                  <li
+                    key={item}
+                    className="cursor-pointer transition duration-300 "
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
           </div>
 
-          {/* Instagram */}
+          {/* SERVICES */}
           <div>
-            <h3 className="text-lg font-semibold text-pink-500 flex items-center gap-2 mb-4">
-              <FaInstagram /> Instagram Services
+            <h3 className="font-semibold text-lg mb-4 text-pink-500">
+              Services
             </h3>
-            <ul className="space-y-2">
+
+            <ul className="space-y-3">
               {[
-                "Buy Instagram Likes",
-                "Buy Instagram Followers",
-                "Buy Instagram Impressions",
-                "Buy Instagram Reach",
-                "Buy Instagram Story Views",
-                "Buy Instagram Story Likes"
-              ].map((item, i) => (
+                { name: "Instagram Services", icon: <FaInstagram /> },
+                { name: "Facebook Services", icon: <FaFacebook /> },
+                { name: "Youtube Services", icon: <FaYoutube /> },
+              ].map((item, index) => (
                 <li
-                  key={i}
-                  className="hover:text-pink-400 hover:translate-x-1 transition duration-300 cursor-pointer"
+                  key={index}
+                  className="flex items-center gap-3 cursor-pointer transition duration-300"
                 >
-                  {item}
+                  <span className="text-lg">{item.icon}</span>
+                  <span>{item.name}</span>
                 </li>
               ))}
             </ul>
-            
           </div>
 
-          {/* Instagram Story & Reels */}
+          {/* PAYMENTS */}
           <div>
-            <h3 className="text-lg font-semibold text-pink-500 flex items-center gap-2 mb-4">
-              <FaInstagram /> Instagram Reels
-            </h3> 
-            <ul className="space-y-2">
-              <li className="hover:text-pink-400 hover:translate-x-1 transition cursor-pointer">
-                Buy Instagram Reels Likes
-              </li>
-              <li className="hover:text-pink-400 hover:translate-x-1 transition cursor-pointer">
-                Buy Instagram Reels Views
-              </li>
-              <li className="hover:text-pink-400 hover:translate-x-1 transition cursor-pointer">
-                Buy Instagram Reels Shares
-              </li>
-              <li className="hover:text-pink-400 hover:translate-x-1 transition cursor-pointer">
-                Buy Instagram Reels Saves
-              </li>
-            </ul>
-          </div>
+            <h3 className="font-semibold text-lg mb-4 text-pink-500">We accept</h3>
 
-          {/* YouTube */}
-          <div>
-            <h3 className="text-lg font-semibold text-pink-500 flex items-center gap-2 mb-4">
-              <FaYoutube /> YouTube Services
-            </h3>
-            <ul className="space-y-2">
-              {[
-                "Buy YouTube Shorts Likes",
-                "Buy YouTube Shorts Views",
-                "Buy YouTube Video Likes",
-                "Buy YouTube Video Views",
-              ].map((item, i) => (
-                <li
+            <div className="flex flex-wrap gap-3 ">
+              {[RazorPay, Paytm, PayPal, PayU, Cashfree].map((logo, i) => (
+                <div
                   key={i}
-                  className="hover:text-pink-400 hover:translate-x-1 transition duration-300 cursor-pointer"
+                  className=" backdrop-blur-md px-3 py-2 rounded-lg hover:bg-white/30 transition"
                 >
-                  {item}
-                </li>
+                  <img src={logo} alt="payment" className="h-5 object-contain" />
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
         </div>
 
-        {/* Bottom Line */}
-      <div className="border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
+        {/* DIVIDER */}
+        <div className="border-t border-white/30 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 ">
 
-  {/* LEFT SIDE */}
-  <div>
-    © {new Date().getFullYear()} TikyTop. All rights reserved.
-  </div>
+          {/* LEFT */}
+          <p className="text-white/80 text-center md:text-left">
+            © {new Date().getFullYear()} TikyTop. All rights reserved.
+          </p>
 
-  {/* RIGHT SIDE - PAYMENT LOGOS */}
-  <div className="flex items-center gap-6 opacity-80">
+          {/* SOCIAL */}
+          <div className="flex items-center gap-5 text-xl">
+            <FaInstagram className="cursor-pointer hover:scale-110  transition" />
+            <FaYoutube className="cursor-pointer hover:scale-110  transition" />
+          </div>
 
-    <img
-      src={RazorPay}
-      alt="Razorpay"
-      className="h-6 object-contain hover:scale-110 transition"
-    />
-
-    <img
-      src={Paytm}
-      alt="Paytm"
-      className="h-6 object-contain hover:scale-110 transition"
-    />
-
-    <img
-      src={PayPal}
-      alt="PayPal"
-      className="h-6 object-contain hover:scale-110 transition"
-    />
-
-    <img
-      src={PayU}
-      alt="PayU"
-      className="h-6 object-contain hover:scale-110 transition"
-    />
-
-    <img
-      src={cashfreeLogo}
-      alt="Cashfree"
-      className="h-6 object-contain hover:scale-110 transition"
-    />
-
-  </div>
-</div>
+        </div>
 
       </div>
+
     </footer>
   );
 }

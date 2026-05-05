@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import { getFromStorage, removeFromStorage } from '../utils';
 
-import TikyTop from "../assets/icons/TikyTop.svg"
+import TikyTop from "../assets/logos/TikyTop.png"
 
 
 const Navbar = () => {
