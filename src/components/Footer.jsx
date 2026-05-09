@@ -1,10 +1,11 @@
 import { FaTiktok, FaInstagram, FaYoutube, FaFacebook } from "react-icons/fa";
 import RazorPay from "../assets/logos/RazorPay.png"
 import Paytm from "../assets/logos/Paytm.svg"
-import PayPal from "../assets/logos/PayPal.svg"
+import Paypal from "../assets/logos/PayPal.svg"
 import PayU from "../assets/logos/PayU.svg"
 import TikyTop from "../assets/logos/TikyTop.png"
 import Cashfree from "../assets/logos/Cashfree.svg"
+import Hero from "./Hero";
 // import { FaInstagram, FaYoutube, FaTiktok, FaFacebook, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
@@ -37,6 +38,8 @@ export default function Footer() {
                 {["Blog", "Press", "Support", "Terms of Service", "Privacy Policy"].map((item) => (
                   <li
                     key={item}
+                     onClick={() => {
+                        document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });}}
                     className="cursor-pointer transition duration-300 "
                   >
                     {item}
@@ -61,6 +64,9 @@ export default function Footer() {
               ].map((item, index) => (
                 <li
                   key={index}
+                  onClick={() => {
+                    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   className="flex items-center gap-3 cursor-pointer transition duration-300"
                 >
                   <span className="text-lg">{item.icon}</span>
@@ -75,7 +81,7 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4 text-pink-500">We accept</h3>
 
             <div className="flex flex-wrap gap-3 ">
-              {[RazorPay, Paytm, PayPal, PayU, Cashfree].map((logo, i) => (
+              {[RazorPay, Paytm, Paypal, PayU, Cashfree].map((logo, i) => (
                 <div
                   key={i}
                   className=" backdrop-blur-md px-3 py-2 rounded-lg hover:bg-white/30 transition"

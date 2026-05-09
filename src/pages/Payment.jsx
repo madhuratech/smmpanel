@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
-const RAZORPAY_KEY = 'rzp_test_SNY1G9ELPHlY7P'
+const RAZORPAY_KEY = 'rzp_live_SlBaGyXkNhPC8U'
+import Razorpay from "../assets/icons/Razorpay.png"
+import Paypal from "../assets/icons/Paypal.jpeg"
 
 const platformConfig = {
   instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50' },
@@ -30,6 +32,7 @@ const OrderPayment = () => {
 
   const [paying,     setPaying]     = useState(false)
   const [profileUrl, setProfileUrl] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('razorpay') 
 
   const config = platformConfig[platform] || platformConfig.instagram
 
@@ -62,7 +65,7 @@ const OrderPayment = () => {
     })
 
   //  Main payment handler (exact flow you provided) 
-  const handlePayment = async () => {
+  const handleRazorpayPayment  = async () => {
     if (paying) return
     setPaying(true)
 
@@ -134,7 +137,7 @@ const OrderPayment = () => {
 
             if (verifyData.success) {
               alert('Payment Successful 🎉 Your order is being processed!')
-              navigate('/instagram')     // redirect to home / success page
+              navigate('/Home')     // redirect to home / success page
             } else {
               alert('Payment verification failed. Contact support.')
             }
@@ -160,6 +163,15 @@ const OrderPayment = () => {
       setPaying(false)
     }
   }
+
+  // Handle Paypal payment (placeholder)
+  const handlePayment = () => {
+  if (paymentMethod === "paypal") {
+    handlePaypalPayment();
+  } else {
+    handleRazorpayPayment();
+  }
+};
 
   // JSX 
   return (
@@ -218,19 +230,47 @@ const OrderPayment = () => {
               {/* Razorpay trust badge */}
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl">🔒</span>
+                  
                   <div>
                     <div className="font-semibold text-gray-900">Secure Payment via Razorpay</div>
                     <div className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets accepted</div>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-3 mt-4">
-                  {['💳 Cards', '📱 UPI', '🏦 Net Banking'].map((m) => (
-                    <div key={m} className="bg-white rounded-xl py-2 text-center text-sm font-medium text-gray-700 border border-gray-100">
-                      {m}
-                    </div>
-                  ))}
-                </div>
+               
+                <div className="flex items-center gap-6 mt-4">
+  
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="payment"
+                value="razorpay"
+                // checked={paymentMethod === "razorpay"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+   
+            <img
+            src={Razorpay}
+            alt="Razorpay"
+            className="h-5"/>
+    
+          </label>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="paypal"
+                    // checked={paymentMethod === "paypal"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
+                  <img
+                    src={Paypal}
+                    alt="PayPal"
+                    className="h-5"
+                  />  
+                </label>
+
+</div>
               </div>
             </div>
           </div>

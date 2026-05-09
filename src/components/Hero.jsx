@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   FaStar,
   FaSearch,
@@ -7,13 +7,15 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
 import Tiky from "../assets/images/Tiky.png";
 
-export default function Hero() {
+export default function Hero ({ platform = "instagram", onSearch }) {
   const [active, setActive] = useState("TikTok");
-  const [input, setInput] = useState("");
+  const [activeTab, setActiveTab] = useState('channel')
   const [loading, setLoading] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [username, setUsername] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -23,53 +25,53 @@ export default function Hero() {
     { name: "YouTube", icon: <FaYoutube />, key: "youtube" },
   ];
 
-  // 🔥 Extract username from URL or text
-  const extractUsername = (value) => {
-    try {
-      const url = new URL(value);
-      return url.pathname.split("/").filter(Boolean)[0];
-    } catch {
-      return value;
+  const Platform_API_URLS = {
+    Instagram: "http://localhost:5000/api/instagram/user/",
+    YouTube: "http://localhost:5000/api/youtube/search/",
+    TikTok: "http://localhost:5000/api/tiktok/user/"
+  }
+
+  const Getuser = async (e) => {
+  if (!username) {
+    alert("Please enter a username");
+    return;
+  }
+
+  const API_URL =
+    Platform_API_URLS[active] || Platform_API_URLS.Instagram;
+
+  try {
+    setIsSearching(true);
+
+    const response = await fetch(`${API_URL}${username}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "An error occurred");
+      return;
     }
-  };
 
-  // 🔥 Handle search
-  const handleSearch = async () => {
-    if (!input.trim()) return;
+    navigate("/profile-overview", {
+      state: {
+        userdata: data,
+        platform: active.toLowerCase(),
+        username: username,
+      },
+    });
 
-    const selected = platforms.find((p) => p.name === active);
-    const platform = selected.key;
-    const username = extractUsername(input);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    alert("An error occurred while fetching data.");
+  } finally {
+    setIsSearching(false);
+  }
+};
 
-    try {
-      setLoading(true);
-
-      
-      const response = await fetch(
-        `http://localhost:5000/api/${platform}?username=${username}`
-      );
-
-      const data = await response.json();
-
-     
-      navigate("/profile-overview", {
-        state: {
-          username,
-          platform,
-          userdata: data,
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-      alert("Profile not found or API error");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
+   <section id="hero">    
     <div
-      className="relative min-h-screen flex items-center justify-center text-white px-4 bg-cover bg-center" id="hero"
+      className="relative min-h-screen flex items-center justify-center text-white px-4 bg-cover bg-center"
       style={{
         backgroundImage: `url(${Tiky})`,
       }}
@@ -84,12 +86,12 @@ export default function Hero() {
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-bold leading-relaxed font-righteous">
+        <h1 className="text-4xl md:text-6xl font-bold leading-tight font-righteous">
           Trusted Site to Turn Your Profile into a Powerful Platform
         </h1>
 
         {/* Description */}
-        <p className="mt-6 text-gray-300 text-lg max-w-2xl mx-auto leading-loose">
+        <p className="mt-6 text-gray-300 text-lg max-w-2xl mx-auto">
           Grow your audience and increase engagement across TikTok, Instagram,
           and YouTube with TikyTop.
         </p>
@@ -118,18 +120,18 @@ export default function Hero() {
           <div className="flex items-center bg-white/10 backdrop-blur-lg border border-white/20 rounded-full overflow-hidden shadow-lg focus-within:ring-2 focus-within:ring-white/50">
             <input
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder={`Enter ${active} username or URL`}
               className="w-full px-5 py-3 bg-transparent outline-none text-sm placeholder-gray-400"
             />
 
             <button
-              onClick={handleSearch}
-              disabled={loading}
+               onClick={Getuser}
+              disabled={isSearching}
               className="px-6 py-3 text-white hover:opacity-80 transition disabled:opacity-50"
             >
-              {loading ? "..." : <FaSearch />}
+              {isSearching ? "..." : <FaSearch />}
             </button>
           </div>
         </div>
@@ -153,5 +155,6 @@ export default function Hero() {
         </div>
       </div>
     </div>
+    </section>
   );
 }

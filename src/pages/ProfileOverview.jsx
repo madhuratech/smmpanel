@@ -25,16 +25,16 @@ const ProfileOverview = () => {
   // Platform-specific services
   const platformServices = {
     instagram: [
-      { id:649, name: 'Followers', icon: '👥', description: 'Get real Instagram followers', price: 'From ₹2.99', popular: true },
-      { id: 647, name: 'Likes', icon: '❤️', description: 'Boost your post likes', price: 'From ₹1.99', popular: false },
-      { id: 'comments', name: 'Comments', icon: '💬', description: 'Get authentic comments', price: 'From ₹4.99', popular: false },
-      { id: 648, name: 'Views', icon: '👁️', description: 'Increase story/reel views', price: 'From ₹0.99', popular: false },
-      { id: 650, name: 'Shares', icon: '📤', description: 'Increase post shares', price: 'From ₹2.49', popular: false }
+      { id: 2361, name: 'Followers', icon: '👥', description: 'Get real Instagram followers', price: 'From ₹2.99', popular: true },
+      { id: 2448, name: 'Likes', icon: '❤️', description: 'Boost your post likes', price: 'From ₹1.99', popular: false },
+      { id: 2460, name: 'Comments', icon: '💬', description: 'Get authentic comments', price: 'From ₹4.99', popular: false },
+      { id: 1625, name: 'Views', icon: '👁️', description: 'Increase story/reel views', price: 'From ₹0.99', popular: false },
+      { id: 576, name: 'Shares', icon: '📤', description: 'Increase post shares', price: 'From ₹2.49', popular: false }
     ],
     youtube: [
-      { id: 230, name: 'Subscribers', icon: '👥', description: 'Gain real subscribers', price: 'From ₹2.99', popular: true },
-      { id: 6061, name: 'Views', icon: '👁️', description: 'Boost video views', price: 'From ₹1.99', popular: false },
-      { id: 211, name: 'Likes', icon: '👍', description: 'Get video likes', price: 'From ₹4.99', popular: false },
+      { id: 2411, name: 'Subscribers', icon: '👥', description: 'Gain real subscribers', price: 'From ₹2.99', popular: true },
+      { id: 2457, name: 'Views', icon: '👁️', description: 'Boost video views', price: 'From ₹1.99', popular: false },
+      { id: 2456, name: 'Likes', icon: '👍', description: 'Get video likes', price: 'From ₹4.99', popular: false },
       { id: 242, name: 'Comments', icon: '💬', description: 'Authentic comments', price: 'From ₹0.99', popular: false },
       { id: 7001, name: 'Shares', icon: '📤', description: 'Increase video shares', price: 'From ₹2.49', popular: false },
       { id: 7002, name: 'Watch Time', icon: '⏱️', description: 'Boost watch hours', price: 'From ₹7.99', popular: false }
@@ -47,10 +47,10 @@ const ProfileOverview = () => {
       { id: 'shares', name: 'Shares', icon: '📤', description: 'Increase post shares', price: 'From $2.99', popular: false },
     ],
     tiktok: [
-      { id: 702, name: 'Followers', icon: '👥', description: 'Get TikTok followers', price: 'From $3.99', popular: true },
-      { id: 700, name: 'Likes', icon: '❤️', description: 'Boost video likes', price: 'From $1.99', popular: false },
-      { id: 701, name: 'Views', icon: '👁️', description: 'Increase video views', price: 'From $0.99', popular: false },
-      { id: 'comments', name: 'Comments', icon: '💬', description: 'Get video comments', price: 'From $4.99', popular: false },
+      { id: 2384, name: 'Followers', icon: '👥', description: 'Get TikTok followers', price: 'From $3.99', popular: true },
+      { id: 1617, name: 'Likes', icon: '❤️', description: 'Boost video likes', price: 'From $1.99', popular: false },
+      { id: 310, name: 'Views', icon: '👁️', description: 'Increase video views', price: 'From $0.99', popular: false },
+      { id: 2461, name: 'Comments', icon: '💬', description: 'Get video comments', price: 'From $4.99', popular: false },
       { id: 703, name: 'Shares', icon: '📤', description: 'Boost video shares', price: 'From $2.99', popular: false },
       { id: 'favorites', name: 'Favorites', icon: '⭐', description: 'Get video favorites', price: 'From $3.49', popular: false }
     ]
@@ -213,28 +213,28 @@ const ProfileOverview = () => {
                 <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-gray-200 transition-all group-hover:shadow-lg">
                   <div className="text-center mb-4">
                     <div className={`w-16 h-16 bg-gradient-to-r ${config.color} rounded-2xl flex items-center justify-center text-white mx-auto mb-3 shadow-lg`}>
-                      {service.id === 649 && (
+                      {service.id === 2361 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
                         </svg>
                       )}
-                      {service.id === 647 && (
+                      {service.id === 2448 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
                         </svg>
                       )}
-                      {service.id === 'comments' && (
+                      {service.id === 2460 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd"/>
                         </svg>
                       )}
-                      {service.id === 648 && (
+                      {service.id === 1625 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                           <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
                         </svg>
                       )}
-                      {service.id === 650 && (
+                      {service.id === 576 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
                         </svg>
@@ -247,17 +247,17 @@ const ProfileOverview = () => {
   
   {/* Youtube */}
 
-                      {service.id === 230 && (
+                      {service.id === 2411 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
                         </svg>
                       )}
-                      {service.id === 6061 && (
+                      {service.id === 2457  && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
                         </svg>
                       )}
-                      {service.id === 211 && (
+                      {service.id === 2456 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
                         </svg>
@@ -272,12 +272,12 @@ const ProfileOverview = () => {
 
 
 {/* tiktoks */}
-                      {service.id === 'post_likes' && (
+                      {service.id === 1617 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
                         </svg>
                       )}
-                      {service.id === 'video_views' && (
+                      {service.id === 2384 && (
                         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
                         </svg>

@@ -24,8 +24,6 @@ const QuantityPricing = () => {
 
         const postCount = posts.length;
 
-
-
   // Redirect Safety;
   useEffect(() => {
     if (!username || !userdata) {
@@ -34,55 +32,112 @@ const QuantityPricing = () => {
   }, [username, userdata, navigate]);
 
   // Single quantity for the selected service
-  const [quantity,      setQuantity]      = useState(100);
-  const [prices,        setPrices]        = useState({});
-  const [total,         setTotal]         = useState(0);
-  const [couponCode,    setCouponCode]    = useState('');
+  const [prices,        setPrices] = useState({});
+  const [total,         setTotal]  = useState(0);
+  const [couponCode,    setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
+
+  const getServiceKey = (name) => {
+  const n = name?.toLowerCase() || "";
+  if (n.includes("like")) return "likes";
+  if (n.includes("view")) return "views";
+  if (n.includes("subscriber")) return "subscribers";
+  if (n.includes("follower")) return "followers";
+  if (n.includes("comment")) return "comments";
+  if (n.includes("share")) return "shares";
+  return "likes";
+};
+
+  const serviceTypeKey = getServiceKey(selectedService?.name || "");
+
+
+    const isProfileService =
+    serviceTypeKey === 'followers' ||
+    serviceTypeKey === 'subscribers';
+
+
+ const SERVICE_CONFIG = {
+  // INSTAGRAM
+  "instagram followers": { min: 200, max: 10000, step: 50 },
+  "instagram likes": { min: 300, max: 10000, step: 50 },
+  "instagram comments": { min: 100, max: 5000, step: 5 },
+  "instagram views": { min: 2000, max: 50000, step: 100 },
+  "instagram shares": { min: 500, max: 10000, step: 50 },
+
+  // TIKTOK
+  "tiktok followers": { min: 200, max: 10000, step: 50 },
+  "tiktok likes": { min: 300, max: 10000, step: 50 },
+  "tiktok views": { min: 2500, max: 50000, step: 100 },
+  "tiktok shares": { min: 1000, max: 10000, step: 50 },
+
+  // YOUTUBE
+  "youtube views": { min: 4000, max: 100000, step: 500 },
+  "youtube subscribers": { min: 100, max: 50000, step: 50 },
+  "youtube likes": { min: 200, max: 10000, step: 50 },
+  "youtube shares": { min: 1000, max: 10000, step: 50 }
+};
+
+    const serviceKey = `${platform} ${serviceTypeKey}`;
+
+
+ const currentLimits =
+  SERVICE_CONFIG[serviceKey] || { min: 100, max: 10000, step: 10 };
+
+   const [quantity, setQuantity] = useState(currentLimits.min);
+
+
   // Reset when service changes
-  useEffect(() => {
-    setQuantity(100);
-    setPrices({});
-    setTotal(0);
-  }, [selectedService?.id]);
+ useEffect(() => {
+  setQuantity(currentLimits.min);
+  setPrices({});
+  setTotal(0);
+}, [serviceKey]);
+
 
 
   // Only Instagram pricing backend is live.
   // YouTube/TikTok use frontend fallback pricing.
-  const API_URL = {
-    instagram: "http://localhost:5000/api/instaprice/calculate",
-    youtube: "http://localhost:5000/api/youtubeprice/calculate",
-    tiktok: "http://localhost:5000/api/tiktokprice/calculate",
-    facebook: "http://localhost:5000/api/facebookprice/calculate"
-  };
+  const API_URL = "http://localhost:5000/api/pricing/calculated";
 
    
 
   const Api_Url = API_URL[platform]
 
 
-  // Frontend fallback pricing (₹ per unit) - Sync with backend
+  // Frontend fallback pricing ($ per unit) - Sync with backend
   const FALLBACK = {
-    instagram: { likes: 0.91, views: 0.69, followers: 1.82, shares: 0.55 },
-    youtube:   { likes: 0.1,  views: 1.08, subscribers: 1.82, comments: 0.55 },
-    tiktok:    { likes: 1.99, views: 0.99, followers: 3.99, shares: 2.99 },
-    facebook:  { likes: 1.50, views: 0.80, followers: 2.50, shares: 1.20 },
-  };
+  instagram: {
+    likes: { baseQty: 100, price: 5.0 },
+    views: { baseQty: 1000, price: 2.8 },
+    followers: { baseQty: 100, price: 2.70 },
+    comments: { baseQty: 100, price: 4.0 },
+    shares: { baseQty: 1000, price: 2.5}   
+  },
 
+ youtube: {
+    likes: { baseQty: 200, price: 4.0 },
+    views: { baseQty: 4000, price: 4.5 },
+    subscribers: { baseQty: 100, price: 5.7 },
+    comments: { baseQty: 100, price: 3.5 },
+    shares:{ baseQty: 1000, price: 4.5 }
+  },
 
-  // Determine the service type key from the selected service name
-  const getServiceKey = (name) => {
-    const n = name.toLowerCase();
-    if (n.includes("like")) return "likes";
-    if (n.includes("view")) return "views";
-    if (n.includes("subscriber")) return "subscribers";
-    if (n.includes("follower")) return "followers";
-    if (n.includes("comment")) return "comments";
-    return "likes";
-  };
+  tiktok: {
+    likes: { baseQty: 300, price: 2.6 },
+    views: { baseQty: 2500, price: 3.5 },
+    followers: { baseQty: 200, price: 3.7 },
+    shares: { baseQty: 1000, price: 3.5 }
+  },
 
-const serviceTypeKey = getServiceKey(selectedService?.name || "");
+  facebook: {
+    likes: { baseQty: 100, price: 1.5 },
+    views: { baseQty: 1000, price: 0.8 },
+    followers: { baseQty: 200, price: 2.5 },
+    shares: { baseQty: 1000, price: 1.2 },
+  },
+};
+
 
  const fetchPrices = async (qty) => {
     if (!qty) return
@@ -221,12 +276,27 @@ const serviceTypeKey = getServiceKey(selectedService?.name || "");
       ? Math.floor(quantity / postCount)
       : quantity;
 
-  const getEffectiveSubtotal = () => {
-    if (total > 0) return total;
-    // Fallback calculation for immediate UI response
-    const rate = FALLBACK[platform]?.[serviceTypeKey] || 0;
-    return quantity * rate;
-  };
+
+
+
+ const getEffectiveSubtotal = () => {
+  if (total > 0) return total;
+
+  const config = FALLBACK[platform]?.[serviceTypeKey];
+
+  if (!config) return 0;
+
+  const { baseQty, price } = config;
+
+  const unitPrice = price / baseQty;
+
+  if (quantity < baseQty) {
+    return price;
+  }
+
+  return +(quantity * unitPrice).toFixed(2);
+};
+
 
   const calculatePrice = () => {
     const subtotal = getEffectiveSubtotal();
@@ -260,6 +330,7 @@ const serviceTypeKey = getServiceKey(selectedService?.name || "");
       }
     });
   };
+
 
   return (
     <div className={`min-h-screen ${config.bgColor} py-8 px-4`}>
@@ -338,23 +409,23 @@ const serviceTypeKey = getServiceKey(selectedService?.name || "");
 
                 <input
                   type="range"
-                  min={10}
-                  max={serviceTypeKey === 'views' || serviceTypeKey === 'subscribers' ? 50000 : 10000}
-                  step={serviceTypeKey === 'views' || serviceTypeKey === 'subscribers' ? 50 : 10}
+                  min={currentLimits.min}
+                  max={currentLimits.max}
+                  step={currentLimits.step}
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200"
                 />
 
                 <div className="flex justify-between text-xs mt-2 text-gray-400">
-                  <span>10</span>
+                  <span>{currentLimits.min.toLocaleString()}</span>
                   <span className="font-semibold text-gray-700">{quantity.toLocaleString()}</span>
-                  <span>{(serviceTypeKey === 'views' || serviceTypeKey === 'subscribers' ? 50000 : 10000).toLocaleString()}</span>
+                  <span>{currentLimits.max.toLocaleString()}</span>
                 </div>
 
                 {/* Quick-pick buttons */}
                 <div className="flex flex-wrap gap-2 mt-5">
-                  {[100, 500, 1000, 2000, 5000].map((pkg) => (
+                  {Object.values(SERVICE_CONFIG[serviceKey] || { min: 200, max: 10000, step: 50 }).filter((v, i, arr) => arr.indexOf(v) === i).map((pkg) => (
                     <button
                       key={pkg}
                       onClick={() => setQuantity(pkg)}
@@ -380,7 +451,8 @@ const serviceTypeKey = getServiceKey(selectedService?.name || "");
                   </div>
                   <div>
                     <span className="text-blue-700">Unit Rate:</span>
-                 <span className="font-medium text-gray-700"> ₹{(FALLBACK[platform]?.[serviceTypeKey] || 0).toFixed(2)}</span>
+                 <span className="font-medium text-gray-700"> $${((FALLBACK[platform]?.[serviceTypeKey]?.price || 0) /
+                     (FALLBACK[platform]?.[serviceTypeKey]?.baseQty || 1)).toFixed(4)}</span>
 
                   </div>
                   <div>
@@ -452,32 +524,36 @@ const serviceTypeKey = getServiceKey(selectedService?.name || "");
                 </div>
                 <div className="flex justify-between text-sm py-1 border-b border-gray-50">
                   <span className="text-gray-500">Unit Rate:</span>
-                  <span className="font-medium text-gray-700">₹{(FALLBACK[platform]?.[serviceTypeKey] || 0).toFixed(2)}</span>
+                  <span className="font-medium text-gray-700">${(
+                    (FALLBACK[platform]?.[serviceTypeKey]?.price || 0) /
+                   (FALLBACK[platform]?.[serviceTypeKey]?.baseQty || 1)).toFixed(4)
+                   }
+                 </span>
                 </div>
                 <div className="flex justify-between text-sm py-1">
                   <span className="text-gray-600 font-semibold">Cost Per Post:</span>
                   <span className="font-bold text-gray-900">
-                    ₹{(calculatePrice() / (postCount || 1)).toFixed(2)}
+                    ${(calculatePrice() / (postCount || 1)).toFixed(2)}
                   </span>
                 </div>
 
                 <div className="border-t pt-4">
                   <div className="flex justify-between text-sm mb-2">
                     <span className="text-gray-600">Subtotal:</span>
-                    <span className="font-semibold">₹{getEffectiveSubtotal().toFixed(2)}</span>
+                    <span className="font-semibold">${getEffectiveSubtotal().toFixed(2)}</span>
                   </div>
 
                   {appliedCoupon && (
                     <div className="flex justify-between text-sm text-green-600 mb-2">
                       <span>Discount ({(appliedCoupon.discount * 100).toFixed(0)}%):</span>
-                      <span>₹{(getEffectiveSubtotal() * appliedCoupon.discount).toFixed(2)}</span>
+                      <span>${(getEffectiveSubtotal() * appliedCoupon.discount).toFixed(2)}</span>
                     </div>
                   )}
 
                   <div className="flex justify-between">
                     <span className="font-bold text-gray-900">Total:</span>
                     <span className={`font-bold text-2xl bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                      ₹{calculatePrice().toFixed(2)}
+                      ${calculatePrice().toFixed(2)}
                     </span>
                   </div>
                 </div>

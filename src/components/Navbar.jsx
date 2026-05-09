@@ -33,7 +33,7 @@ const Navbar = () => {
   const platforms = [
     {
       name: 'TikTok',
-      path: '/tiktok',
+      // path: '/tiktok',
       services: [
         { name: 'TikTok Views', service: 'views' },
         { name: 'TikTok Followers', service: 'followers' },
@@ -43,7 +43,7 @@ const Navbar = () => {
     },
     {
       name: 'Instagram',
-      path: '/instagram',
+      // path: '/instagram',
       services: [
         { name: 'Instagram Followers', service: 'followers' },
         { name: 'Instagram Likes', service: 'likes' },
@@ -53,7 +53,7 @@ const Navbar = () => {
     },
     {
       name: 'Facebook',
-      path: '/facebook',
+      // path: '/facebook',
       services: [
         { name: 'Facebook Likes', service: 'likes' },
         { name: 'Facebook Followers', service: 'followers' },
@@ -63,7 +63,7 @@ const Navbar = () => {
     },
     {
       name: 'YouTube',
-      path: '/youtube',
+      // path: '/youtube',
       services: [
         { name: 'YouTube Views', service: 'views' },
         { name: 'YouTube Subscribers', service: 'subscribers' },
