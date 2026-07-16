@@ -1,20 +1,122 @@
 import { useNavigate } from 'react-router-dom'
-
+import { useState } from 'react'
 const FreeTrialPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
 
-  const freeServices = [
-    { id: 'likes', title: 'TikTok Likes Generator', description: 'A TikTok likes generator helps users boost engagement with zero hidden fees.', icon: '❤️', buttonText: 'Generate Likes', gradient: 'from-[#FF6B35] to-[#FFA500]', platform: 'tiktok' },
-    { id: 'followers', title: 'TikTok Followers Generator', description: 'Start saving time and see how the followers generator works for you.', icon: '👥', buttonText: 'Generate Followers', gradient: 'from-[#FFA500] to-[#FFB3D9]', platform: 'tiktok' },
-    { id: 'views', title: 'TikTok Views Generator', description: 'Higher views means higher popularity. Views improve your engagement rate.', icon: '👁️', buttonText: 'Generate Views', gradient: 'from-[#FFB3D9] to-[#FF6B9D]', platform: 'tiktok' }
-  ]
+ const handleGenerateClick = async (
+  service
+) => {
 
-  const handleGenerateClick = (service) => {
-    navigate(`/${service.platform}`)
+  const token =
+    localStorage.getItem("token");
+
+  // NOT LOGGED IN
+  if (!token) {
+
+    setShowPopup(true);
+
+    return;
   }
 
+  try {
+
+    // CLAIM FREE TRIAL
+    const response = await fetch(
+      "http://localhost:5000/api/freetrial/claim-free-trial",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    const result =
+      await response.json();
+
+
+    // =========================
+    // ALREADY CLAIMED
+    // =========================
+
+    if (!response.ok) {
+
+      // USER ALREADY CLAIMED
+      if (
+        result.message ===
+        "Free trial already claimed"
+      ) {
+
+        navigate(
+          `/${service.platform}`
+        );
+
+        return;
+      }
+
+      alert(result.message);
+
+      return;
+    }
+
+
+    // =========================
+    // SUCCESS
+    // =========================
+
+    const localUser =
+      JSON.parse(
+        localStorage.getItem(
+          "user"
+        )
+      );
+
+    // UPDATE BALANCE
+    localUser.balance =
+      result.balance;
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(localUser)
+    );
+
+    alert(
+      "50 Coins Added Successfully 🎉"
+    );
+
+    navigate(
+      `/${service.platform}`
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Error claiming free trial:",
+      error
+    );
+
+    alert(
+      "Error claiming free trial"
+    );
+  }
+};
+
+
+
+  const freeServices = [
+    { id: 'likes', title: 'Instagram Likes Service', description:  "Boost your Instagram engagement with free trial likes instantly.", icon: '❤️', buttonText: 'Generate Likes', gradient: "from-pink-500 to-orange-400", platform: 'instagram' },
+    { id: 'followers', title: "Instagram Followers Boost", description: "Try free Instagram followers and grow your profile visibility.", icon: '👥', buttonText: 'Generate Followers', gradient:  "from-purple-500 to-pink-500", platform: 'instagram' },
+    { id: 'views', title: 'Instagram Views Service ', description:  "Increase your Instagram reel reach using free trial views.", icon: '👁️', buttonText: 'Generate Views', gradient: "from-orange-400 to-pink-400", platform: 'instagram' }
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFD9E8] to-[#FFF5E6] py-8 sm:py-12 px-4">
+    <div className="min-h-screen bg-transparent pt-32 pb-8 sm:pt-36 sm:pb-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">Test it Free. Pay Nothing</h1>
@@ -23,7 +125,7 @@ const FreeTrialPage = () => {
           </p>
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] text-white px-6 py-3 rounded-full font-semibold shadow-lg">
             <span className="text-xl">🎁</span>
-            <span>Get 100 Free Coins to Try Any Service</span>
+            <span>Get 50 Free Coins to Try Selected Services</span>
           </div>
         </div>
 
@@ -49,11 +151,11 @@ const FreeTrialPage = () => {
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">How Free Trial Works</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {[
-              { step: '1', title: 'Choose Service', desc: 'Select any free generator' },
-              { step: '2', title: 'Enter Username', desc: 'Verify your account' },
-              { step: '3', title: 'Use Free Coins', desc: 'Get 100 coins to try' },
-              { step: '4', title: 'See Results', desc: 'Experience instant delivery' }
-            ].map((item) => (
+               {step: "1", title: "Choose Service", desc: "Select Instagram trial service",},
+               {step: "2", title: "Create Account", desc: "Login or register instantly",},
+               {step: "3", title: "Claim Coins", desc: "Get 50 free trial coins",},
+               {step: "4",title: "See Results", desc: "Experience fast delivery",},
+             ].map((item) => (
               <div key={item.step} className="text-center">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] text-white rounded-full flex items-center justify-center text-lg sm:text-xl font-bold mx-auto mb-3">{item.step}</div>
                 <h3 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">{item.title}</h3>
@@ -63,6 +165,43 @@ const FreeTrialPage = () => {
           </div>
         </div>
       </div>
+
+      {showPopup && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+      <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+        <div className="text-5xl mb-4">
+          🎁
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+          Free Trial Access
+        </h2>
+        <p className="text-gray-600 mb-6">
+          Login or create an account
+          to claim your free trial coins.
+        </p>
+        <div className="flex gap-4">
+          <button
+            onClick={() => navigate("/login")}
+            className="flex-1 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] text-white py-3 rounded-full font-semibold hover:scale-105 transition"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => navigate("/register")}
+            className="flex-1 bg-pink-500 text-white py-3 rounded-full font-semibold hover:scale-105 transition"
+          >
+            Register
+          </button>
+        </div>
+        <button
+          onClick={() => setShowPopup(false)}
+          className="mt-4 text-gray-500 text-sm"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  )}
     </div>
   )
 }

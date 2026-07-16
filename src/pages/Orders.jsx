@@ -48,8 +48,15 @@ const MyOrders = () => {
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-gray-900">{order.platform} - {order.service}</h3>
                     <p className="text-sm text-gray-600">Order ID: {order._id?.slice(-8).toUpperCase()}</p>
+                    {order.link && (
+                      <p className="text-sm text-blue-600 truncate mt-1">
+                        <a href={order.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {order.link}
+                        </a>
+                      </p>
+                    )}
                   </div>
-                  <Button size="sm" variant="outline" onClick={() => navigate(`/track`)}>Track Order</Button>
+                  <Button size="sm" variant="outline" onClick={() => navigate(`/track`, { state: { orderId: order._id, platform: order.platform, service: order.service, quantity: order.quantity, link: order.link } })}>Track Order</Button>
                 </div>
               </div>
             ))}

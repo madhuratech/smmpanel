@@ -331,3 +331,214 @@
 .slider:focus::-moz-range-thumb {
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2), 0 4px 12px rgba(139, 92, 246, 0.3);
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1.05);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05);
+  }
+}
+
+.animate-cardFloat {
+  animation: cardFloat 3s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, 0) scale(1.08);
+  }
+}
+
+.animate-badgePulse {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes border-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.border-orange {
+  --border-color-1: #f97316;
+  --border-color-2: #ffedd5;
+  --card-bg-color: #fff7ed;
+}
+.border-blue {
+  --border-color-1: #2563eb;
+  --border-color-2: #dbeafe;
+  --card-bg-color: #eff6ff;
+}
+.border-green {
+  --border-color-1: #10b981;
+  --border-color-2: #d1fae5;
+  --card-bg-color: #ecfdf5;
+}
+.border-purple {
+  --border-color-1: #8b5cf6;
+  --border-color-2: #f3e8ff;
+  --card-bg-color: #faf5ff;
+}
+.border-red {
+  --border-color-1: #ef4444;
+  --border-color-2: #fee2e2;
+  --card-bg-color: #fef2f2;
+}
+.border-pink {
+  --border-color-1: #ec4899;
+  --border-color-2: #fbcfe8;
+  --card-bg-color: #fdf2f8;
+}
+.border-yellow {
+  --border-color-1: #eab308;
+  --border-color-2: #fef08a;
+  --card-bg-color: #fefce8;
+}
+.border-default {
+  --border-color-1: #db2777;
+  --border-color-2: #8b5cf6;
+  --card-bg-color: #ffffff;
+}
+
+@keyframes border-run {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-run {
+  border: 2px solid transparent !important;
+  background-image: 
+    linear-gradient(var(--card-bg-color, #ffffff), var(--card-bg-color, #ffffff)), 
+    linear-gradient(270deg, var(--border-color-1, #ec4899), var(--border-color-2, #8b5cf6), var(--border-color-1, #ec4899));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 200% 200%, 200% 200%;
+  animation: border-run 3s ease infinite;
+}
+
+/* Layered Wave Float Animations */
+@keyframes waveFloat1 {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-5px) scaleY(1.02); }
+}
+@keyframes waveFloat2 {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-3px) scaleY(1.01); }
+}
+@keyframes waveFloat3 {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-7px) scaleY(1.03); }
+}
+@keyframes waveFloat4 {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-4px) scaleY(1.01); }
+}
+@keyframes waveFloat5 {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-6px) scaleY(1.02); }
+}
+
+.animate-wave-slow-1 { animation: waveFloat1 4s ease-in-out infinite; transform-origin: bottom; }
+.animate-wave-slow-2 { animation: waveFloat2 5s ease-in-out infinite; transform-origin: bottom; }
+.animate-wave-slow-3 { animation: waveFloat3 3.5s ease-in-out infinite; transform-origin: bottom; }
+.animate-wave-slow-4 { animation: waveFloat4 5.5s ease-in-out infinite; transform-origin: bottom; }
+.animate-wave-slow-5 { animation: waveFloat5 4.5s ease-in-out infinite; transform-origin: bottom; }
+
+/* 3D Fabric Float Animation */
+@keyframes float3D {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.015); }
+}
+.animate-wave-float-3d {
+  animation: float3D 16s ease-in-out infinite;
+}
+
+/* Layered Purple/Pink Wave Hills Animations */
+@keyframes waveHills6 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-4px) translateX(-5px); }
+}
+@keyframes waveHills5 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-3px) translateX(6px); }
+}
+@keyframes waveHills4 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-5px) translateX(-4px); }
+}
+@keyframes waveHills3 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-3px) translateX(5px); }
+}
+@keyframes waveHills2 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-4px) translateX(-3px); }
+}
+@keyframes waveHills1 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-2px) translateX(3px); }
+}
+
+.animate-wave-hills-6 { animation: waveHills6 12s ease-in-out infinite alternate; }
+.animate-wave-hills-5 { animation: waveHills5 11s ease-in-out infinite alternate; }
+.animate-wave-hills-4 { animation: waveHills4 13s ease-in-out infinite alternate; }
+.animate-wave-hills-3 { animation: waveHills3 10s ease-in-out infinite alternate; }
+.animate-wave-hills-2 { animation: waveHills2 14s ease-in-out infinite alternate; }
+.animate-wave-hills-1 { animation: waveHills1 12s ease-in-out infinite alternate; }
+
+/* 3-Layered Purple Wave Keyframes */
+@keyframes waveThree3 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-5px) translateX(-25px); }
+}
+@keyframes waveThree2 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-4px) translateX(20px); }
+}
+@keyframes waveThree1 {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-2px) translateX(-15px); }
+}
+
+.animate-wave-three-3 {
+  animation: waveThree3 12s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+.animate-wave-three-2 {
+  animation: waveThree2 14s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+.animate-wave-three-1 {
+  animation: waveThree1 10s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: bottom;
+}

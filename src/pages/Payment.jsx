@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
+import { getPlatformFromUrl } from '../utils/urlGenerator'
 const RAZORPAY_KEY = 'rzp_live_SlBaGyXkNhPC8U'
 import Razorpay from "../assets/icons/Razorpay.png"
 import Paypal from "../assets/icons/Paypal.jpeg"
@@ -28,30 +29,72 @@ const OrderPayment = () => {
     orders        = [],
     totalPrice    = 0,
     appliedCoupon,
+    // Direct order extras
+    directOrder   = false,
+    orderLink     = '',
+    linkType      = '',
   } = orderData
 
   const [paying,     setPaying]     = useState(false)
   const [profileUrl, setProfileUrl] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('razorpay') 
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const balance = user?.balance || 0;
+
+  console.log("USER:", user);
+  console.log("BALANCE:", balance);
+
+  const [paymentMethod, setPaymentMethod] = useState("coins");
   const config = platformConfig[platform] || platformConfig.instagram
 
-  //  Guard 
+  //  Guard — skip redirect for direct orders (no username/userdata needed)
   useEffect(() => {
-    if (!username || !userdata) {
-      navigate('/' + platform, { replace: true })
+    if (!directOrder && (!username || !userdata)) {
+      navigate('/' + (platform || 'instagram'), { replace: true })
       return
     }
-    // Set the primary link for display
     if (orders.length > 0 && orders[0].link) {
       setProfileUrl(orders[0].link)
     }
   }, [])
 
-  if (!username || !userdata) return null
+  if (!directOrder && (!username || !userdata)) return null
 
   //  Total to charge 
   const total = totalPrice || 0
+  console.log("TOTAL:", total);
+
+  const validateOrdersPlatform = () => {
+    for (const o of orders) {
+      if (!o.link) continue;
+      const detectedPlatform = getPlatformFromUrl(o.link);
+      if (detectedPlatform && platform && detectedPlatform !== platform.toLowerCase()) {
+        alert(`Checkout Blocked: URL (${o.link}) does not match the selected platform (${platform}).`);
+        return false;
+      }
+      
+      const linkLower = o.link.toLowerCase();
+      if (platform && platform.toLowerCase() === 'tiktok') {
+        if (linkLower.includes('instagram.com')) {
+          alert("Checkout Blocked: TikTok services must never generate an Instagram URL.");
+          return false;
+        }
+      }
+      if (platform && platform.toLowerCase() === 'instagram') {
+        if (linkLower.includes('tiktok.com')) {
+          alert("Checkout Blocked: Instagram services must never generate a TikTok URL.");
+          return false;
+        }
+      }
+      if (platform && platform.toLowerCase() === 'youtube') {
+        if (linkLower.includes('instagram.com') || linkLower.includes('tiktok.com')) {
+          alert("Checkout Blocked: YouTube services must never generate Instagram or TikTok URLs.");
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
   // Load Razorpay SDK dynamically if not already loaded 
   const loadRazorpay = () =>
@@ -69,6 +112,11 @@ const OrderPayment = () => {
     if (paying) return
     setPaying(true)
 
+    if (!validateOrdersPlatform()) {
+      setPaying(false)
+      return
+    }
+
     const loaded = await loadRazorpay()
     if (!loaded) {
       alert('Failed to load Razorpay. Please check your connection.')
@@ -84,8 +132,10 @@ const OrderPayment = () => {
         body: JSON.stringify({
           amount: total,
           platform,
-          username,
+          username: directOrder ? (orderLink || 'Direct Order') : username,
           orders,
+          directOrder,
+          orderLink,
         }),
       })
 
@@ -137,7 +187,7 @@ const OrderPayment = () => {
 
             if (verifyData.success) {
               alert('Payment Successful 🎉 Your order is being processed!')
-              navigate('/Home')     // redirect to home / success page
+              navigate('/')     
             } else {
               alert('Payment verification failed. Contact support.')
             }
@@ -162,20 +212,119 @@ const OrderPayment = () => {
       alert('Payment server error. Please try again.')
       setPaying(false)
     }
+
   }
+
+  // handle Paypal 
+  const handlePaypalPayment = async () => {
+    if (!validateOrdersPlatform()) {
+      return
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/payment/paypal/order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: totalPrice,
+            orders,
+            platform,
+            username: directOrder ? (orderLink || 'Direct Order') : username,
+            directOrder,
+            orderLink,
+          }),
+        }
+      );
+
+      // IMPORTANT
+      if (!response.ok) {
+        const text = await response.text();
+        console.log(text);
+        throw new Error("Paypal API failed");
+      }
+
+      const data = await response.json();
+      console.log("Paypal Response:", data);
+
+      if (!data.success || !data.approvalUrl) {
+        throw new Error("PayPal order creation failed");
+      }
+
+      navigate('/')
+      // Redirect to PayPal
+      window.location.href = data.approvalUrl;
+
+    } catch (error) {
+      console.log("Paypal Error:", error);
+      alert("Paypal payment failed");
+    }
+  };
+
+  // Coins Use payment
+  const handleCoinsPayment = async () => {
+    if (!validateOrdersPlatform()) {
+      return
+    }
+
+    try {
+      if (balance < total) {
+        alert("Insufficient Coins");
+        return;
+      }
+
+      const response = await fetch(
+        "http://localhost:5000/api/payment/verify",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: total,
+            username,
+            orders,
+            userId: user._id,
+            useCoins: true
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Free Trial Order Placed Successfully 🎉");
+        // UPDATE BALANCE
+        user.balance = user.balance - total;
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate('/');
+      } else {
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.log(error);
+      alert("Coins payment failed");
+    }
+  };
 
   // Handle Paypal payment (placeholder)
   const handlePayment = () => {
-  if (paymentMethod === "paypal") {
-    handlePaypalPayment();
-  } else {
-    handleRazorpayPayment();
-  }
-};
+    if(paymentMethod === "coins"){
+      handleCoinsPayment();
+    }else if(paymentMethod === "paypal"){
+      handlePaypalPayment();
+    }else{
+      handleRazorpayPayment();
+    }
+  };
 
   // JSX 
   return (
-    <div className={`min-h-screen ${config.bgColor} py-8 px-4`}>
+    <div className={`min-h-screen bg-transparent py-8 px-4`}>
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
@@ -194,43 +343,48 @@ const OrderPayment = () => {
             <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Details</h2>
 
-              {/* Orders list */}
-              {orders.length > 0 ? (
-                <div className="space-y-4 mb-8">
-                  {orders.map((o, idx) => {
-                    const serviceKey = Object.keys(o.order || {}).find(k => o.order[k] > 0)
-                    const qty = serviceKey ? o.order[serviceKey] : 0
-                    return (
-                      <div key={idx} className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <div className="font-semibold text-gray-900 capitalize">
-                              {serviceKey} — {qty?.toLocaleString()} units
-                            </div>
-                            {o.link && (
-                              <div className="text-xs text-gray-500 mt-1 truncate max-w-xs">
-                                🔗 {o.link}
-                              </div>
-                            )}
-                          </div>
-                          <div className={`text-sm font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                            {platform.charAt(0).toUpperCase() + platform.slice(1)}
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="bg-yellow-50 rounded-2xl p-6 mb-8 text-center text-yellow-700">
-                  No order data found. Please go back and select a service.
-                </div>
-              )}
+               {/* Orders list */}
+               <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 mb-6">
+                 <div className="flex justify-between items-center mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 capitalize">
+                        {selectedService?.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {orders.length === 1 ? '1 Target Link' : `${orders.length} Posts Selected`}
+                      </p>
+                    </div>
+                    <div className={`text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize`}>
+                      {platform}
+                    </div>
+                  </div>
+
+                  {/* Show delivery targets */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
+                      Delivery Target Link(s):
+                    </span>
+                    <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                       {orders.map((o, idx) => {
+                         const orderQty = o.order ? Object.values(o.order)[0] : 0
+                         return (
+                           <div key={idx} className="text-sm font-medium text-gray-800 bg-white px-3 py-2 rounded-xl border border-gray-100 break-all flex items-center justify-between gap-3">
+                             <span className="truncate max-w-[60%]">{o.link || "Profile Link"}</span>
+                             <span className="font-semibold text-pink-600 shrink-0">{orderQty}</span>
+                             <a href={o.link || "Profile Link"} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline shrink-0 font-semibold">
+                               View
+                             </a>
+                           </div>
+                         )
+                       })}
+                     </div>
+                  </div>
+               </div>  
+          
 
               {/* Razorpay trust badge */}
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
                 <div className="flex items-center gap-3 mb-3">
-                  
                   <div>
                     <div className="font-semibold text-gray-900">Secure Payment via Razorpay</div>
                     <div className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets accepted</div>
@@ -238,39 +392,45 @@ const OrderPayment = () => {
                 </div>
                
                 <div className="flex items-center gap-6 mt-4">
-  
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="payment"
-                value="razorpay"
-                // checked={paymentMethod === "razorpay"}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              />
-   
-            <img
-            src={Razorpay}
-            alt="Razorpay"
-            className="h-5"/>
-    
-          </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="payment" value="coins" checked={paymentMethod === "coins"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <span className="font-semibold text-sm">
+                     🎁 Free Coins
+                    </span>
+                  </label>
+       
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="razorpay"
+                      checked={paymentMethod === "razorpay"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <img
+                      src={Razorpay}
+                      alt="Razorpay"
+                      className="h-5"
+                    />
+                  </label>
 
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="paypal"
-                    // checked={paymentMethod === "paypal"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  />
-                  <img
-                    src={Paypal}
-                    alt="PayPal"
-                    className="h-5"
-                  />  
-                </label>
-
-</div>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="paypal"
+                      checked={paymentMethod === "paypal"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <img
+                      src={Paypal}
+                      alt="PayPal"
+                      className="h-5"
+                    />  
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -279,90 +439,44 @@ const OrderPayment = () => {
           <div>
             <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100 sticky top-4">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
-
-              {/* Profile */}
-              <div className="flex items-center gap-3 mb-6 p-3 bg-gray-50 rounded-xl">
-                <div className="w-12 h-12 rounded-full border-2 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center">
-                  {userdata?.avatar ? (
-                    <img
-                      src={userdata.avatar}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = `http://localhost:5000/api/instagram/image?url=${encodeURIComponent(userdata.avatar)}`
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
-                      {userdata?.username?.charAt(0)?.toUpperCase() || 'U'}
-                    </div>
-                  )}
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Subtotal</span>
+                  <span>₹{total.toFixed(2)}</span>
                 </div>
-                <div>
-                  <div className="font-semibold text-gray-900">@{userdata?.username || username}</div>
-                  <div className="text-sm text-gray-600 capitalize">{platform}</div>
-                </div>
-              </div>
-
-              {/* Details */}
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Service:</span>
-                  <span className="font-semibold">{selectedService?.name}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Posts Selected:</span>
-                   <span className="font-semibold">
-                    {selectedPosts && selectedPosts.length > 0
-                     ? selectedPosts.length
-                       : orders.length}
-                     </span>               
-                      </div>
-
                 {appliedCoupon && (
                   <div className="flex justify-between text-sm text-green-600">
-                    <span>Discount:</span>
-                    <span className="font-semibold">{(appliedCoupon.discount * 100).toFixed(0)}% OFF</span>
+                    <span>Discount ({appliedCoupon.description})</span>
+                    <span>-₹{(total * appliedCoupon.discount).toFixed(2)}</span>
                   </div>
                 )}
-
-                <div className="border-t pt-3">
-                  <div className="flex justify-between">
-                    <span className="font-bold text-gray-900">Total:</span>
-                    <span className={`font-bold text-2xl bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                      ₹{total.toFixed(2)}
-                    </span>
-                  </div>
+                <div className="border-t border-gray-150 pt-4 flex justify-between font-bold text-lg text-gray-900">
+                  <span>Total</span>
+                  <span>₹{total.toFixed(2)}</span>
                 </div>
               </div>
 
-              {/* Security note */}
-              <div className="bg-green-50 rounded-xl p-3 mb-5">
-                <div className="flex items-center gap-2 text-green-800 text-sm">
-                  <span>🔒</span>
-                  <span className="font-semibold">256-bit SSL Encrypted</span>
+              {paymentMethod === "coins" && (
+                <div className="mb-6 p-3 bg-pink-50 text-pink-600 rounded-xl text-xs font-semibold flex justify-between">
+                  <span>Your Balance:</span>
+                  <span>₹{balance.toFixed(2)} Coins</span>
                 </div>
-                <p className="text-green-700 text-xs mt-1">
-                  Your payment is 100% safe and secure
-                </p>
-              </div>
+              )}
 
-              {/* Pay button */}
               <button
                 onClick={handlePayment}
-                disabled={paying || orders.length === 0}
-                className={`w-full bg-gradient-to-r ${config.color} text-white py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none`}
+                disabled={paying}
+                className={`w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r ${config.color} hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2`}
               >
                 {paying ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                    </svg>
-                    Opening Razorpay...
-                  </span>
+                  <>
+                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    Processing...
+                  </>
                 ) : (
-                  `Pay ₹${total.toFixed(2)}`
+                  <>
+                    Pay ₹{total.toFixed(2)}
+                  </>
                 )}
               </button>
             </div>

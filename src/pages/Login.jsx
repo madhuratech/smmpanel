@@ -13,18 +13,66 @@ export default function Login() {
     setError('');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate('/');
-    }, 1000);
-  };
+const handleSubmit = async (e) => {
+
+  e.preventDefault();
+
+  setIsLoading(true);
+
+  setError("");
+
+  try {
+
+    const response = await fetch(
+      "http://localhost:5000/api/auth/login",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Login Failed"
+      );
+    }
+
+    // SAVE TOKEN
+    localStorage.setItem(
+      "token",
+      data.token
+    );
+
+    // SAVE USER
+    localStorage.setItem(
+      "user",
+      JSON.stringify(data.user)
+    );
+
+    navigate("/");
+
+  } catch (err) {
+
+    setError(err.message);
+
+  } finally {
+
+    setIsLoading(false);
+  }
+};
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFD9E8] to-[#FFF5E6] flex items-center justify-center py-8 sm:py-12 px-4">
+    <div className="min-h-screen bg-transparent flex items-center justify-center pt-28 pb-8 sm:pt-32 sm:pb-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2">Welcome Back</h1>

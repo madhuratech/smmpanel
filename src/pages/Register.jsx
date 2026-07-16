@@ -43,38 +43,51 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.fullname,
-          email: formData.email,
-          password: formData.password,
-          confirmpassword:formData.confirmpasswordcd
-        }),
-      });
 
-      const data = await response.json();
+  const response = await fetch(
+    "http://localhost:5000/api/auth/register",
+    {
+      method: "POST",
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-      // Store token and redirect to dashboard
-      localStorage.setItem('token', data.token);
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
+      body: JSON.stringify({
+        fullname: formData.fullname,
+        email: formData.email,
+        password: formData.password,
+        confirmpassword:
+          formData.confirmpassword,
+      }),
     }
-  };
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || "Registration failed"
+    );
+  }
+
+  alert("Registration Successful");
+
+  navigate("/login");
+
+} catch (err) {
+
+  setError(err.message);
+
+} finally {
+
+  setIsLoading(false);
+}
+ };
  
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFD9E8] to-[#FFF5E6] flex items-center justify-center py-8 sm:py-12 px-4">
+    <div className="min-h-screen bg-transparent flex items-center justify-center pt-28 pb-8 sm:pt-32 sm:pb-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2">Create Account</h1>
@@ -102,7 +115,7 @@ const Register = () => {
             </div>
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-              <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmpassword} onChange={handleChange} required minLength={6}
+              <input type="password" id="confirmPassword" name="confirmpassword" value={formData.confirmpassword} onChange={handleChange} required minLength={6}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#FF6B35] focus:outline-none transition-colors bg-white" placeholder="••••••••" />
             </div>
             <Button type="submit" fullWidth size="lg" disabled={isLoading}>

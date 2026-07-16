@@ -10,7 +10,7 @@ import Hero from "./Hero";
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white pt-16 pb-8 px-6">
+    <footer className="bg-gradient-to-br from-[#3b0622] via-[#210438] to-[#0a0212] text-white pt-16 pb-8 px-6 relative overflow-hidden">
 
       <div className="max-w-7xl mx-auto">
 
@@ -38,8 +38,9 @@ export default function Footer() {
                 {["Blog", "Press", "Support", "Terms of Service", "Privacy Policy"].map((item) => (
                   <li
                     key={item}
-                     onClick={() => {
-                        document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });}}
+                    onClick={() => {
+                      document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+                    }}
                     className="cursor-pointer transition duration-300 "
                   >
                     {item}

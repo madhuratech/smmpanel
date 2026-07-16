@@ -1,6 +1,83 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
+import { resolveContentType } from '../utils/contentTypeMap'
+import {Users,
+  Heart,
+  Eye,
+  MessageCircle,
+  Share2,
+  Bookmark,
+  Rocket
+} from "lucide-react";
+
+const detectServiceType = (name, category) => {
+  const n = (name || "").toLowerCase();
+  const c = (category || "").toLowerCase();
+
+  if (n.includes("reels views") || n.includes("reels view") || c.includes("reels views") || c.includes("reels view") || n.includes("reels") || c.includes("reels")) {
+    return "reels_views";
+  }
+  if (n.includes("story views") || n.includes("story view") || c.includes("story views") || c.includes("story view") || n.includes("story") || c.includes("story")) {
+    return "story_views";
+  }
+  if (n.includes("story poll") || n.includes("poll votes") || n.includes("poll vote") || c.includes("story poll") || c.includes("poll votes")) {
+    return "story_poll_votes";
+  }
+  if (n.includes("watch time") || n.includes("watchtime") || c.includes("watch time") || c.includes("watchtime")) {
+    return "watch_time";
+  }
+  if (n.includes("live view") || c.includes("live view")) {
+    return "live_views";
+  }
+  if (n.includes("follower") || c.includes("follower")) {
+    return "followers";
+  }
+  if (n.includes("subscriber") || c.includes("subscriber")) {
+    return "subscribers";
+  }
+  if (n.includes("like") || c.includes("like")) {
+    return "likes";
+  }
+  if (n.includes("comment") || c.includes("comment")) {
+    return "comments";
+  }
+  if (n.includes("share") || c.includes("share")) {
+    return "shares";
+  }
+  if (n.includes("view") || c.includes("view")) {
+    return "views";
+  }
+  return "likes"; // default fallback
+};
+
+const getServiceKey = (platform, serviceName) => {
+  const p = (platform || "").toLowerCase().trim();
+  const s = (serviceName || "").toLowerCase().trim();
+
+  let key = "";
+  if (s.includes("reels") || s.includes("reel")) {
+    key = "reels";
+  } else if (s.includes("story") || s.includes("stories")) {
+    key = "story";
+  } else if (s.includes("follower")) {
+    key = "followers";
+  } else if (s.includes("subscriber")) {
+    key = "subscribers";
+  } else if (s.includes("comment")) {
+    key = "comments";
+  } else if (s.includes("like")) {
+    key = "likes";
+  } else if (s.includes("share")) {
+    key = "shares";
+  } else if (s.includes("view")) {
+    key = "views";
+  } else {
+    key = s.replace(/[^a-z0-9]/g, "_");
+  }
+  
+  return `${p}_${key}`;
+};
 
 const ProfileOverview = () => {
   useScrollToTop()
@@ -9,75 +86,283 @@ const ProfileOverview = () => {
   const { username, platform } = location.state || {}
   
   const [selectedService, setSelectedService] = useState(null)
-  const userdata = location.state?.userdata;
+  const [livePrices, setLivePrices] = useState({});
+  const [services, setServices] = useState([]);
+  const [isLoadingContent, setIsLoadingContent] = useState(false);
+  const userdata = location.state?.userdata || (username ? {
+    username: username,
+    avatar: '',
+    followers: 0,
+    following: 0,
+    postsCount: 0,
+    posts: []
+  } : null);
 
-  // Mock profile data
+  const API_URL = "http://localhost:5000/api/pricing/all";
+  const SERVICES_API ="http://localhost:5001/api/services";
 
-   useEffect(() =>{
-     if(!userdata){
+  useEffect(() =>{
+    if(!username && !userdata){
       navigate("/instagram",{replace: true});
-     }
-   },[userdata, navigate]);
+    }
+  },[username, userdata, navigate]);
 
-  if (!userdata) return null;
+  if (!username && !userdata) return null;
+
+
+  useEffect(() => {
+
+  const fetchLivePrices = async () => {
+
+    try {
+
+      const response = await fetch(API_URL, {
+        cache: "no-store"
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+
+        const formatted = {};
+
+        data.data.forEach((item) => {
+
+          const key = item.serviceKey;
+
+          formatted[key] = {
+            startingPrice: item.startingPrice ?? 0,
+            description: item.description || "",
+            baseQty: item.baseQuantity ?? item.packages?.[0]?.quantity ?? 100,
+            packages: item.packages || [],
+            pricing: item
+          };
+
+        });
+
+        setLivePrices(formatted);
+      }
+
+    } catch (error) {
+
+      console.log("LIVE PRICE ERROR:", error);
+
+    }
+
+  };
+
+  fetchLivePrices();
+
+  // AUTO LIVE UPDATE
+  const interval = setInterval(fetchLivePrices, 3000);
+
+  return () => clearInterval(interval);
+
+}, []);
 
 
   // Platform-specific services
-  const platformServices = {
-    instagram: [
-      { id: 2361, name: 'Followers', icon: '👥', description: 'Get real Instagram followers', price: 'From ₹2.99', popular: true },
-      { id: 2448, name: 'Likes', icon: '❤️', description: 'Boost your post likes', price: 'From ₹1.99', popular: false },
-      { id: 2460, name: 'Comments', icon: '💬', description: 'Get authentic comments', price: 'From ₹4.99', popular: false },
-      { id: 1625, name: 'Views', icon: '👁️', description: 'Increase story/reel views', price: 'From ₹0.99', popular: false },
-      { id: 576, name: 'Shares', icon: '📤', description: 'Increase post shares', price: 'From ₹2.49', popular: false }
-    ],
-    youtube: [
-      { id: 2411, name: 'Subscribers', icon: '👥', description: 'Gain real subscribers', price: 'From ₹2.99', popular: true },
-      { id: 2457, name: 'Views', icon: '👁️', description: 'Boost video views', price: 'From ₹1.99', popular: false },
-      { id: 2456, name: 'Likes', icon: '👍', description: 'Get video likes', price: 'From ₹4.99', popular: false },
-      { id: 242, name: 'Comments', icon: '💬', description: 'Authentic comments', price: 'From ₹0.99', popular: false },
-      { id: 7001, name: 'Shares', icon: '📤', description: 'Increase video shares', price: 'From ₹2.49', popular: false },
-      { id: 7002, name: 'Watch Time', icon: '⏱️', description: 'Boost watch hours', price: 'From ₹7.99', popular: false }
-    ],
-    facebook: [
-      { id: 1023  , name: 'Post Likes', icon: '❤️', description: 'Boost post engagement', price: 'From $1.99', popular: false },
-      { id: 2045, name: 'Followers', icon: '👥', description: 'Personal profile followers', price: 'From $3.49', popular: false },
-      { id: 3099, name: 'Video Views', icon: '📹', description: 'Boost video views', price: 'From $1.49', popular: false },
-      { id: 'comments', name: 'Comments', icon: '💬', description: 'Get post comments', price: 'From $4.99', popular: false },
-      { id: 'shares', name: 'Shares', icon: '📤', description: 'Increase post shares', price: 'From $2.99', popular: false },
-    ],
-    tiktok: [
-      { id: 2384, name: 'Followers', icon: '👥', description: 'Get TikTok followers', price: 'From $3.99', popular: true },
-      { id: 1617, name: 'Likes', icon: '❤️', description: 'Boost video likes', price: 'From $1.99', popular: false },
-      { id: 310, name: 'Views', icon: '👁️', description: 'Increase video views', price: 'From $0.99', popular: false },
-      { id: 2461, name: 'Comments', icon: '💬', description: 'Get video comments', price: 'From $4.99', popular: false },
-      { id: 703, name: 'Shares', icon: '📤', description: 'Boost video shares', price: 'From $2.99', popular: false },
-      { id: 'favorites', name: 'Favorites', icon: '⭐', description: 'Get video favorites', price: 'From $3.49', popular: false }
-    ]
+useEffect(() => {
+
+  const fetchServices = async () => {
+
+    try {
+
+      const response = await fetch(
+        SERVICES_API
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+
+        const filtered =
+          data.services.filter(
+            (s) =>
+              s.type?.toLowerCase() ===
+              platform?.toLowerCase()
+          );
+
+        const formatted =
+          filtered.map((s) => ({
+
+            id: s._id,
+
+            provider_service_id:
+              s.provider_service_id,
+
+            name:
+              s.name.split("|")[0].trim(),
+
+            serviceKey:
+              s.name
+                .toLowerCase()
+                .replace(/\s+/g, "-"),
+
+            icon:
+                s.name,
+
+            contentType: s.contentType,
+
+            description:
+              `Boost your ${s.name.split("|")[0].trim()} instantly`,
+
+            popular: false
+
+          }));
+
+        setServices(formatted);
+
+      }
+
+    } catch (error) {
+
+      console.log(
+        "SERVICE FETCH ERROR:",
+        error
+      );
+
+    }
+
+  };
+
+  fetchServices();
+
+  // AUTO LIVE REFRESH
+  const interval =
+    setInterval(fetchServices, 3000);
+
+  return () =>
+    clearInterval(interval);
+
+}, [platform]);
+
+
+const config = {
+
+  color:
+    "from-pink-500 to-purple-600",
+
+  name:
+    platform
+      ?.charAt(0)
+      ?.toUpperCase() +
+    platform?.slice(1)
+
+};
+
+
+
+const getServiceIcon = (serviceName) => {
+
+  const name =
+    serviceName?.toLowerCase();
+
+  if (
+    name.includes("followers") ||
+    name.includes("subscriber")
+  ) {
+    return (
+      <Users
+        size={30}
+        className="text-white fill-white"
+      />
+    );
   }
 
-  const services = platformServices[platform] || platformServices.instagram
-
-  const platformConfig = {
-    instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50' },
-    youtube: { color: 'from-red-500 to-red-600', name: 'YouTube', bgColor: 'bg-gradient-to-br from-red-50 to-orange-50' },
-    facebook: { color: 'from-blue-600 to-blue-700', name: 'Facebook', bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
-    tiktok: { color: 'from-black to-gray-800', name: 'TikTok', bgColor: 'bg-gradient-to-br from-gray-50 to-slate-50' }
+  if (name.includes("likes")) {
+    return (
+      <Heart
+        size={30}
+        className="text-white fill-white"
+      />
+    );
   }
 
-  const config = platformConfig[platform] || platformConfig.instagram
+  if (name.includes("views")) {
+    return (
+      <Eye
+        size={30}
+        className="text-white"
+      />
+    );
+  }
 
-  const handleServiceSelect = (service) => {
-    setSelectedService(service.id)
-    navigate('/posts-selection', {
+  if (name.includes("comments")) {
+    return (
+      <MessageCircle
+        size={40}
+        className="text-green-300"
+      />
+    );
+  }
+
+  if (name.includes("shares")) {
+    return (
+      <Share2
+        size={40}
+        className="text-yellow-300"
+      />
+    );
+  }
+
+  if (name.includes("saves")) {
+    return (
+      <Bookmark
+        size={40}
+        className="text-pink-300 fill-pink-300"
+      />
+    );
+  }
+
+  return (
+    <Rocket
+      size={40}
+      className="text-white"
+    />
+  );
+};
+
+  const handleServiceSelect = async (service) => {
+    setSelectedService(service.id);
+
+    const key = getServiceKey(platform, service.name);
+    const livePriceItem = livePrices[key];
+
+    const serviceWithPricing = {
+      ...service,
+      serviceKey: key,
+      packages: livePriceItem?.packages || [],
+      pricing: livePriceItem?.pricing || null
+    };
+
+    // Dynamic content type
+    const contentType = service.contentType || resolveContentType(service);
+
+    // PROFILE SERVICES → go directly to quantity
+    if (contentType === "profile") {
+      navigate("/quantity-pricing", {
+        state: {
+          username,
+          platform,
+          selectedService: serviceWithPricing,
+          userdata
+        }
+      });
+      return;
+    }
+
+    // CONTENT SERVICES → go directly to posts selection
+    navigate("/posts-selection", {
       state: {
         username,
         platform,
-        selectedService: service,
-        userdata: userdata
+        selectedService: serviceWithPricing,
+        userdata,
+        contentType
       }
-    })
-  }
+    });
+  };
 
 // Formatnumber;
  const formatnumber = (num) => {
@@ -87,9 +372,37 @@ const ProfileOverview = () => {
     return num.toString();
   };
 
+
+  const getLivePrice = (serviceName) => {
+    const key = getServiceKey(platform, serviceName);
+    const item = livePrices[key];
+    if (!item || item.startingPrice === undefined || item.startingPrice === null) return "";
+    return `From $${item.startingPrice}`;
+  };
+
+  const getServiceDescription = (serviceName) => {
+    const key = getServiceKey(platform, serviceName);
+    const item = livePrices[key];
+    if (item && item.description) return item.description;
+    return `Boost your ${serviceName} instantly.`;
+  };
+
   return (
-    <div className={`min-h-screen ${config.bgColor} py-8 px-4`}>
+    <div className={`min-h-screen bg-transparent py-8 px-4`}>
       <div className="max-w-4xl mx-auto">
+        <div className="mb-6">
+          <button
+            onClick={() => navigate('/')}
+            className="group flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white hover:bg-gray-50 border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300"
+          >
+            <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-gray-200 group-hover:text-gray-900 transition-all duration-300 text-[10px] font-bold">
+              ←
+            </span>
+            <span className="text-xs font-bold text-gray-600 group-hover:text-gray-900 transition-colors duration-300">
+              Back
+            </span>
+          </button>
+        </div>
         
         {/* Profile Section */}
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100">
@@ -152,7 +465,7 @@ const ProfileOverview = () => {
                 )}
                  {platform === "youtube" && (
                   <div className="text-center">
-      <           div className="text-xl font-bold text-gray-900">
+                  <div className="text-xl font-bold text-gray-900">
                    {formatnumber(userdata?.videosCount)}
                   </div>
                  <div className="text-sm text-gray-600">Videos</div>
@@ -188,6 +501,16 @@ const ProfileOverview = () => {
         </div>
 
 
+        {/* Loading Overlay */}
+        {isLoadingContent && (
+          <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-4">
+              <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-gray-700 font-semibold">Loading content...</p>
+            </div>
+          </div>
+        )}
+
         {/* Services Section */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
           <div className="text-center mb-8">
@@ -197,7 +520,7 @@ const ProfileOverview = () => {
             <p className="text-gray-600">Select the service you want to boost for this profile</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
               <div
                 key={service.id}
@@ -210,114 +533,26 @@ const ProfileOverview = () => {
                   </div>
                 )}
                 
-                <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-gray-200 transition-all group-hover:shadow-lg">
+                <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-gray-200 transition-all group-hover:shadow-lg h-full flex flex-col justify-between">
                   <div className="text-center mb-4">
                     <div className={`w-16 h-16 bg-gradient-to-r ${config.color} rounded-2xl flex items-center justify-center text-white mx-auto mb-3 shadow-lg`}>
-                      {service.id === 2361 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                        </svg>
-                      )}
-                      {service.id === 2448 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-                      {service.id === 2460 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-                      {service.id === 1625 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                          <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-                      {service.id === 576 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
-                        </svg>
-                      )}
-                      {service.id === 'saves' && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/>
-                        </svg>
-                      )}
-  
-  {/* Youtube */}
+                     <span className="drop-shadow-lg">
+                       {getServiceIcon(service.name)}
+                        </span>
+                      </div>
 
-                      {service.id === 2411 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                        </svg>
-                      )}
-                      {service.id === 2457  && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-                      {service.id === 2456 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
-                        </svg>
-                      )}
-
-                       {service.id === 242 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-
-
-
-{/* tiktoks */}
-                      {service.id === 1617 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-                      {service.id === 2384 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
-                        </svg>
-                      )}
-                      {service.id === 'favorites' && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                      )}
-
-{/*Facebook  */}
-                         {service.id === 1023 &&(
-                          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                        </svg>
-                         )}
-                         {service.id === 2045 &&(
-                           <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                        </svg>
-                         )}
-                          {service.id === 3099 && (
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-
-                         
-
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 mb-1">{service.name}</h3>
-                    <p className="text-gray-600 text-sm mb-3">{service.description}</p>
+                    <h3 className="font-bold text-lg text-gray-900 mb-1 line-clamp-2 min-h-[56px]">
+                      {service.name}
+                     </h3>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[40px]">{getServiceDescription(service.name)}</p>
                     <div className={`text-lg font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                      {service.price}
+                       {getLivePrice(service.name)}
                     </div>
                   </div>
                   
-                  <button className={`w-full bg-gradient-to-r ${config.color} text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200`}>
-                    Select {service.name}
-                  </button>
+                  <button   onClick={() => handleServiceSelect(service)}className={`w-full bg-gradient-to-r ${config.color} text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200`}>
+                  Select Service 
+                 </button>
                 </div>
               </div>
             ))}

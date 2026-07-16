@@ -1,12 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import Button from './Button';
+import { ChevronDown, Menu as MenuIcon, X, LogOut, Globe } from 'lucide-react';
 import { getFromStorage, removeFromStorage } from '../utils';
-
-import TikyTop from "../assets/logos/TikyTop.png"
-
+import TikyTop from "../assets/logos/TikyTop.png";
+import {
+  FaFacebook,
+  FaTelegram,
+  FaPinterest,
+  FaSpotify,
+  FaLinkedin,
+  FaReddit,
+  FaTwitch,
+  FaDiscord,
+  FaSnapchat,
+  FaSoundcloud,
+  FaGoogle,
+  FaGlobe,
+  FaStar,
+} from "react-icons/fa";
+import { FaThreads, FaXTwitter } from "react-icons/fa6";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +29,26 @@ const Navbar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const navContainerRef = useRef(null);
 
   useEffect(() => {
     const loggedInUser = getFromStorage('user');
     setUser(loggedInUser);
   }, [location]);
+
+  // Click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navContainerRef.current && !navContainerRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+        setShowUserMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     removeFromStorage('token');
@@ -33,7 +61,7 @@ const Navbar = () => {
   const platforms = [
     {
       name: 'TikTok',
-      // path: '/tiktok',
+      path: '/tiktok',
       services: [
         { name: 'TikTok Views', service: 'views' },
         { name: 'TikTok Followers', service: 'followers' },
@@ -43,7 +71,7 @@ const Navbar = () => {
     },
     {
       name: 'Instagram',
-      // path: '/instagram',
+      path: '/instagram',
       services: [
         { name: 'Instagram Followers', service: 'followers' },
         { name: 'Instagram Likes', service: 'likes' },
@@ -52,18 +80,8 @@ const Navbar = () => {
       ]
     },
     {
-      name: 'Facebook',
-      // path: '/facebook',
-      services: [
-        { name: 'Facebook Likes', service: 'likes' },
-        { name: 'Facebook Followers', service: 'followers' },
-        { name: 'Facebook Views', service: 'views' },
-        { name: 'Facebook Comments', service: 'comments' }
-      ]
-    },
-    {
       name: 'YouTube',
-      // path: '/youtube',
+      path: '/youtube',
       services: [
         { name: 'YouTube Views', service: 'views' },
         { name: 'YouTube Subscribers', service: 'subscribers' },
@@ -71,362 +89,467 @@ const Navbar = () => {
         { name: 'YouTube Comments', service: 'comments' }
       ]
     }
-  ]
+  ];
 
-  const isActive = (path) => location.pathname === path
+  const freeTrials = [
+    { name: 'Free TikTok Views', path: '/tiktok' },
+    { name: 'Free Instagram Followers', path: '/instagram' },
+    { name: 'Free YouTube Subscribers', path: '/youtube' }
+  ];
+
+  const companyLinks = [
+    { name: 'About Us', path: '/' },
+    { name: 'Contact Support', path: '/' },
+    { name: 'Terms of Service', path: '/' }
+  ];
+
+  const extraPlatforms = [
+    { name: "Facebook", icon: <FaFacebook className="text-[#1877F2]" />, path: "/facebook" },
+    { name: "Twitter", icon: <FaXTwitter className="text-black" />, path: "/", state: { selectPlatform: "twitter" } },
+    { name: "Telegram", icon: <FaTelegram className="text-[#0088cc]" />, path: "/", state: { selectPlatform: "telegram" } },
+    { name: "Pinterest", icon: <FaPinterest className="text-[#E60023]" />, path: "/", state: { selectPlatform: "pinterest" } },
+    { name: "Spotify", icon: <FaSpotify className="text-[#1DB954]" />, path: "/", state: { selectPlatform: "spotify" } },
+    { name: "LinkedIn", icon: <FaLinkedin className="text-[#0A66C2]" />, path: "/", state: { selectPlatform: "linkedin" } },
+    { name: "Reddit", icon: <FaReddit className="text-[#FF4500]" />, path: "/", state: { selectPlatform: "reddit" } },
+    { name: "Threads", icon: <FaThreads className="text-black" />, path: "/", state: { selectPlatform: "threads" } },
+    { name: "Twitch", icon: <FaTwitch className="text-[#9146FF]" />, path: "/", state: { selectPlatform: "twitch" } },
+    { name: "Discord", icon: <FaDiscord className="text-[#5865F2]" />, path: "/", state: { selectPlatform: "discord" } },
+    { name: "Snapchat", icon: <FaSnapchat className="text-[#FFFC00]" />, path: "/", state: { selectPlatform: "snapchat" } },
+    { name: "SoundCloud", icon: <FaSoundcloud className="text-[#FF5500]" />, path: "/", state: { selectPlatform: "soundcloud" } },
+    { name: "Google Reviews", icon: <FaGoogle className="text-[#4285F4]" />, path: "/", state: { selectPlatform: "google" } },
+    { name: "Trustpilot", icon: <FaStar className="text-[#00B67A]" />, path: "/", state: { selectPlatform: "trustpilot" } },
+    { name: "Website Traffic", icon: <FaGlobe className="text-[#00A86B]" />, path: "/", state: { selectPlatform: "traffic" } }
+  ];
+
+  const isActive = (path) => location.pathname === path;
 
   const handleServiceClick = (platformPath) => {
-    navigate(platformPath)
-    setActiveDropdown(null)
-  }
+    navigate(platformPath);
+    setActiveDropdown(null);
+  };
 
   const handleMouseEnter = (dropdown) => {
     if (closeTimeout) {
-      clearTimeout(closeTimeout)
-      setCloseTimeout(null)
+      clearTimeout(closeTimeout);
+      setCloseTimeout(null);
     }
-    setActiveDropdown(dropdown)
-  }
+    setActiveDropdown(dropdown);
+  };
 
   const handleMouseLeave = () => {
     const timeout = setTimeout(() => {
-      setActiveDropdown(null)
-    }, 300)
-    setCloseTimeout(timeout)
-  }
+      setActiveDropdown(null);
+    }, 250);
+    setCloseTimeout(timeout);
+  };
+
+  const toggleDropdown = (dropdown) => {
+    if (activeDropdown === dropdown) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(dropdown);
+    }
+  };
+
+  const getMenuClass = (pathOrName, isDropdownTrigger = false) => {
+    const isCurrentActive = isDropdownTrigger
+      ? activeDropdown === pathOrName
+      : isActive(pathOrName);
+
+    const baseClass = "whitespace-nowrap flex items-center gap-1.5 px-3.5 py-2 text-[14px] font-semibold transition-all duration-300 ease-in-out cursor-pointer select-none";
+    if (isCurrentActive) {
+      return `${baseClass} bg-white border-2 border-[#ff1681] text-[#ff1681] rounded-full`;
+    }
+    return `${baseClass} bg-transparent border-2 border-transparent text-[#1d3557] hover:text-[#ff1681]`;
+  };
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 border-white/40 shadow-lg ">
-      <style>{`
-        .glass-button {
-          background: linear-gradient(135deg, #FF6B35, #FFA500);
-          transition: all 0.3s ease;
-        }
-        .glass-button:hover {
-          box-shadow: 0 8px 25px rgba(255, 107, 53, 0.35);
-          transform: translateY(-2px);
-        }
-        .outline-button {
-          border: 1.5px solid rgba(255, 165, 0, 0.5);
-          background: rgba(255, 255, 255, 0.7);
-          transition: all 0.3s ease;
-        }
-        .outline-button:hover {
-          border-color: rgba(255, 165, 0, 0.8);
-          background: rgba(255, 255, 255, 0.9);
-          transform: translateY(-2px);
-        }
-      `}</style>
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex items-center justify-between h-16">
-          <Link
-            to="/"
-            className="flex items-center"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            <img
-              src={TikyTop} 
-              alt="Tikytop"
-              className="h-20 w-auto object-contain"
-            />
-          </Link>
+    <nav className="z-50 py-4 font-sans absolute top-0 left-0 right-0 bg-transparent">
+      {/* Floating White Navbar container */}
+      <motion.div
+        ref={navContainerRef}
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="mx-auto w-[92%] h-[82px] bg-white rounded-full px-6 lg:px-8 flex justify-between items-center shadow-[0_15px_40px_rgba(0,0,0,0.01)] relative border border-gray-100"
+      >
+        {/* Left: Logo */}
+        <Link
+          to="/"
+          className="flex items-center flex-shrink-0 z-10"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <img
+            src={TikyTop}
+            alt="TikyTop"
+            className="h-12 w-auto object-contain"
+          />
+        </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
+        {/* Center: Navigation Menu */}
+        <div className="flex justify-end ml-[80px]">
+
+          {/* Platforms: TikTok, Instagram, YouTube */}
+          {platforms.map((plat) => (
             <div
+              key={plat.name}
               className="relative"
-              onMouseEnter={() => handleMouseEnter('all-services')}
+              onMouseEnter={() => handleMouseEnter(plat.name)}
               onMouseLeave={handleMouseLeave}
             >
-              <button
-                className="font-medium transition-colors flex items-center space-x-1 text-gray-700 hover:text-[#bb0ea1]"
+              <Link
+                to={plat.path}
+                className={getMenuClass(plat.path)}
               >
-                <span>All Services</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                <span>{plat.name}</span>
+                <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
+              </Link>
 
               <AnimatePresence>
-                {activeDropdown === 'all-services' && (
+                {activeDropdown === plat.name && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="absolute top-full left-0 mt-2 w-[800px] bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl py-6 border border-white/50 max-h-96 overflow-y-auto"
-                    onMouseEnter={() => handleMouseEnter('all-services')}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.25 }}
+                    style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
+                    onMouseEnter={() => handleMouseEnter(plat.name)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <div className="grid grid-cols-4 gap-6 px-6">
-                      {platforms.map((platform, platformIndex) => (
-                        <motion.div
-                          key={platform.name}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: platformIndex * 0.05, duration: 0.3 }}
-                          className="space-y-3"
+                    <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
+                      {plat.services.map((service, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleServiceClick(plat.path)}
+                          className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
                         >
-                          <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-[#FFE5D9] to-[#FFF0E6] rounded-lg">
-                            <div className="text-lg">
-                              {platform.name === 'TikTok' && '🎵'}
-                              {platform.name === 'Instagram' && '📸'}
-                              {platform.name === 'Facebook' && '👥'}
-                              {platform.name === 'YouTube' && '▶️'}
-                            </div>
-                            <div className="text-sm font-bold text-gray-900">
-                              {platform.name}
-                            </div>
-                          </div>
-                          <div className="space-y-1">
-                            {platform.services.map((service, serviceIndex) => (
-                              <motion.button
-                                key={service.service}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: (platformIndex * 0.05) + (serviceIndex * 0.03), duration: 0.2 }}
-                                onClick={() => handleServiceClick(platform.path)}
-                                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-all rounded-lg group"
-                                whileHover={{ x: 4 }}
-                              >
-                                <span className="flex items-center gap-2">
-                                  <span className="w-1 h-1 rounded-full bg-[#FFA500]  transition-opacity"></span>
-                                  {service.name}
-                                </span>
-                              </motion.button>
-                            ))}
-                          </div>
-                        </motion.div>
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d95]"></span>
+                          {service.name}
+                        </button>
                       ))}
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+          ))}
 
-            {platforms.map((platform) => (
-              <div
-                key={platform.name}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(platform.name)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <Link
-                  to={platform.path}
-                  className={`font-medium transition-colors flex items-center space-x-1 ${isActive(platform.path)
-                      ? 'text-[#FF6B35]'
-                      : 'text-gray-700 hover:text-[#bb0ea1]'
-                    }`}
-                >
-                  <span>{platform.name}</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </Link>
-
-                <AnimatePresence>
-                  {activeDropdown === platform.name && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="absolute top-full left-0 mt-2 w-64 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl py-3 border border-white/50"
-                      onMouseEnter={() => handleMouseEnter(platform.name)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      {platform.services.map((service, index) => (
-                        <motion.button
-                          key={service.service}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.05, duration: 0.2 }}
-                          onClick={() => handleServiceClick(platform.path)}
-                          className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-all group flex items-center gap-2"
-                          whileHover={{ x: 4 }}
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#FFA500]   transition-opacity"></span>
-                          {service.name}
-                        </motion.button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-
-            <Link
-              to="/free-trial"
-              className="font-medium transition-colors text-gray-700 hover:text-[#bb0ea1]"
+          {/* Explore Services Megamenu Trigger */}
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('explore-services')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button
+              onClick={() => toggleDropdown('explore-services')}
+              className={getMenuClass('explore-services', true)}
             >
-              Free Trial
-            </Link>
+              <span>Explore More Services</span>
+              <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
 
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+              {/* NEW Badge */}
+              <span className="absolute -top-2.5 -right-2 bg-[#2d32ff] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-[0_4px_12px_rgba(45,50,255,0.25)] uppercase tracking-wider scale-[0.85]">
+                NEW
+              </span>
+            </button>
+
+            {/* Megamenu Dropdown */}
+            <AnimatePresence>
+              {activeDropdown === 'explore-services' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.25 }}
+                  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
+                  onMouseEnter={() => handleMouseEnter('explore-services')}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-[#FF6B35] to-[#b24eac] rounded-full flex items-center justify-center text-white font-semibold">
-                    {user.name?.charAt(0).toUpperCase()}
-                  </div>  
-                  <span className="font-medium text-gray-700">{user.name}</span>
-                  <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                  <div className="w-[660px] bg-white rounded-[24px] shadow-2xl p-6 border border-gray-150 grid grid-cols-3 gap-3">
+                    <div className="col-span-3 flex justify-between items-center mb-1">
+                      <h4 className="text-[12px] font-bold text-[#1d3557] uppercase tracking-wider font-sans">
+                        Additional Platforms
+                      </h4>
+                      <span className="text-[11px] text-gray-500 font-sans">Select any platform below</span>
+                    </div>
 
-                <AnimatePresence>
-                  {showUserMenu && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl py-2 border border-gray-100 z-50"
-                    >
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.1 }}
+                    {extraPlatforms.map((plat) => (
+                      <button
+                        key={plat.name}
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          navigate(plat.path, { state: plat.state });
+                        }}
+                        className="flex items-center gap-3 px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-sm font-semibold text-gray-800 text-left transition duration-200 hover:bg-pink-50 hover:border-pink-200/50 hover:text-[#ff1681]"
                       >
-                        <Link
-                          to="/profile"
-                          onClick={() => setShowUserMenu(false)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-colors"
-                        >
-                          My Profile
-                        </Link>
-                        <Link
-                          to="/my-orders"
-                          onClick={() => setShowUserMenu(false)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#FFE5D9] hover:text-[#bb0ea1] transition-colors"
-                        >
-                          My Orders
-                        </Link>
-                        <hr className="my-2" />
-                        <button
-                          onClick={handleLogout}
-                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                        >
-                          Logout
-                        </button>
-                      </motion.div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Link to="/login">
-                  <Button variant="secondary" size="sm">Login</Button>
-                </Link>
-                <Link to="/register">
-                  <Button size="sm">Register</Button>
-                </Link>
-              </div>
-            )}
+                        <span className="text-[18px] flex-shrink-0 flex items-center">{plat.icon}</span>
+                        <span className="truncate">{plat.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <button
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+          {/* Free Trials */}
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('free-trials')}
+            onMouseLeave={handleMouseLeave}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <Link
+              to="/free-trial"
+              className={getMenuClass('/free-trial')}
+            >
+              <span>Free Trials</span>
+              <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
+            </Link>
+
+            <AnimatePresence>
+              {activeDropdown === 'free-trials' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.25 }}
+                  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
+                  onMouseEnter={() => handleMouseEnter('free-trials')}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
+                    {freeTrials.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleServiceClick(item.path)}
+                        className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
               )}
-            </svg>
-          </button>
+            </AnimatePresence>
+          </div>
+
+          {/* Our Company */}
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('company')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div
+              className={getMenuClass('company', true)}
+              onClick={() => toggleDropdown('company')}
+            >
+              <span>Our Company</span>
+              <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
+            </div>
+
+            <AnimatePresence>
+              {activeDropdown === 'company' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.25 }}
+                  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
+                  onMouseEnter={() => handleMouseEnter('company')}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
+                    {companyLinks.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleServiceClick(item.path)}
+                        className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
         </div>
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden pb-4 max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain"
-            >
-              <div className="space-y-3 pt-4 ">
-                <div className="space-y-2">
-                  <div className="py-2 font-medium text-gray-900">All Services</div>
-                  {platforms.map((platform) => (
-                    <div key={`mobile-${platform.name}`} className="pl-4 space-y-2">
-                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        {platform.name}
-                      </div>
-                      <div className="pl-2 space-y-1">
-                        {platform.services.map((service) => (
-                          <button
-                            key={service.service}
-                            onClick={() => {
-                              handleServiceClick(platform.path)
-                              setIsOpen(false)
-                            }}
-                            className="block w-full text-left py-1 text-sm text-gray-600 hover:text-primary-600"
-                          >
-                            {service.name}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+        {/* Right: User Login/Register Buttons */}
+        <div className="hidden lg:flex items-center gap-3 z-10">
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors border border-gray-150"
+              >
+                <div className="w-6 h-6 bg-gradient-to-br from-[#ff2d95] to-[#7b2cff] rounded-full flex items-center justify-center text-white font-semibold shadow-sm text-[10px]">
+                  {user.name?.charAt(0).toUpperCase()}
+                </div>
+                <span className="font-semibold text-[#16345f] text-xs">{user.name}</span>
+                <ChevronDown className="w-3 h-3 text-gray-500" />
+              </button>
+
+              <AnimatePresence>
+                {showUserMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-2xl py-2 border border-gray-100 z-50"
+                  >
+                    <Link
+                      to="/profile"
+                      onClick={() => setShowUserMenu(false)}
+                      className="block px-4 py-1.5 text-xs text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] font-medium transition-colors"
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      to="/my-orders"
+                      onClick={() => setShowUserMenu(false)}
+                      className="block px-4 py-1.5 text-xs text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] font-medium transition-colors"
+                    >
+                      My Orders
+                    </Link>
+                    <hr className="my-1" />
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-1.5 text-xs text-red-600 hover:bg-red-50 font-medium transition-colors flex items-center gap-1.5"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                      Logout
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <button className="h-[30px] w-[80px] rounded-[12px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-xs hover:border-[#ff1681] hover:text-[#ff1681] transition-all duration-300">
+                  Login
+                </button>
+              </Link>
+              <Link to="/register">
+                <button className="h-[30px] w-[80px] rounded-[12px] bg-[#ff1681] text-white font-semibold text-xs hover:from-[#ff1681] hover:to-[#ff1681] hover:scale-[1.03] transition-all duration-300 shadow-md">
+                  Register
+                </button>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Mobile Hamburger menu */}
+        <button
+          className="lg:hidden p-2 rounded-full hover:bg-gray-50 transition-colors z-10"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X className="w-5.5 h-5.5 text-[#1d3557]" /> : <MenuIcon className="w-5.5 h-5.5 text-[#1d3557]" />}
+        </button>
+
+      </motion.div>
+
+      {/* Mobile Drawer menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden mx-auto w-[90%] bg-white rounded-3xl mt-3 p-6 shadow-xl border border-gray-100 overflow-hidden relative z-50 pointer-events-auto"
+          >
+            <div className="space-y-4">
+
+              {/* Dynamic mobile rendering of platforms */}
+              {platforms.map((plat) => (
+                <div key={plat.name} className="space-y-2">
+                  <div className="font-bold text-[#1d3557] text-lg flex items-center gap-2">
+                    <span>
+                      {plat.name === 'TikTok' && '🎵'}
+                      {plat.name === 'Instagram' && '📸'}
+                      {plat.name === 'YouTube' && '▶️'}
+                    </span>
+                    <span>{plat.name} Services</span>
+                  </div>
+                  <div className="pl-4 space-y-1">
+                    {plat.services.map((s, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          handleServiceClick(plat.path);
+                          setIsOpen(false);
+                        }}
+                        className="block text-sm text-gray-600 py-1 hover:text-[#ff1681]"
+                      >
+                        {s.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {/* Free Trials */}
+              <div className="space-y-2">
+                <div className="font-bold text-[#1d3557] text-lg">🎁 Free Trials</div>
+                <div className="pl-4 space-y-1">
+                  {freeTrials.map((s, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        handleServiceClick(s.path);
+                        setIsOpen(false);
+                      }}
+                      className="block text-sm text-gray-600 py-1 hover:text-[#ff1681]"
+                    >
+                      {s.name}
+                    </button>
                   ))}
                 </div>
+              </div>
 
-                {platforms.map((platform) => (
-                  <div key={platform.name} className="space-y-2">
-                    <Link
-                      to={platform.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`block py-2 font-medium ${isActive(platform.path) ? 'text-primary-600' : 'text-gray-700'
-                        }`}
-                    >
-                      {platform.name}
-                    </Link>
-                    <div className="pl-4 space-y-1">
-                      {platform.services.map((service) => (
-                        <button
-                          key={service.service}
-                          onClick={() => {
-                            handleServiceClick(platform.path)
-                            setIsOpen(false)
-                          }}
-                          className="block w-full text-left py-1 text-sm text-gray-600 hover:text-primary-600"
-                        >
-                          {service.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+              <hr />
 
-                <Link
-                  to="/free-trial"
-                  onClick={() => setIsOpen(false)}
-                  className="block py-2 font-medium text-gray-700 text-center"
-                >
-                  Free Trial
-                </Link>
-
+              {/* User options */}
+              {user ? (
                 <div className="space-y-2 pt-2">
+                  <div className="text-sm font-semibold text-gray-500">Logged in as {user.name}</div>
+                  <Link to="/profile" onClick={() => setIsOpen(false)} className="block py-2 text-gray-700 font-medium">
+                    My Profile
+                  </Link>
+                  <Link to="/my-orders" onClick={() => setIsOpen(false)} className="block py-2 text-gray-700 font-medium">
+                    My Orders
+                  </Link>
+                  <button onClick={() => { handleLogout(); setIsOpen(false); }} className="w-full text-left py-2 text-red-600 font-medium">
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3 pt-2">
                   <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <Button fullWidth variant="secondary" size="sm" className='mb-2'>Login</Button>
+                    <button className="w-full h-[40px] rounded-[14px] border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-xs">
+                      Login
+                    </button>
                   </Link>
                   <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <Button fullWidth size="sm">Register</Button>
+                    <button className="w-full h-[40px] rounded-[14px] bg-gradient-to-r from-[#ff9f1c] to-[#ff6b00] text-white font-semibold text-xs">
+                      Register
+                    </button>
                   </Link>
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </nav>
-  )
-}
+              )}
 
-export default Navbar
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
+
+export default Navbar;

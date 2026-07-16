@@ -33,7 +33,7 @@ const FreeTrialService = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFD9E8] to-[#FFF5E6] py-8 sm:py-12 px-4">
+    <div className="min-h-screen bg-transparent pt-32 pb-8 sm:pt-36 sm:pb-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg mb-4">

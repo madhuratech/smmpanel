@@ -54,7 +54,14 @@ const TrackOrder = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div><div className="text-sm text-gray-600 mb-1">Platform</div><div className="font-semibold capitalize">{platform}</div></div>
-            <div><div className="text-sm text-gray-600 mb-1">Username</div><div className="font-semibold">@{username}</div></div>
+            <div>
+              <div className="text-sm text-gray-600 mb-1">Link</div>
+              <div className="font-semibold truncate text-blue-600 text-sm">
+                <a href={location.state?.link || `https://www.${platform}.com/${username}`} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  {location.state?.link || `@${username}`}
+                </a>
+              </div>
+            </div>
             <div><div className="text-sm text-gray-600 mb-1">Service</div><div className="font-semibold capitalize">{service}</div></div>
             <div><div className="text-sm text-gray-600 mb-1">Quantity</div><div className="font-semibold">{quantity?.toLocaleString()}</div></div>
           </div>
@@ -105,7 +112,7 @@ const TrackOrder = () => {
 
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
           <button onClick={() => navigate('/')} className="flex-1 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all">Place Another Order</button>
-          <button onClick={() => navigate(-1)} className="flex-1 bg-white/80 text-gray-700 py-4 rounded-xl font-semibold hover:bg-white transition-colors">Back</button>
+          <button onClick={() => navigate(-1)} className="flex-1 bg-white text-gray-700 py-4 rounded-xl font-semibold hover:bg-gray-50 border border-gray-200/80 shadow-sm hover:shadow transition-all duration-300">Back</button>
         </div>
       </div>
     </div>
