@@ -65,7 +65,7 @@ const Navbar = () => {
       services: [
         { name: 'TikTok Views', service: 'views' },
         { name: 'TikTok Followers', service: 'followers' },
-        { name: 'TikTok Likes', service: 'likes' },
+        { name: 'TikTok Likes', service: 'likes', path: '/tiktok/buy-likes' },
         { name: 'TikTok Comments', service: 'comments' }
       ]
     },
@@ -187,7 +187,7 @@ const Navbar = () => {
         </Link>
 
         {/* Center: Navigation Menu */}
-        <div className="flex justify-end ml-[80px]">
+        <div className="hidden lg:flex justify-end ml-[80px]">
 
           {/* Platforms: TikTok, Instagram, YouTube */}
           {platforms.map((plat) => (
@@ -220,7 +220,7 @@ const Navbar = () => {
                       {plat.services.map((service, idx) => (
                         <button
                           key={idx}
-                          onClick={() => handleServiceClick(plat.path)}
+                          onClick={() => handleServiceClick(service.path || plat.path)}
                           className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d95]"></span>
@@ -482,7 +482,7 @@ const Navbar = () => {
                       <button
                         key={idx}
                         onClick={() => {
-                          handleServiceClick(plat.path);
+                          handleServiceClick(s.path || plat.path);
                           setIsOpen(false);
                         }}
                         className="block text-sm text-gray-600 py-1 hover:text-[#ff1681]"

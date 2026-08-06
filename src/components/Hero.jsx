@@ -21,7 +21,8 @@ import {
 } from "react-icons/fa";
 import { FaThreads, FaXTwitter } from "react-icons/fa6";
 import { useNavigate, useLocation } from "react-router-dom";
-import Tiky from "../assets/images/tikytop2.png";
+import { motion, AnimatePresence } from "framer-motion";
+import Tiky from "../assets/images/Tikytopnew3.png";
 
 const EXTRA_PLATFORMS = [
   { name: "Facebook", icon: <FaFacebook className="text-[#1877F2]" />, key: "facebook" },
@@ -389,186 +390,218 @@ export default function Hero({ platform: propPlatform, onSearch }) {
             backgroundImage: `url(${Tiky})`,
             backgroundSize: "cover",
             backgroundPosition: "center center",
-            transform: "scale(1.15)",
+            transform: "scale(1)",
           }}
         />
       </div>
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
-      <div className="relative z-30 text-center text-white px-4 w-full max-w-4xl pt-28 pb-10 flex flex-col items-center justify-center">
-        {/* Rating */}
-        <div className="inline-flex items-center gap-2 px-4 py-1 mb-6 text-sm bg-white/10 rounded-full backdrop-blur">
-          <FaStar className="text-yellow-400" />
-          Rated 4.8 on Trustscore
-        </div>
+      <div className="relative z-30 text-white px-6 w-full max-w-7xl pt-28 pb-10 flex flex-col justify-center min-h-screen">
+        <div className="grid lg:grid-cols-12 gap-12 items-center w-full">
+          {/* Left Column content (7/12 width) */}
+          <div className="lg:col-span-7 space-y-8 text-left">
+            {/* Rating */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 text-xs bg-white/10 rounded-full backdrop-blur border border-white/10 text-yellow-400 font-semibold">
+              <FaStar className="fill-current" />
+              <span>Rated 4.9 on Trustscore</span>
+            </div>
 
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight font-righteous">
-          Trusted Site to Turn Your Profile into a Powerful Platform
-        </h1>
+            {/* Title */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight font-righteous">
+              Trusted Site to Turn Your Profile into a Powerful Platform
+            </h1>
 
-        {/* Description */}
-        <p className="mt-6 text-white text-lg max-w-2xl mx-auto">
-          Grow your audience and increase engagement across TikTok, Instagram,
-          and YouTube with TikyTop.
-        </p>
+            {/* Description */}
+            <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-xl">
+              Grow your audience and increase engagement across TikTok, Instagram, and YouTube with TikyTop.
+            </p>
 
-        {/* SEARCH + PLATFORM SELECT */}
-        <div className="mt-10 max-w-2xl mx-auto">
-          {/* Tabs */}
-          <div className="flex justify-center gap-6 mb-8 flex-wrap items-center">
-            {platforms.map((platform) => (
-              <button
-                key={platform.name}
-                onClick={() => changePlatform(platform.name)}
-                className="flex flex-col items-center gap-2 group focus:outline-none transition duration-300"
-              >
-                <div className={`w-[70px] h-[70px] rounded-2xl flex items-center justify-center transition-all duration-300 ${active === platform.name
-                  ? "bg-gradient-to-br from-[#ff008e] to-[#8b2cff] text-white shadow-lg scale-105 border-2 border-white"
-                  : "bg-white/10 text-white hover:bg-white/20 hover:scale-105 border border-white/20"
-                  }`}
-                >
-                  <span className="text-3xl">{platform.icon}</span>
-                </div>
-                <span className={`text-sm font-semibold tracking-wide transition-colors ${active === platform.name ? "text-white" : "text-gray-300 group-hover:text-white"}`}>
-                  {platform.name}
-                </span>
-              </button>
-            ))}
-
-            {/* Explore More Services Button and Mega Menu */}
-            {(() => {
-              const isExtraActive = EXTRA_PLATFORMS.some(p => p.name === active);
-              const activeExtra = isExtraActive ? EXTRA_PLATFORMS.find(p => p.name === active) : null;
-              return (
-                <div className="relative" ref={popupRef}>
+            {/* SEARCH + PLATFORM SELECT */}
+            <div className="pt-2 w-full max-w-xl">
+              {/* Tabs */}
+              <div className="flex justify-start gap-4 mb-8 flex-wrap items-center">
+                {platforms.map((platform) => (
                   <button
-                    onClick={() => setShowPopup(!showPopup)}
+                    key={platform.name}
+                    onClick={() => changePlatform(platform.name)}
                     className="flex flex-col items-center gap-2 group focus:outline-none transition duration-300"
                   >
-                    <div className={`w-[70px] h-[70px] rounded-2xl flex items-center justify-center transition-all duration-300 ${isExtraActive
+                    <div className={`w-[60px] h-[60px] rounded-2xl flex items-center justify-center transition-all duration-300 ${active === platform.name
                       ? "bg-gradient-to-br from-[#ff008e] to-[#8b2cff] text-white shadow-lg scale-105 border-2 border-white"
                       : "bg-white/10 text-white hover:bg-white/20 hover:scale-105 border border-white/20"
                       }`}
                     >
-                      {isExtraActive && activeExtra ? (
-                        <span className="text-3xl flex items-center text-white">
-                          {React.cloneElement(activeExtra.icon, { className: "text-white" })}
-                        </span>
-                      ) : (
-                        <span className="text-3xl flex items-center text-white"><FaGlobe /></span>
-                      )}
+                      <span className="text-2xl">{platform.icon}</span>
                     </div>
-                    <span className={`text-sm font-semibold tracking-wide transition-colors flex items-center gap-1 ${isExtraActive ? "text-white" : "text-gray-300 group-hover:text-white"}`}>
-                      {isExtraActive && activeExtra ? activeExtra.name : "Explore"}
-                      <span className={`transition-transform duration-200 text-[10px] ${showPopup ? "rotate-180" : ""}`}>
-                        ▼
-                      </span>
+                    <span className={`text-xs font-semibold tracking-wide transition-colors ${active === platform.name ? "text-white" : "text-gray-300 group-hover:text-white"}`}>
+                      {platform.name}
                     </span>
                   </button>
+                ))}
 
-                  {/* Mega Menu Popup */}
-                  {showPopup && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[290px] sm:w-[480px] md:w-[600px] bg-white border border-gray-200 rounded-2xl p-4 sm:p-5 shadow-2xl z-50 animate-fadeIn">
-                      <div className="text-left mb-3 flex items-center justify-between">
-                        <h4 className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-                          Additional Platforms
-                        </h4>
-                        <span className="text-[10px] text-gray-400">Select any platform below</span>
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
-                        {EXTRA_PLATFORMS.map((plat) => (
-                          <button
-                            key={plat.name}
-                            onClick={() => {
-                              changePlatform(plat.name);
-                              setShowPopup(false);
-                            }}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm text-left transition duration-200 border ${active === plat.name
-                              ? "bg-pink-50 text-[#ff008e] border-pink-200/60 font-semibold"
-                              : "bg-gray-50 text-gray-700 border-gray-100 hover:bg-pink-50 hover:text-[#ff008e] hover:border-pink-200/40"
-                              }`}
-                          >
-                            <span className="text-lg flex-shrink-0 flex items-center">{plat.icon}</span>
-                            <span className="truncate">{plat.name}</span>
-                          </button>
-                        ))}
-                      </div>
+                {/* Explore More Services Button and Mega Menu */}
+                {(() => {
+                  const isExtraActive = EXTRA_PLATFORMS.some(p => p.name === active);
+                  const activeExtra = isExtraActive ? EXTRA_PLATFORMS.find(p => p.name === active) : null;
+                  return (
+                    <div className="relative" ref={popupRef}>
+                      <button
+                        onClick={() => setShowPopup(!showPopup)}
+                        className="flex flex-col items-center gap-2 group focus:outline-none transition duration-300"
+                      >
+                        <div className={`w-[60px] h-[60px] rounded-2xl flex items-center justify-center transition-all duration-300 ${isExtraActive
+                          ? "bg-gradient-to-br from-[#ff008e] to-[#8b2cff] text-white shadow-lg scale-105 border-2 border-white"
+                          : showPopup
+                            ? "bg-white/20 text-white border border-white/40 scale-105"
+                            : "bg-white/10 text-white hover:bg-white/20 hover:scale-105 border border-white/20"
+                          }`}
+                        >
+                          {isExtraActive && activeExtra ? (
+                            <span className="text-2xl">{activeExtra.icon}</span>
+                          ) : (
+                            <FaThLarge className="text-xl" />
+                          )}
+                        </div>
+                        <span className="text-xs font-semibold tracking-wide text-gray-300 group-hover:text-white">
+                          {isExtraActive ? active : "Explore"}
+                        </span>
+                      </button>
+
+                      {/* Explore Popup list */}
+                      <AnimatePresence>
+                        {showPopup && (
+                          <div className="absolute left-0 top-full mt-3 z-50 w-[280px] sm:w-[320px] bg-white border border-gray-200 rounded-2xl p-4 shadow-2xl max-h-[300px] overflow-y-auto no-scrollbar">
+                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Explore More</h4>
+                            <div className="grid grid-cols-2 gap-2">
+                              {EXTRA_PLATFORMS.map((plat) => (
+                                <button
+                                  key={plat.name}
+                                  onClick={() => {
+                                    changePlatform(plat.name);
+                                    setShowPopup(false);
+                                  }}
+                                  className="flex items-center gap-2 p-2 rounded-xl bg-gray-50 hover:bg-[#ff008e]/10 hover:text-[#ff008e] text-gray-800 transition duration-200 border border-gray-100 text-left"
+                                >
+                                  <span className="text-sm">{plat.icon}</span>
+                                  <span className="text-xs font-semibold truncate">{plat.name}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                  )}
-                </div>
-              );
-            })()}
-          </div>
+                  );
+                })()}
+              </div>
 
-          {/* Search Bar */}
-          <div
-            style={{
-              boxShadow: isFocused
-                ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
-                : "0 20px 50px rgba(0,0,0,0.12)"
-            }}
-            className="flex items-center bg-white rounded-full p-1.5 w-full max-w-[500px] h-[60px] sm:w-[95%] md:w-full mx-auto transition-all duration-300 transform hover:-translate-y-1 relative"
-          >
-            {/* Left Platform Icon Container */}
-            <div
-              className={`flex-shrink-0 w-[44px] h-[44px] rounded-full bg-white border-2 border-dashed border-[#ff008e] flex items-center justify-center ml-1 transition-transform duration-300 ${rotateIcon ? "rotate-12 scale-95" : ""
-                }`}
-            >
-              <span className="text-xl flex items-center justify-center">
-                {getPlatformIcon(active)}
-              </span>
+              {/* Search Bar */}
+              <div
+                style={{
+                  boxShadow: isFocused
+                    ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
+                    : "0 20px 50px rgba(0,0,0,0.12)"
+                }}
+                className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
+              >
+                {/* Left Platform Icon Container */}
+                <div
+                  className={`flex-shrink-0 w-[44px] h-[44px] rounded-full bg-white border-2 border-dashed border-[#ff008e] flex items-center justify-center ml-1 transition-transform duration-300 ${rotateIcon ? "rotate-12 scale-95" : ""
+                    }`}
+                >
+                  <span className="text-xl flex items-center justify-center">
+                    {getPlatformIcon(active)}
+                  </span>
+                </div>
+
+                {/* Input Field */}
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  placeholder={getPlaceholderText(active)}
+                  className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-[#777777] min-w-0"
+                />
+
+                {/* Search Button */}
+                <button
+                  onClick={Getuser}
+                  disabled={isSearching}
+                  style={{
+                    background: "linear-gradient(90deg, #ff008e, #8b2cff)"
+                  }}
+                  className="flex-shrink-0 flex items-center justify-center w-[120px] sm:w-[140px] h-[46px] rounded-full text-white text-[15px] font-semibold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
+                >
+                  {isSearching ? (
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : (
+                    "Search"
+                  )}
+                </button>
+              </div>
             </div>
 
-            {/* Input Field */}
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder={getPlaceholderText(active)}
-              className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[16px] font-medium text-gray-800 placeholder-[#777777] min-w-0"
-            />
 
-            {/* Search Button */}
-            <button
-              onClick={Getuser}
-              disabled={isSearching}
-              style={{
-                background: "linear-gradient(90deg, #ff008e, #8b2cff)"
-              }}
-              className="flex-shrink-0 flex items-center justify-center w-[140px] h-[46px] rounded-full text-white text-[16px] font-semibold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
-            >
-              {isSearching ? (
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              ) : (
-                "Search"
-              )}
-            </button>
           </div>
+
+          {/* Right Column illustration placeholder (Empty space because background image holds smartphone visuals) */}
+          <div className="lg:col-span-5 hidden lg:block" />
+
         </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
-              <h2 className="text-2xl font-bold">50K+</h2>
-              <p className="text-gray-300 text-sm mt-1">Happy Creators</p>
+        {/* Stats Row */}
+        <div className="w-full mt-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-white/5 backdrop-blur rounded-[2rem] p-6 border border-white/10">
+            {/* Stat 1 */}
+            <div className="flex items-center gap-4 px-4 py-2 border-r border-white/10 last:border-0 justify-center lg:justify-start">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl shadow-md">
+                🛒
+              </div>
+              <div className="text-left">
+                <h3 className="text-2xl font-black text-white leading-none">100K+</h3>
+                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Orders Completed</p>
+              </div>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
-              <h2 className="text-2xl font-bold">10M+</h2>
-              <p className="text-gray-300 text-sm mt-1">Likes Delivered</p>
+            {/* Stat 2 */}
+            <div className="flex items-center gap-4 px-4 py-2 border-r border-white/10 last:border-0 justify-center lg:justify-start">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md">
+                👤
+              </div>
+              <div className="text-left">
+                <h3 className="text-2xl font-black text-white leading-none">50K+</h3>
+                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Happy Customers</p>
+              </div>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:scale-105 transition">
-              <h2 className="text-2xl font-bold">24/7</h2>
-              <p className="text-gray-300 text-sm mt-1">Live Support</p>
+            {/* Stat 3 */}
+            <div className="flex items-center gap-4 px-4 py-2 border-r border-white/10 last:border-0 justify-center lg:justify-start">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl shadow-md">
+                📈
+              </div>
+              <div className="text-left">
+                <h3 className="text-2xl font-black text-white leading-none">99.9%</h3>
+                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Success Rate</p>
+              </div>
+            </div>
+
+            {/* Stat 4 */}
+            <div className="flex items-center gap-4 px-4 py-2 last:border-0 justify-center lg:justify-start">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white text-xl shadow-md">
+                🎧
+              </div>
+              <div className="text-left">
+                <h3 className="text-2xl font-black text-white leading-none">24/7</h3>
+                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Customer Support</p>
+              </div>
             </div>
           </div>
+        </div>
       </div>
 
       {/* Premium Wave Transition Layer */}

@@ -21,6 +21,7 @@ import Track from './pages/Track';
 import FreeTrial from './pages/FreeTrial';
 import FreeService from './pages/FreeService';
 import DirectOrderService from './pages/DirectOrderService';
+import BuyTikTokLikes from './pages/BuyTikTokLikes';
 
 export default function AppRoutes() {
   return (
@@ -34,6 +35,7 @@ export default function AppRoutes() {
       <Route path="/password" element={<ChangePassword />} />
       <Route path="/account" element={<Account />} />
       <Route path="/tiktok" element={<TikTok />} />
+      <Route path="/tiktok/buy-likes" element={<BuyTikTokLikes />} />
       <Route path="/instagram" element={<Instagram />} />
       <Route path="/facebook" element={<Facebook />} />
       <Route path="/youtube" element={<YouTube />} />

@@ -5,14 +5,14 @@ import Footer from './components/Footer';
 
 function AppLayout() {
   const location = useLocation();
-  const hasHero = ['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/free-trial', '/free-service', '/login', '/register'].includes(location.pathname);
+  const hasHero = ['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/free-trial', '/free-service', '/login', '/register', '/tiktok/buy-likes'].includes(location.pathname);
 
   const getDynamicBg = () => {
     const path = location.pathname;
     const state = location.state || {};
     const platform = (state.platform || '').toLowerCase().trim();
 
-    if (['/', '/tiktok', '/instagram', '/youtube', '/facebook'].includes(path)) {
+    if (['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/tiktok/buy-likes'].includes(path)) {
       return '';
     }
 
