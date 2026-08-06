@@ -20,6 +20,10 @@ import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import Tiky from "../assets/images/tiktopimage1.png";
 
+import Username from "../assets/images/username.png";
+import Package from "../assets/images/package.png";
+import Likes from "../assets/images/likes.png";
+
 export default function BuyTikTokLikes() {
   useScrollToTop();
   const navigate = useNavigate();
@@ -403,53 +407,185 @@ export default function BuyTikTokLikes() {
       </section>
 
       {/* ── HOW IT WORKS SECTION ── */}
-      <section className="py-24 px-6 bg-white text-gray-900 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
-            How to Buy TikTok Likes from TikyTop?
-          </h2>
-          <p className="mt-4 text-gray-500 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            You can easily buy real TikTok likes with a fast and secure ordering process. Just place your order, complete the payment, and receive high-quality TikTok likes instantly.
-          </p>
+      <section className="py-24 px-6 bg-gradient-to-b from-white via-slate-50 to-white">
+        <div className="max-w-7xl mx-auto">
 
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
-            {/* Step 1 */}
-            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 text-left shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
-              <span className="absolute top-4 right-6 text-7xl font-black text-slate-200/50 group-hover:text-cyan-200/40 transition-colors">01</span>
-              <div className="w-12 h-12 rounded-2xl bg-cyan-100 flex items-center justify-center text-cyan-600 mb-6 font-bold">
-                <Users className="w-6 h-6" />
+          {/* Heading */}
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="inline-flex items-center rounded-full border border-pink-200 bg-pink-50 px-4 py-1 text-sm font-semibold text-pink-600">
+              Simple 3-Step Process
+            </span>
+
+            <h2 className="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              How to Buy TikTok Likes
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-slate-500">
+              Order genuine TikTok likes in just a few clicks. Fast delivery,
+              secure payment, and real engagement.
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="mt-20 grid gap-10 lg:grid-cols-3">
+
+            {/* ================= CARD 1 ================= */}
+            <div className="group relative overflow-hidden rounded-[32px] border border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(6,182,212,0.18)]">
+
+              {/* Number */}
+              <div className="absolute right-6 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500 text-lg font-bold text-white shadow-xl">
+                01
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">1. Enter your Username</h3>
-              <p className="text-[14px] text-gray-600 leading-relaxed">
-                Type or paste your TikTok username. Be sure that you enter your Public TikTok account.
-              </p>
+
+              {/* Image */}
+              <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-cyan-100">
+
+                {/* Background Glow */}
+                <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-cyan-400/30 blur-[120px] transition duration-700 group-hover:scale-125" />
+
+                <div className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-blue-400/20 blur-[120px] transition duration-700 group-hover:scale-125" />
+
+                {/* Mesh Gradient */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(6,182,212,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.18),transparent_60%)]" />
+
+                <img
+                  src={Username}
+                  alt="Username"
+                  className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:-rotate-2"
+                />
+
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
+
+                {/* Glass Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5" />
+
+                {/* Shine */}
+                <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
+                  <div className="absolute -left-40 top-0 h-full w-24 rotate-12 bg-white/40 blur-xl transition-all duration-1000 group-hover:left-[130%]" />
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="relative bg-gradient-to-b from-white to-slate-50 p-8">
+
+                <span className="inline-flex rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-600">
+                  Step 01
+                </span>
+
+                <h3 className="mt-5 text-2xl font-bold text-slate-900">
+                  Enter your Username
+                </h3>
+
+                <p className="mt-4 leading-7 text-slate-600">
+                  Type or paste your TikTok username and ensure your account is public
+                  before placing the order.
+                </p>
+
+              </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 text-left shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
-              <span className="absolute top-4 right-6 text-7xl font-black text-slate-200/50 group-hover:text-pink-200/40 transition-colors">02</span>
-              <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-600 mb-6 font-bold">
-                <TrendingUp className="w-6 h-6" />
+            {/* ================= CARD 2 ================= */}
+            <div className="group relative overflow-hidden rounded-[32px] border border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(236,72,153,0.18)]">
+
+              <div className="absolute right-6 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-pink-500 text-lg font-bold text-white shadow-xl">
+                02
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">2.Select the Package</h3>
-              <p className="text-[14px] text-gray-600 leading-relaxed">
-                Choose your desired TikTok service and click the post. Choose how many likes you need for the post.               </p>
+
+              <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-pink-50 via-white to-pink-100">
+
+                <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-pink-400/30 blur-[120px]" />
+
+                <div className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-rose-400/20 blur-[120px]" />
+
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(244,63,94,0.18),transparent_60%)]" />
+
+                <img
+                  src={Package}
+                  alt=""
+                  className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
+
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5" />
+
+                <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
+                  <div className="absolute -left-40 top-0 h-full w-24 rotate-12 bg-white/40 blur-xl transition-all duration-1000 group-hover:left-[130%]" />
+                </div>
+
+              </div>
+
+              <div className="bg-gradient-to-b from-white to-slate-50 p-8">
+
+                <span className="inline-flex rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-pink-600">
+                  Step 02
+                </span>
+
+                <h3 className="mt-5 text-2xl font-bold text-slate-900">
+                  Select the Package
+                </h3>
+
+                <p className="mt-4 leading-7 text-slate-600">
+                  Choose the TikTok likes package that matches your growth goals and
+                  select the quantity you need.
+                </p>
+
+              </div>
             </div>
 
-            {/* Step 3 */}
-            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 text-left shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
-              <span className="absolute top-4 right-6 text-7xl font-black text-slate-200/50 group-hover:text-purple-200/40 transition-colors">03</span>
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-purple-600 mb-6 font-bold">
-                <Zap className="w-6 h-6" />
+            {/* ================= CARD 3 ================= */}
+            <div className="group relative overflow-hidden rounded-[32px] border border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(139,92,246,0.18)]">
+
+              <div className="absolute right-6 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-violet-500 text-lg font-bold text-white shadow-xl">
+                03
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">3.Get Instant TikTok Likes</h3>
-              <p className="text-[14px] text-gray-600 leading-relaxed">
-                Once you select the number of likes, double-check and complete the payment to get TikTok likes instantly.              </p>
+
+              <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-violet-50 via-white to-violet-100">
+
+                <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-violet-400/30 blur-[120px]" />
+
+                <div className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-indigo-400/20 blur-[120px]" />
+
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.18),transparent_60%)]" />
+
+                <img
+                  src={Likes}
+                  alt=""
+                  className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:-rotate-2"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
+
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5" />
+
+                <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
+                  <div className="absolute -left-40 top-0 h-full w-24 rotate-12 bg-white/40 blur-xl transition-all duration-1000 group-hover:left-[130%]" />
+                </div>
+
+              </div>
+
+              <div className="bg-gradient-to-b from-white to-slate-50 p-8">
+
+                <span className="inline-flex rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-violet-600">
+                  Step 03
+                </span>
+
+                <h3 className="mt-5 text-2xl font-bold text-slate-900">
+                  Get Instant Likes
+                </h3>
+
+                <p className="mt-4 leading-7 text-slate-600">
+                  Complete your payment securely and receive real TikTok likes with
+                  fast delivery and reliable support.
+                </p>
+
+              </div>
             </div>
+
           </div>
         </div>
       </section>
-
       {/* ── MIDDLE CTA SECTION ── */}
       <section className="pt-12 pb-6 px-6 bg-slate-50 border-b border-slate-100 relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
