@@ -21,7 +21,7 @@ import useScrollToTop from "../hooks/useScrollToTop";
 import Tiky from "../assets/images/tiktopimage1.png";
 
 import Username from "../assets/images/username.png";
-import Package from "../assets/images/package.png";
+import Post from "../assets/images/post.png";
 import Likes from "../assets/images/likes.png";
 
 export default function BuyTikTokLikes() {
@@ -497,7 +497,7 @@ export default function BuyTikTokLikes() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(244,63,94,0.18),transparent_60%)]" />
 
                 <img
-                  src={Package}
+                  src={Post}
                   alt=""
                   className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
                 />
