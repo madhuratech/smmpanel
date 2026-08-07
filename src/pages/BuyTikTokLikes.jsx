@@ -216,7 +216,7 @@ export default function BuyTikTokLikes() {
   return (
     <div className=" text-white font-sans antialiased overflow-x-hidden">
       {/* ── REDESIGNED HERO SECTION ── */}
-      <section id="hero" className="relative w-full min-h-screen bg-[#1a0b2e] flex flex-col items-center justify-center pt-28 pb-20 px-6 overflow-hidden">
+      <section id="hero" className="relative w-full min-h-screen bg-[#1a0b2e] flex flex-col items-center justify-center pt-28 pb-20 px-5 md:px-6 overflow-hidden">
         {/* Immersive background wrapper */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div
@@ -235,14 +235,13 @@ export default function BuyTikTokLikes() {
         <div className="absolute top-1/4 -left-48 w-96 h-96 bg-cyan-500/10 rounded-full blur-[110px] animate-pulse pointer-events-none" />
         <div className="absolute top-1/3 -right-48 w-96 h-96 bg-pink-500/10 rounded-full blur-[110px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
 
-
-        <div className="max-w-7xl mx-auto w-full relative z-30 grid lg:grid-cols-12 gap-12 items-center">
+        <div className="max-w-7xl mx-auto w-full relative z-30 flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center text-center lg:text-left">
 
           {/* Left Column: Redesigned Copy & Input (Grid 7/12) */}
-          <div className="lg:col-span-7 space-y-8 text-left">
+          <div className="lg:col-span-7 space-y-6 lg:space-y-8 flex flex-col items-center lg:items-start w-full">
 
             {/* Trust Badge & Premium Growth Pills */}
-            <div className="flex flex-wrap items-center gap-3 mt-6">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-4 lg:mt-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 text-xs bg-white/10 rounded-full backdrop-blur border border-white/10 text-yellow-400 font-semibold">
                 <FaStar className="fill-current" />
                 <span>⭐ Rated 4.9 by 50,000+ TikTok Creators</span>
@@ -254,34 +253,34 @@ export default function BuyTikTokLikes() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight font-righteous">
+            <h1 className="text-[34px] sm:text-5xl lg:text-6xl font-bold leading-tight font-righteous tracking-tight">
               Buy TikTok Likes <br />
-              <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-rose-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-rose-500 bg-clip-text text-transparent block sm:inline">
                 with Instant Delivery
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-[340px] sm:max-w-xl mx-auto lg:mx-0">
               TikyTop helps you buy TikTok likes instantly and gain more real engagement. Our reliable
               growth service will make you stand out with ease
             </p>
 
             {/* Feature Row Badge Badges */}
-            <div className="flex flex-wrap gap-4 pt-2">
-              <span className="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+            <div className="grid grid-cols-2 gap-3 w-full max-w-[340px] sm:max-w-xl pt-2">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 ❤️ Premium TikTok Likes
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 📈 Real Engagement Rate
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
                 👥 Active TikTok Users
               </span>
             </div>
 
             {/* Search Bar / Input flow */}
-            <div id="tiktok-search-box" className="pt-2 max-w-xl">
+            <div id="tiktok-search-box" className="pt-2 w-full max-w-xl">
               <div
                 style={{
                   boxShadow: isFocused
@@ -313,7 +312,7 @@ export default function BuyTikTokLikes() {
                   style={{
                     background: "linear-gradient(90deg, #ff008e, #8b2cff)"
                   }}
-                  className="flex-shrink-0 flex items-center justify-center w-[140px] sm:w-[160px] h-[46px] rounded-full text-white text-[14px] sm:text-[15px] font-bold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
+                  className="flex-shrink-0 flex items-center justify-center w-[120px] sm:w-[160px] h-[48px] rounded-full text-white text-[13px] sm:text-[15px] font-bold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
                 >
                   {isSearching ? (
                     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -329,15 +328,15 @@ export default function BuyTikTokLikes() {
           </div>
 
           {/* Right Column: Premium TikTok Smartphone Illustration Visual (Grid 5/12) */}
-          <div className="lg:col-span-5 relative flex justify-center items-center">
+          <div className="lg:col-span-5 relative flex justify-center items-center w-full max-w-[320px] lg:max-w-none mx-auto mt-6 lg:mt-0">
             {/* Visual Glassmorphic Card Frame with pink/purple glowing effects */}
-            <div className="w-[50%] aspect-square max-w-[420px] relative">
+            <div className="w-[80%] lg:w-[50%] aspect-square relative">
 
               {/* Internal Floating Decorative items */}
-              <div className="absolute -top-6 -right-6 w-14 h-14 bg-gradient-to-tr from-cyan-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-pink-500/30 animate-bounce">
+              <div className="absolute -top-6 -right-6 w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-tr from-cyan-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30 animate-bounce">
                 <FaTiktok />
               </div>
-              <div className="absolute -bottom-8 -left-6 w-16 h-16 bg-pink-500/20 backdrop-blur rounded-full border border-pink-500/40 flex items-center justify-center text-white text-2xl shadow-lg shadow-pink-500/30">
+              <div className="absolute -bottom-8 -left-6 w-14 h-14 lg:w-16 lg:h-16 bg-pink-500/20 backdrop-blur rounded-full border border-pink-500/40 flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30">
                 ❤️
               </div>
             </div>
@@ -412,9 +411,6 @@ export default function BuyTikTokLikes() {
 
           {/* Heading */}
           <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-flex items-center rounded-full border border-pink-200 bg-pink-50 px-4 py-1 text-sm font-semibold text-pink-600">
-              Simple 3-Step Process
-            </span>
 
             <h2 className="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               How to Buy TikTok Likes
@@ -587,20 +583,42 @@ export default function BuyTikTokLikes() {
         </div>
       </section>
       {/* ── MIDDLE CTA SECTION ── */}
-      <section className="pt-12 pb-6 px-6 bg-slate-50 border-b border-slate-100 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
-            Try our Service Now!
-          </h2>
-          <p className="text-gray-600 max-w-xl mx-auto mb-6 text-sm sm:text-base leading-relaxed">
-            Need to stand out from the crowd? Then buy TikTok likes now and enhance your profile.
-          </p>
-          <button
-            onClick={handleCTAClick}
-            className="inline-flex items-center justify-center px-8 py-3.5 rounded-full text-white font-bold text-sm sm:text-base bg-gradient-to-r from-[#ff008e] to-[#8b2cff] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.3)] transition-all duration-300 select-none cursor-pointer"
+      <section className="py-16 md:py-24 px-4 bg-slate-50 relative overflow-hidden flex justify-center items-center">
+        {/* Decorative background glow circles */}
+        <div className="absolute top-1/2 left-[10%] -translate-y-1/2 w-[350px] md:w-[500px] h-[350px] md:h-[500px] bg-[#ebfaff] rounded-full blur-[100px] opacity-[0.4] pointer-events-none" />
+        <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[350px] md:w-[500px] h-[350px] md:h-[500px] bg-[#fff6fa] rounded-full blur-[100px] opacity-[0.4] pointer-events-none" />
+
+        <div className="max-w-4xl w-[92%] md:w-full mx-auto relative z-10 flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            style={{
+              background: 'linear-gradient(135deg, rgba(235, 250, 255, 0.95), rgba(255, 246, 250, 0.95))',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 30px 80px rgba(0,0,0,.12), 0 10px 30px rgba(255,0,140,.08)'
+            }}
+            className="w-full rounded-[24px] md:rounded-[36px] p-8 md:py-16 md:px-12 text-center flex flex-col items-center justify-center overflow-hidden border border-white/60 relative"
           >
-            Buy Likes
-          </button>
+            {/* Title */}
+            <h2 className="text-[26px] sm:text-3xl md:text-[38px] font-extrabold text-[#111827] leading-[1.2] text-center tracking-tight mb-5">
+              Try our Service Now!
+            </h2>
+
+            {/* Description */}
+            <p className="text-[14px] md:text-[16px] font-normal text-[#4B5563] leading-[1.6] max-w-[620px] text-center mb-7">
+              Need to stand out from the crowd? Then buy TikTok likes now and enhance your profile.
+            </p>
+
+            {/* Premium Button */}
+            <button
+              onClick={handleCTAClick}
+              className="inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-sm sm:text-[15px] bg-[#ff1788] hover:bg-[#ff2e9c] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,23,136,0.3)] transition-all duration-300 select-none cursor-pointer"
+            >
+              Buy Likes
+            </button>
+          </motion.div>
         </div>
       </section>
 
@@ -611,7 +629,7 @@ export default function BuyTikTokLikes() {
             Benefits of Buying TikTok Likes
           </h2>
           <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Want to grow faster on TikTok? Then here is the simple solution TikTok likes buy service from TikyTop helps boost audience engagement and improve the chance of going viral.
+            Want to grow faster on TikTok? Then here is the simple solution: TikTok likes buy service from TikyTop helps boost audience engagement and improve the chance of going viral.
           </p>
 
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

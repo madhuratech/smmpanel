@@ -156,75 +156,134 @@ const Navbar = () => {
       ? activeDropdown === pathOrName
       : isActive(pathOrName);
 
-    const baseClass = "whitespace-nowrap flex items-center gap-1.5 px-3.5 py-2 text-[14px] font-semibold transition-all duration-300 ease-in-out cursor-pointer select-none";
-    if (isCurrentActive) {
-      return `${baseClass} bg-white border-2 border-[#ff1681] text-[#ff1681] rounded-full`;
-    }
-    return `${baseClass} bg-transparent border-2 border-transparent text-[#1d3557] hover:text-[#ff1681]`;
+    const baseClass = "whitespace-nowrap inline-flex items-center   py-2 font-semibold transition-all duration-300 ease-in-out cursor-pointer select-none text-[#223A5E] hover:text-[#ff1681] text-[14px] xl:text-[14px]";
+    return `${baseClass} bg-transparent border-2 border-transparent`;
   };
 
   return (
-    <nav className="z-50 py-4 font-sans absolute top-0 left-0 right-0 bg-transparent">
-      {/* Floating White Navbar container */}
-      <motion.div
-        ref={navContainerRef}
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="mx-auto w-[92%] h-[82px] bg-white rounded-full px-6 lg:px-8 flex justify-between items-center shadow-[0_15px_40px_rgba(0,0,0,0.01)] relative border border-gray-100"
-      >
-        {/* Left: Logo */}
-        <Link
-          to="/"
-          className="flex items-center flex-shrink-0 z-10"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    <nav className="z-50 font-sans absolute top-0 left-0 right-0 bg-transparent w-full">
+      <div className="max-w-[1600px] mx-auto px-6 w-full">
+        {/* Floating White Navbar container */}
+        <motion.div
+          ref={navContainerRef}
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="w-full h-[68px] md:h-[76px] lg:h-[82px] bg-white rounded-[42px] px-8 flex justify-between items-center shadow-[0_15px_40px_rgba(0,0,0,0.01)] relative border border-gray-100 mt-4 overflow-visible"
         >
-          <img
-            src={TikyTop}
-            alt="TikyTop"
-            className="h-12 w-auto object-contain"
-          />
-        </Link>
+          {/* Left: Logo (18% width) */}
+          <div className="flex items-center flex-shrink-0">
+            <Link
+              to="/"
+              className="flex items-center"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <img
+                src={TikyTop}
+                alt="TikyTop"
+                className="w-[160px] h-auto object-contain"
+              />
+            </Link>
+          </div>
 
-        {/* Center: Navigation Menu */}
-        <div className="hidden lg:flex justify-end ml-[80px]">
+          {/* Center: Navigation Menu (52% width, max-width 720px, margin: auto) */}
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-10">
 
-          {/* Platforms: TikTok, Instagram, YouTube */}
-          {platforms.map((plat) => (
+            {/* Platforms: TikTok, Instagram, YouTube */}
+            {platforms.map((plat) => (
+              <div
+                key={plat.name}
+                className="relative"
+                onMouseEnter={() => handleMouseEnter(plat.name)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link
+                  to={plat.path}
+                  className={getMenuClass(plat.path)}
+                >
+                  <span>{plat.name}</span>
+                  <ChevronDown className="w-4 h-4 ml-1.5 mt-0.5" />
+                </Link>
+
+                <AnimatePresence>
+                  {activeDropdown === plat.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.25 }}
+                      style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
+                      onMouseEnter={() => handleMouseEnter(plat.name)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
+                        {plat.services.map((service, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleServiceClick(service.path || plat.path)}
+                            className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d95]"></span>
+                            {service.name}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+
+            {/* Explore Services Megamenu Trigger */}
             <div
-              key={plat.name}
               className="relative"
-              onMouseEnter={() => handleMouseEnter(plat.name)}
+              onMouseEnter={() => handleMouseEnter('explore-services')}
               onMouseLeave={handleMouseLeave}
             >
-              <Link
-                to={plat.path}
-                className={getMenuClass(plat.path)}
+              <button
+                onClick={() => toggleDropdown('explore-services')}
+                className={getMenuClass('explore-services', true)}
               >
-                <span>{plat.name}</span>
-                <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
-              </Link>
+                <span>Explore More Services</span>
+                <ChevronDown className="w-4 h-4 ml-1.5 mt-0.5" />
 
+                {/* NEW Badge */}
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#2d32ff] text-white text-[10px] font-bold h-[20px] px-2 flex items-center justify-center rounded-full shadow-[0_4px_12px_rgba(45,50,255,0.25)] uppercase tracking-wider">
+                  NEW
+                </span>
+              </button>
+
+              {/* Megamenu Dropdown */}
               <AnimatePresence>
-                {activeDropdown === plat.name && (
+                {activeDropdown === 'explore-services' && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.25 }}
-                    style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
-                    onMouseEnter={() => handleMouseEnter(plat.name)}
+                    style={{ position: 'absolute', top: '100%', left: '50%', x: '-50%', zIndex: 9999, paddingTop: '12px' }}
+                    onMouseEnter={() => handleMouseEnter('explore-services')}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
-                      {plat.services.map((service, idx) => (
+                    <div className="w-[660px] bg-white rounded-[24px] shadow-2xl p-6 border border-gray-150 grid grid-cols-3 gap-3">
+                      <div className="col-span-3 flex justify-between items-center mb-1">
+                        <h4 className="text-[12px] font-bold text-[#1d3557] uppercase tracking-wider font-sans">
+                          Additional Platforms
+                        </h4>
+                        <span className="text-[11px] text-gray-500 font-sans">Select any platform below</span>
+                      </div>
+
+                      {extraPlatforms.map((plat) => (
                         <button
-                          key={idx}
-                          onClick={() => handleServiceClick(service.path || plat.path)}
-                          className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
+                          key={plat.name}
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            navigate(plat.path, { state: plat.state });
+                          }}
+                          className="flex items-center gap-3 px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-sm font-semibold text-gray-800 text-left transition duration-200 hover:bg-pink-50 hover:border-pink-200/50 hover:text-[#ff1681]"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d95]"></span>
-                          {service.name}
+                          <span className="text-[18px] flex-shrink-0 flex items-center">{plat.icon}</span>
+                          <span className="truncate">{plat.name}</span>
                         </button>
                       ))}
                     </div>
@@ -232,155 +291,24 @@ const Navbar = () => {
                 )}
               </AnimatePresence>
             </div>
-          ))}
 
-          {/* Explore Services Megamenu Trigger */}
-          <div
-            className="relative"
-            onMouseEnter={() => handleMouseEnter('explore-services')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <button
-              onClick={() => toggleDropdown('explore-services')}
-              className={getMenuClass('explore-services', true)}
-            >
-              <span>Explore More Services</span>
-              <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
-
-              {/* NEW Badge */}
-              <span className="absolute -top-2.5 -right-2 bg-[#2d32ff] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-[0_4px_12px_rgba(45,50,255,0.25)] uppercase tracking-wider scale-[0.85]">
-                NEW
-              </span>
-            </button>
-
-            {/* Megamenu Dropdown */}
-            <AnimatePresence>
-              {activeDropdown === 'explore-services' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
-                  onMouseEnter={() => handleMouseEnter('explore-services')}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="w-[660px] bg-white rounded-[24px] shadow-2xl p-6 border border-gray-150 grid grid-cols-3 gap-3">
-                    <div className="col-span-3 flex justify-between items-center mb-1">
-                      <h4 className="text-[12px] font-bold text-[#1d3557] uppercase tracking-wider font-sans">
-                        Additional Platforms
-                      </h4>
-                      <span className="text-[11px] text-gray-500 font-sans">Select any platform below</span>
-                    </div>
-
-                    {extraPlatforms.map((plat) => (
-                      <button
-                        key={plat.name}
-                        onClick={() => {
-                          setActiveDropdown(null);
-                          navigate(plat.path, { state: plat.state });
-                        }}
-                        className="flex items-center gap-3 px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-sm font-semibold text-gray-800 text-left transition duration-200 hover:bg-pink-50 hover:border-pink-200/50 hover:text-[#ff1681]"
-                      >
-                        <span className="text-[18px] flex-shrink-0 flex items-center">{plat.icon}</span>
-                        <span className="truncate">{plat.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Free Trials */}
-          <div
-            className="relative"
-            onMouseEnter={() => handleMouseEnter('free-trials')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <Link
-              to="/free-trial"
-              className={getMenuClass('/free-trial')}
-            >
-              <span>Free Trials</span>
-              <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
-            </Link>
-
-            <AnimatePresence>
-              {activeDropdown === 'free-trials' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
-                  onMouseEnter={() => handleMouseEnter('free-trials')}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
-                    {freeTrials.map((item, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleServiceClick(item.path)}
-                        className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                        {item.name}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Our Company */}
-          <div
-            className="relative"
-            onMouseEnter={() => handleMouseEnter('company')}
-            onMouseLeave={handleMouseLeave}
-          >
+            {/* Free Trials */}
             <div
-              className={getMenuClass('company', true)}
-              onClick={() => toggleDropdown('company')}
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('free-trials')}
+              onMouseLeave={handleMouseLeave}
             >
-              <span>Our Company</span>
-              <ChevronDown className="w-3.5 h-3.5 mt-0.5" />
+              <Link
+                to="/free-trial"
+                className={getMenuClass('/free-trial')}
+              >
+                <span>Free Trials</span>
+              </Link>
             </div>
-
-            <AnimatePresence>
-              {activeDropdown === 'company' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.25 }}
-                  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 9999, paddingTop: '12px' }}
-                  onMouseEnter={() => handleMouseEnter('company')}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
-                    {companyLinks.map((item, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleServiceClick(item.path)}
-                        className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                        {item.name}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
 
-        </div>
-
-        {/* Right: User Login/Register Buttons */}
-        <div className="hidden lg:flex items-center gap-3 z-10">
-          {user ? (
+          {/* Right: User Login/Register Buttons (30% width) */}
+          <div className="hidden lg:flex items-center gap-3 flex-shrink-0">            {user ? (
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
@@ -429,30 +357,31 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Link to="/login">
-                <button className="h-[30px] w-[80px] rounded-[12px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-xs hover:border-[#ff1681] hover:text-[#ff1681] transition-all duration-300">
+                <button className="h-[38px] px-[24px] rounded-[24px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[16px] hover:border-[#ff1681] hover:text-[#ff1681] transition-all duration-300">
                   Login
                 </button>
               </Link>
               <Link to="/register">
-                <button className="h-[30px] w-[80px] rounded-[12px] bg-[#ff1681] text-white font-semibold text-xs hover:from-[#ff1681] hover:to-[#ff1681] hover:scale-[1.03] transition-all duration-300 shadow-md">
+                <button className="h-[38px] px-[24px] rounded-[24px] bg-[#ff1681] text-white font-semibold text-[16px] hover:scale-[1.03] transition-all duration-300 shadow-md">
                   Register
                 </button>
               </Link>
             </div>
           )}
-        </div>
+          </div>
 
-        {/* Mobile Hamburger menu */}
-        <button
-          className="lg:hidden p-2 rounded-full hover:bg-gray-50 transition-colors z-10"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="w-5.5 h-5.5 text-[#1d3557]" /> : <MenuIcon className="w-5.5 h-5.5 text-[#1d3557]" />}
-        </button>
+          {/* Mobile Hamburger menu */}
+          <button
+            className="lg:hidden p-2 rounded-full hover:bg-gray-50 transition-colors z-10 flex-shrink-0"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X className="w-5.5 h-5.5 text-[#1d3557]" /> : <MenuIcon className="w-5.5 h-5.5 text-[#1d3557]" />}
+          </button>
 
-      </motion.div>
+        </motion.div>
+      </div>
 
       {/* Mobile Drawer menu */}
       <AnimatePresence>
@@ -462,7 +391,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden mx-auto w-[90%] bg-white rounded-3xl mt-3 p-6 shadow-xl border border-gray-100 overflow-hidden relative z-50 pointer-events-auto"
+            className="absolute left-0 right-0 top-full mt-3 mx-auto w-[92%] bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 overflow-hidden z-50"
           >
             <div className="space-y-4">
 
@@ -485,7 +414,7 @@ const Navbar = () => {
                           handleServiceClick(s.path || plat.path);
                           setIsOpen(false);
                         }}
-                        className="block text-sm text-gray-600 py-1 hover:text-[#ff1681]"
+                        className="block text-sm text-gray-600 py-2 hover:text-[#ff1681]"
                       >
                         {s.name}
                       </button>
@@ -505,7 +434,7 @@ const Navbar = () => {
                         handleServiceClick(s.path);
                         setIsOpen(false);
                       }}
-                      className="block text-sm text-gray-600 py-1 hover:text-[#ff1681]"
+                      className="block text-sm text-gray-600 py-2 hover:text-[#ff1681]"
                     >
                       {s.name}
                     </button>
@@ -532,12 +461,12 @@ const Navbar = () => {
               ) : (
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <button className="w-full h-[40px] rounded-[14px] border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-xs">
+                    <button className="w-full h-[52px] rounded-full border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[15px]">
                       Login
                     </button>
                   </Link>
                   <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <button className="w-full h-[40px] rounded-[14px] bg-gradient-to-r from-[#ff9f1c] to-[#ff6b00] text-white font-semibold text-xs">
+                    <button className="w-full h-[52px] rounded-full bg-[#ff1681] text-white font-semibold text-[15px]">
                       Register
                     </button>
                   </Link>

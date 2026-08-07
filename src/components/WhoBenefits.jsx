@@ -72,7 +72,7 @@ const item = {
 
 export default function WhoBenefit() {
   return (
-    <section className="relative bg-[#050508] text-white py-20 px-6 overflow-hidden">
+    <section className="relative bg-[#050508] text-white section-spacing overflow-hidden">
       
       {/* 🌸 Glow Background */}
       <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] bg-pink-500/20 rounded-full blur-[140px] animate-pulse"></div>
@@ -96,7 +96,7 @@ export default function WhoBenefit() {
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className="relative z-10 global-container">
 
         {/* Heading */}
         <motion.h2
@@ -104,7 +104,7 @@ export default function WhoBenefit() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-bold text-center mb-4"
+          className="section-heading text-center mb-4"
         >
           Who Can Benefit the Most?
         </motion.h2>
@@ -114,7 +114,7 @@ export default function WhoBenefit() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
-          className="text-gray-400 text-center max-w-2xl mx-auto mb-16"
+          className="global-paragraph text-gray-400 text-center max-w-2xl mx-auto mb-16"
         >
           TikyTop helps you boost reach, engagement, and visibility — no matter your niche.
         </motion.p>
@@ -134,9 +134,9 @@ export default function WhoBenefit() {
               <motion.div
                 key={index}
                 variants={item}
-                whileHover={{ y: -8, scale: 1.03 }}
+                whileHover={{ y: -6 }}
                 className="group relative overflow-hidden 
-                bg-[#0B0B0F] border border-white/5 rounded-2xl p-6 
+                bg-[#0B0B0F] border border-white/5 global-card
                 transition duration-300 hover:border-pink-500/40 
                 hover:shadow-[0_0_40px_rgba(236,72,153,0.25)]"
               >

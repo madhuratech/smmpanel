@@ -52,125 +52,122 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-pink-50 to-white py-24 px-6 md:px-12">
-  <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+    <section className="bg-gradient-to-b from-pink-50 to-white section-spacing">
+      <div className="global-container grid lg:grid-cols-2 gap-16 items-start">
 
-    {/* LEFT */}
-    <div className="space-y-8">
-      {/* Heading */}
-      <div className="space-y-6">
-     
-
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-          Frequently asked <br /> question
-        </h2>
-
-      </div>
-
-      {/* LEFT FAQs (2 items) */}
-      <div className="space-y-5">
-        {faqs.slice(0, 3).map((faq, index) => {
-          const isOpen = openIndex === index;
-
-          return (
-            <div
-              key={index}
-              className={`bg-white rounded-2xl border transition-all duration-300 ${
-                isOpen
-                  ? "shadow-lg border-pink-200"
-                  : "shadow-sm border-gray-100"
-              }`}
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full flex justify-between items-center px-6 py-5 text-left"
-              >
-                <span className="text-lg font-semibold text-gray-800">
-                  {faq.question}
-                </span>
-
-                <motion.div
-                  animate={{ rotate: isOpen ? 45 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-pink-500"
-                >
-                  <Plus size={20} />
-                </motion.div>
-              </button>
-
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-6 pb-5 text-gray-600">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-
-    {/* RIGHT FAQs (6 items) */}
-    <div className="space-y-5">
-      {faqs.slice(3, 8).map((faq, index) => {
-        const actualIndex = index + 3;
-
-        const isOpen = openIndex === actualIndex;
-
-        return (
-          <div
-            key={actualIndex}
-            className={`bg-white rounded-2xl border transition-all duration-300 ${
-              isOpen
-                ? "shadow-lg border-pink-200"
-                : "shadow-sm border-gray-100"
-            }`}
-          >
-            <button
-              onClick={() => toggleFAQ(actualIndex)}
-              className="w-full flex justify-between items-center px-6 py-5 text-left"
-            >
-              <span className="text-lg font-semibold text-gray-800">
-                {faq.question}
-              </span>
-
-              <motion.div
-                animate={{ rotate: isOpen ? 45 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-pink-500"
-              >
-                <Plus size={20} />
-              </motion.div>
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-6 pb-5 text-gray-600">
-                    {faq.answer}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+        {/* LEFT */}
+        <div className="space-y-8">
+          {/* Heading */}
+          <div className="space-y-6">
+            <h2 className="section-heading text-gray-900 leading-tight">
+              Frequently asked <br /> question
+            </h2>
           </div>
-        );
-      })}
-    </div>
 
-  </div>
-</section>
+          {/* LEFT FAQs (3 items) */}
+          <div className="space-y-5">
+            {faqs.slice(0, 3).map((faq, index) => {
+              const isOpen = openIndex === index;
+
+              return (
+                <div
+                  key={index}
+                  className={`bg-white global-card border transition-all duration-300 ${
+                    isOpen
+                      ? "shadow-lg border-pink-200"
+                      : "shadow-sm border-gray-100"
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="w-full flex justify-between items-center px-6 py-5 text-left"
+                  >
+                    <span className="text-lg font-semibold text-gray-800">
+                      {faq.question}
+                    </span>
+
+                    <motion.div
+                      animate={{ rotate: isOpen ? 45 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-pink-500"
+                    >
+                      <Plus size={20} />
+                    </motion.div>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-5 text-gray-600">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* RIGHT FAQs (5 items) */}
+        <div className="space-y-5">
+          {faqs.slice(3, 8).map((faq, index) => {
+            const actualIndex = index + 3;
+
+            const isOpen = openIndex === actualIndex;
+
+            return (
+              <div
+                key={actualIndex}
+                className={`bg-white global-card border transition-all duration-300 ${
+                  isOpen
+                    ? "shadow-lg border-pink-200"
+                    : "shadow-sm border-gray-100"
+                }`}
+              >
+                <button
+                  onClick={() => toggleFAQ(actualIndex)}
+                  className="w-full flex justify-between items-center px-6 py-5 text-left"
+                >
+                  <span className="text-lg font-semibold text-gray-800">
+                    {faq.question}
+                  </span>
+
+                  <motion.div
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-pink-500"
+                  >
+                    <Plus size={20} />
+                  </motion.div>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-5 text-gray-600">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
   );
 }

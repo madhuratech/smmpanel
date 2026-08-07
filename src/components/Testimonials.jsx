@@ -75,7 +75,7 @@ export default function Testimonials() {
   }, [])
 
   const TestimonialCard = ({ testimonial }) => (
-    <div className="flex-shrink-0 w-80 mx-4 rounded-2xl p-6 shadow-lg transition-all duration-500 hover:scale-105 
+    <div className="flex-shrink-0 w-80 mx-4 global-card transition-all duration-500 hover:scale-105 
     bg-white border border-pink-100 hover:shadow-pink-200/50 relative overflow-hidden group">
 
       {/* Glow Effect */}
@@ -115,12 +115,12 @@ export default function Testimonials() {
   )
 
   return (
-    <div className="py-20 px-6 bg-gradient-to-b from-pink-50 via-white to-pink-100 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <div className="section-spacing bg-gradient-to-b from-pink-50 via-white to-pink-100 overflow-hidden">
+      <div className="global-container">
 
         {/* Header */}
         <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="section-heading font-bold text-gray-900 mb-4">
             What Our Esteemed Users Say About TikyTop
           </h2>
         

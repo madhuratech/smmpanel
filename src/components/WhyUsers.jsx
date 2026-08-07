@@ -21,28 +21,28 @@ export default function WhyUSer() {
   ];
 
   return (
-    <section className="bg-[#f7f7f9] py-16 px-4 sm:px-6 lg:px-20">
+    <section className="bg-[#f7f7f9] section-spacing">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto">
+      <div className="global-container text-center">
   
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+        <h2 className="section-heading font-bold text-gray-900 leading-tight">
           Why Social Media Users{" "}
           <span className="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
             Love TikyTop
           </span>
         </h2>
 
-        <p className="mt-4 text-gray-500 text-sm sm:text-base">
+        <p className="mt-4 text-gray-500 global-paragraph">
           At the end of the day, people want something easy and effective. TikyTop keeps things simple while helping your profile look more engaging.
         </p>
       </div>
 
       {/* Cards */}
-      <div className="mt-12 grid gap-6 sm:grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
+      <div className="mt-12 grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto px-4">
         {features.map((item, index) => (
           <div
             key={index}
-            className="flex items-start gap-4 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition"
+            className="flex items-start gap-4 bg-white border border-gray-200 global-card transition duration-300"
           >
             {/* Icon */}
             <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">

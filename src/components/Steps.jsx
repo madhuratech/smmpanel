@@ -35,23 +35,23 @@ export default function Steps() {
   ];
 
   return (
-    <section className="bg-[#f8f8fb] py-28 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto text-center">
+    <section className="bg-[#f8f8fb] section-spacing">
+      <div className="global-container text-center">
 
 
         {/* Heading */}
-        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mt-4 leading-tight">
+        <h2 className="section-heading text-gray-900 mt-4 leading-tight">
           How to Place an Order
         </h2>
 
         {/* Subtext */}
-        <p className="text-gray-500 mt-6 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+        <p className="global-paragraph text-gray-500 mt-6 max-w-2xl mx-auto leading-relaxed">
           Getting started is quick and simple. Just follow these steps to boost your
           social media engagement.
         </p>
 
-        {/* Cards */}
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        {/* Cards - 5 columns on desktop, 2 columns on tablet, 1 column on mobile */}
+        <div className="mt-16 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
           {steps.map((item, index) => (
             <motion.div
               key={index}
@@ -59,11 +59,8 @@ export default function Steps() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10, scale: 1.03 }}
-              className="relative bg-white border border-gray-200 rounded-2xl p-7 text-left 
-              shadow-[0_10px_30px_rgba(0,0,0,0.05)] 
-              hover:shadow-[0_15px_40px_rgba(255,0,150,0.25)] 
-              transition-all duration-300"
+              whileHover={{ y: -6 }}
+              className="relative bg-white border border-gray-200 global-card text-left transition-all duration-300"
             >
 
               {/* Step Badge */}

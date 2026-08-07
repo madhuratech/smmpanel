@@ -18,6 +18,7 @@ import {
   FaGoogle,
   FaGlobe,
   FaThLarge,
+  FaTimes,
 } from "react-icons/fa";
 import { FaThreads, FaXTwitter } from "react-icons/fa6";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -381,7 +382,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
   };
 
   return (
-    <section id="hero" className="relative w-full min-h-screen bg-[#1a0b2e] flex items-center justify-center">
+    <section id="hero" className="relative w-full min-h-screen bg-[#1a0b2e] flex items-center justify-center pt-28 pb-10 overflow-x-clip overflow-y-visible">
       {/* Immersive background wrapper to restrict image zoom overflow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -396,30 +397,30 @@ export default function Hero({ platform: propPlatform, onSearch }) {
       </div>
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
-      <div className="relative z-30 text-white px-6 w-full max-w-7xl pt-28 pb-10 flex flex-col justify-center min-h-screen">
-        <div className="grid lg:grid-cols-12 gap-12 items-center w-full">
-          {/* Left Column content (7/12 width) */}
-          <div className="lg:col-span-7 space-y-8 text-left">
+      <div className="relative z-30 text-white w-full global-container flex flex-col justify-center min-h-screen">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full text-center md:text-center lg:text-left">
+          {/* Left Column content (7/12 width in lg, full in mobile/tablet) */}
+          <div className="lg:col-span-7 space-y-8 flex flex-col items-center lg:items-start">
             {/* Rating */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 text-xs bg-white/10 rounded-full backdrop-blur border border-white/10 text-yellow-400 font-semibold">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 text-xs bg-white/10 rounded-full backdrop-blur border border-white/10 text-yellow-400 font-semibold w-fit">
               <FaStar className="fill-current" />
               <span>Rated 4.9 on Trustscore</span>
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight font-righteous">
+            <h1 className="hero-heading font-bold leading-tight">
               Trusted Site to Turn Your Profile into a Powerful Platform
             </h1>
 
             {/* Description */}
-            <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-xl">
+            <p className="global-paragraph text-gray-300 leading-relaxed max-w-xl">
               Grow your audience and increase engagement across TikTok, Instagram, and YouTube with TikyTop.
             </p>
 
             {/* SEARCH + PLATFORM SELECT */}
-            <div className="pt-2 w-full max-w-xl">
+            <div className="pt-2 w-full max-w-xl flex flex-col items-center lg:items-start">
               {/* Tabs */}
-              <div className="flex justify-start gap-4 mb-8 flex-wrap items-center">
+              <div className="flex justify-center lg:justify-start gap-4 mb-8 flex-wrap items-center">
                 {platforms.map((platform) => (
                   <button
                     key={platform.name}
@@ -469,80 +470,183 @@ export default function Hero({ platform: propPlatform, onSearch }) {
 
                       {/* Explore Popup list */}
                       <AnimatePresence>
-                        {showPopup && (
-                          <div className="absolute left-0 top-full mt-3 z-50 w-[280px] sm:w-[320px] bg-white border border-gray-200 rounded-2xl p-4 shadow-2xl max-h-[300px] overflow-y-auto no-scrollbar">
-                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Explore More</h4>
-                            <div className="grid grid-cols-2 gap-2">
-                              {EXTRA_PLATFORMS.map((plat) => (
-                                <button
-                                  key={plat.name}
-                                  onClick={() => {
-                                    changePlatform(plat.name);
-                                    setShowPopup(false);
-                                  }}
-                                  className="flex items-center gap-2 p-2 rounded-xl bg-gray-50 hover:bg-[#ff008e]/10 hover:text-[#ff008e] text-gray-800 transition duration-200 border border-gray-100 text-left"
-                                >
-                                  <span className="text-sm">{plat.icon}</span>
-                                  <span className="text-xs font-semibold truncate">{plat.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                        {showPopup && (() => {
+                          const w = window.innerWidth;
+                          if (w < 768) {
+                            // MobileExploreMenu with absolute positioning
+                            return (
+                              <motion.div
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 15 }}
+                                transition={{ duration: 0.25 }}
+                                style={{
+                                  position: 'absolute',
+                                  top: 'calc(100% + 12px)',
+                                  right: '-28px',
+                                  left: 'auto',
+                                  transform: 'none',
+                                  zIndex: 99999,
+                                  width: 'min(360px, calc(100vw - 24px))'
+                                }}
+                                className="bg-white border border-gray-200 rounded-[24px] p-4 shadow-2xl max-h-[70vh] overflow-y-auto overflow-x-hidden no-scrollbar"
+                              >
+                                <div className="flex justify-between items-center mb-3">
+                                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Explore More</h4>
+                                  <button
+                                    onClick={() => setShowPopup(false)}
+                                    className="p-1 rounded-full text-gray-400 hover:text-[#ff008e] hover:bg-gray-100 transition-colors"
+                                  >
+                                    <FaTimes className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                  {EXTRA_PLATFORMS.map((plat) => (
+                                    <button
+                                      key={plat.name}
+                                      onClick={() => {
+                                        changePlatform(plat.name);
+                                        setShowPopup(false);
+                                      }}
+                                      className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-[#ff008e]/10 hover:text-[#ff008e] text-gray-800 transition duration-200 border border-gray-100 text-left h-12 w-full"
+                                    >
+                                      <span className="text-base flex-shrink-0">{plat.icon}</span>
+                                      <span className="text-xs font-semibold truncate leading-none">{plat.name}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </motion.div>
+                            );
+                          } else if (w < 1024) {
+                            // TabletMegaMenu
+                            return (
+                              <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.2 }}
+                                style={{
+                                  position: 'absolute',
+                                  top: 'calc(100% + 12px)',
+                                  left: '50%',
+                                  transform: 'translateX(-50%)',
+                                  zIndex: 9999,
+                                  width: '520px'
+                                }}
+                                className="bg-white border border-gray-200 rounded-[24px] p-5 shadow-2xl max-h-[400px] overflow-y-auto no-scrollbar"
+                              >
+                                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Explore More</h4>
+                                <div className="grid grid-cols-2 gap-3">
+                                  {EXTRA_PLATFORMS.map((plat) => (
+                                    <button
+                                      key={plat.name}
+                                      onClick={() => {
+                                        changePlatform(plat.name);
+                                        setShowPopup(false);
+                                      }}
+                                      className="flex items-center gap-3 px-4 py-3 bg-gray-50 hover:bg-[#ff008e]/10 hover:text-[#ff008e] text-gray-800 transition duration-200 border border-gray-100 rounded-xl text-sm font-semibold text-left"
+                                    >
+                                      <span className="text-lg flex-shrink-0">{plat.icon}</span>
+                                      <span className="truncate">{plat.name}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </motion.div>
+                            );
+                          } else {
+                            // DesktopMegaMenu
+                            return (
+                              <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.2 }}
+                                style={{
+                                  position: 'absolute',
+                                  top: 'calc(100% + 12px)',
+                                  left: '0',
+                                  transform: 'none',
+                                  zIndex: 99999,
+                                  width: '680px'
+                                }}
+                                className="bg-white border border-gray-200 rounded-[24px] p-6 shadow-2xl"
+                              >
+                                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Explore More</h4>
+                                <div className="grid grid-cols-3 gap-3">
+                                  {EXTRA_PLATFORMS.map((plat) => (
+                                    <button
+                                      key={plat.name}
+                                      onClick={() => {
+                                        changePlatform(plat.name);
+                                        setShowPopup(false);
+                                      }}
+                                      className="flex items-center gap-3 px-4 py-3 bg-gray-50 hover:bg-[#ff008e]/10 hover:text-[#ff008e] text-gray-800 transition duration-200 border border-gray-100 rounded-xl text-sm font-semibold text-left"
+                                    >
+                                      <span className="text-lg flex-shrink-0">{plat.icon}</span>
+                                      <span className="truncate">{plat.name}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </motion.div>
+                            );
+                          }
+                        })()}
                       </AnimatePresence>
                     </div>
                   );
                 })()}
               </div>
 
-              {/* Search Bar */}
-              <div
-                style={{
-                  boxShadow: isFocused
-                    ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
-                    : "0 20px 50px rgba(0,0,0,0.12)"
-                }}
-                className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
-              >
-                {/* Left Platform Icon Container */}
+              {/* Search Bar Wrapper */}
+              <div className="global-input-wrapper max-w-xl w-full">
                 <div
-                  className={`flex-shrink-0 w-[44px] h-[44px] rounded-full bg-white border-2 border-dashed border-[#ff008e] flex items-center justify-center ml-1 transition-transform duration-300 ${rotateIcon ? "rotate-12 scale-95" : ""
-                    }`}
-                >
-                  <span className="text-xl flex items-center justify-center">
-                    {getPlatformIcon(active)}
-                  </span>
-                </div>
-
-                {/* Input Field */}
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  placeholder={getPlaceholderText(active)}
-                  className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-[#777777] min-w-0"
-                />
-
-                {/* Search Button */}
-                <button
-                  onClick={Getuser}
-                  disabled={isSearching}
                   style={{
-                    background: "linear-gradient(90deg, #ff008e, #8b2cff)"
+                    boxShadow: isFocused
+                      ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
+                      : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className="flex-shrink-0 flex items-center justify-center w-[120px] sm:w-[140px] h-[46px] rounded-full text-white text-[15px] font-semibold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
+                  className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
                 >
-                  {isSearching ? (
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  ) : (
-                    "Search"
-                  )}
-                </button>
+                  {/* Left Platform Icon Container */}
+                  <div
+                    className={`flex-shrink-0 w-[44px] h-[44px] rounded-full bg-white border-2 border-dashed border-[#ff008e] flex items-center justify-center ml-1 transition-transform duration-300 ${rotateIcon ? "rotate-12 scale-95" : ""
+                      }`}
+                  >
+                    <span className="text-xl flex items-center justify-center">
+                      {getPlatformIcon(active)}
+                    </span>
+                  </div>
+
+                  {/* Input Field */}
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    placeholder={getPlaceholderText(active)}
+                    className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-[#777777] min-w-0"
+                  />
+
+                  {/* Search Button */}
+                  <button
+                    onClick={Getuser}
+                    disabled={isSearching}
+                    style={{
+                      background: "linear-gradient(90deg, #ff008e, #8b2cff)"
+                    }}
+                    className="flex-shrink-0 flex items-center justify-center w-[100px] sm:w-[140px] h-[46px] rounded-full text-white text-[14px] sm:text-[15px] font-semibold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
+                  >
+                    {isSearching ? (
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    ) : (
+                      "Search"
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -556,48 +660,56 @@ export default function Hero({ platform: propPlatform, onSearch }) {
 
         {/* Stats Row */}
         <div className="w-full mt-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-white/5 backdrop-blur rounded-[2rem] p-6 border border-white/10">
-            {/* Stat 1 */}
-            <div className="flex items-center gap-4 px-4 py-2 border-r border-white/10 last:border-0 justify-center lg:justify-start">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl shadow-md">
-                🛒
-              </div>
-              <div className="text-left">
-                <h3 className="text-2xl font-black text-white leading-none">100K+</h3>
-                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Orders Completed</p>
-              </div>
-            </div>
+          <div className="relative bg-white/5 backdrop-blur rounded-[32px] p-6 border border-white/10 overflow-hidden">
+            {/* Intersecting Dividers */}
+            {/* Horizontal Divider (hidden on desktop/tablet, shown on mobile) */}
+            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white/10 -translate-y-1/2 md:hidden" />
+            {/* Vertical Divider (hidden on desktop/tablet, shown on mobile) */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/10 -translate-x-1/2 md:hidden" />
 
-            {/* Stat 2 */}
-            <div className="flex items-center gap-4 px-4 py-2 border-r border-white/10 last:border-0 justify-center lg:justify-start">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md">
-                👤
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4 md:gap-6 relative z-10">
+              {/* Stat 1 */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-2 py-2 lg:border-r lg:border-white/10 justify-center">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0">
+                  🛒
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-[34px] font-bold text-white leading-none">100K+</h3>
+                  <p className="text-[17px] font-medium text-gray-300 mt-1.5 leading-snug">Orders Completed</p>
+                </div>
               </div>
-              <div className="text-left">
-                <h3 className="text-2xl font-black text-white leading-none">50K+</h3>
-                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Happy Customers</p>
-              </div>
-            </div>
 
-            {/* Stat 3 */}
-            <div className="flex items-center gap-4 px-4 py-2 border-r border-white/10 last:border-0 justify-center lg:justify-start">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl shadow-md">
-                📈
+              {/* Stat 2 */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-2 py-2 lg:border-r lg:border-white/10 justify-center">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0">
+                  👤
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-[34px] font-bold text-white leading-none">50K+</h3>
+                  <p className="text-[17px] font-medium text-gray-300 mt-1.5 leading-snug">Happy Customers</p>
+                </div>
               </div>
-              <div className="text-left">
-                <h3 className="text-2xl font-black text-white leading-none">99.9%</h3>
-                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Success Rate</p>
-              </div>
-            </div>
 
-            {/* Stat 4 */}
-            <div className="flex items-center gap-4 px-4 py-2 last:border-0 justify-center lg:justify-start">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white text-xl shadow-md">
-                🎧
+              {/* Stat 3 */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-2 py-2 lg:border-r lg:border-white/10 justify-center">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0">
+                  📈
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-[34px] font-bold text-white leading-none">99.9%</h3>
+                  <p className="text-[17px] font-medium text-gray-300 mt-1.5 leading-snug">Success Rate</p>
+                </div>
               </div>
-              <div className="text-left">
-                <h3 className="text-2xl font-black text-white leading-none">24/7</h3>
-                <p className="text-[11px] text-gray-300 mt-1 font-semibold">Customer Support</p>
+
+              {/* Stat 4 */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-2 py-2 justify-center">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white text-xl shadow-md flex-shrink-0">
+                  🎧
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-[34px] font-bold text-white leading-none">24/7</h3>
+                  <p className="text-[17px] font-medium text-gray-300 mt-1.5 leading-snug">Customer Support</p>
+                </div>
               </div>
             </div>
           </div>

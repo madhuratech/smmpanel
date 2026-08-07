@@ -45,12 +45,12 @@ const features = [
 
 export default function WhyChoose() {
   return (
-    <section className="bg-[#f9fafb] py-16 px-4 ">
-      <div className="max-w-7xl mx-auto text-center">
+    <section className="bg-[#f9fafb] section-spacing">
+      <div className="global-container text-center">
 
 
         {/* Heading */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-tight">
+        <h2 className="section-heading font-bold text-gray-900 leading-tight">
           <span className="block mb-2">
             Why Choose TikyTop for
           </span>
@@ -59,22 +59,18 @@ export default function WhyChoose() {
           </span>
         </h2>
         {/* Subtitle */}
-        <p className="mt-4 text-gray-500 max-w-2xl mx-auto
-          text-sm sm:text-base md:text-lg">
+        <p className="mt-4 text-gray-500 max-w-2xl mx-auto global-paragraph">
           Growing on TikTok can feel slow, even when you’re doing everything right. TikyTop helps you get that extra push so your content doesn’t go unnoticed.
 
         </p>
 
         {/* Cards */}
-        <div className="mt-12 grid gap-6
-          sm:grid-cols-2
-          lg:grid-cols-4">
+        <div className="mt-12 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 
           {features.map((item, index) => (
             <div
               key={index}
-              className="bg-white border border-gray-200 rounded-2xl p-6 text-left
-              shadow-sm hover:shadow-md transition duration-300"
+              className="bg-white border border-gray-200 global-card text-left transition duration-300"
             >
               {/* Icon */}
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-red-100 mb-4">
@@ -87,7 +83,7 @@ export default function WhyChoose() {
               </h3>
 
               {/* Description */}
-              <p className="text-gray-500 mt-2 text-sm md:text-[15px] leading-relaxed">
+              <p className="text-gray-500 mt-2 text-sm leading-relaxed">
                 {item.desc}
               </p>
             </div>
