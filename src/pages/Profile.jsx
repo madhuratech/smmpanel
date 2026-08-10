@@ -9,7 +9,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [userData, setUserData] = useState({ name: '', email: '' })
+  const [userData, setUserData] = useState({ name: '', email: '', balance: 0, picture: '' })
   const [formData, setFormData] = useState({ name: '', email: '' })
 
   useEffect(() => {
@@ -18,8 +18,16 @@ const Profile = () => {
       navigate('/login')
       return
     }
-    setUserData({ name: user.name || 'User', email: user.email || '' })
-    setFormData({ name: user.name || 'User', email: user.email || '' })
+    setUserData({
+      name: user.fullname || user.name || 'User',
+      email: user.email || '',
+      balance: user.balance || 0,
+      picture: user.picture || ''
+    })
+    setFormData({
+      name: user.fullname || user.name || 'User',
+      email: user.email || ''
+    })
   }, [navigate])
 
   const handleChange = (e) => {
@@ -56,9 +64,18 @@ const Profile = () => {
 
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8 mb-6">
           <div className="flex flex-col sm:flex-row items-center sm:items-start mb-8 pb-8 border-b border-gray-200 gap-4">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFA500] flex items-center justify-center text-white text-2xl sm:text-3xl font-bold flex-shrink-0">
-              {userData.name ? userData.name.charAt(0).toUpperCase() : 'U'}
-            </div>
+            {userData.picture ? (
+              <img
+                src={userData.picture}
+                alt="Profile"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover shadow-lg border-2 border-white flex-shrink-0"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFA500] flex items-center justify-center text-white text-2xl sm:text-3xl font-bold flex-shrink-0">
+                {userData.name ? userData.name.charAt(0).toUpperCase() : 'U'}
+              </div>
+            )}
             <div className="text-center sm:text-left">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{userData.name}</h2>
               <p className="text-gray-600">{userData.email}</p>
@@ -120,6 +137,10 @@ const Profile = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Account Status</span>
                 <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Active</span>
+              </div>
+              <div className="flex justify-between items-center border-t border-gray-100 pt-3">
+                <span className="text-gray-600 font-medium flex items-center gap-1">🪙 Available Coins</span>
+                <span className="font-bold text-gray-900">{userData.balance} Coins</span>
               </div>
             </div>
           </div>

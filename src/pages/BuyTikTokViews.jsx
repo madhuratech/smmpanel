@@ -5,15 +5,16 @@ import {
   ChevronDown,
   ChevronUp,
   Star,
-  Users,
   Shield,
+  Eye,
   Clock,
   ThumbsUp,
-  Lock,
+  Tag,
   Headphones,
   Zap,
   TrendingUp,
   UserCheck,
+  Lock,
 } from "lucide-react";
 import { FaTiktok, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +22,10 @@ import useScrollToTop from "../hooks/useScrollToTop";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
-import Post from "../assets/images/post.png";
-import Likes from "../assets/images/likes.png";
+import Post from "../assets/images/viewscard2.png";
+import Likes from "../assets/images/viewscard.png";
 
-export default function BuyTikTokLikes() {
+export default function BuyTikTokViews() {
   useScrollToTop();
   const navigate = useNavigate();
 
@@ -41,53 +42,53 @@ export default function BuyTikTokLikes() {
 
   const testimonials = [
     {
-      name: "Basil",
-      text: "OMG! Guys, I can't believe this. It actually works better than my expectations! This is a big bang for all creators and business people.",
+      name: "Niya",
+      text: "Hi guys, I'm Ken, a TikTok content creator. I was searching for the best site to buy TikTok views. Then I found this gem. This is really awesome and the best of the best.",
       rating: 4.5,
     },
     {
-      name: "Cummins",
-      text: "How to get more TikTok likes? This is all I was thinking about. Then one of my friends suggested me to buy TikTok likes, and now my TikTok visibility has increased, and I highly recommend it!",
+      name: "Ken",
+      text: "I purchased 100 TikTok views from TikyTop, and the results are instant. Thank you, team!",
       rating: 4,
     },
     {
-      name: "Mosby",
-      text: "Authentic TikTok likes, high-quality TikTok likes, and content visibility all at one place. Can't even imagine it, right? Yes, guys, I was a small creator, and now I'm able to reach a wider audience. I received exactly what I needed. It's your turn!",
+      name: "Thames",
+      text: "Hello guys, I'm a travel vlogger. Usually, I used to create videos and post them. The videos are about new hidden spots and travel-based. Initially, the videos that I posted never gained visibility. But now it is totally the opposite; thank you, TikyTop, for supporting me.",
       rating: 4.5,
     },
     {
-      name: "Francis D’Souza",
-      text: "This platform could be a great option for those who are looking to buy cheap TikTok likes and an affordable package.",
+      name: "Elyssa A",
+      text: "I was looking for reliable service, and then I found this. The support is friendly, and this is what I need. Guys, you can buy TikTok views here and see the results. You will be surprised as I was.",
       rating: 4,
     },
     {
-      name: "Joe Wilson",
-      text: "Recently, I decided to buy likes on TikTok for one of my posts. From beginning to end, the entire process was smooth and easy. The likes that arrived were completely natural, and I never found any fake accounts. Kudos to the team! Thank you for the support.",
+      name: "Meg",
+      text: "Excellent service, guys. If you want to buy likes and views TikTok, then I strongly recommend this service. And one more thing: it's transparent, which makes it easier and more trustworthy.",
       rating: 4.5,
     },
     {
-      name: "Jimmy",
-      text: "Guys, if you are a creator, you might get confused and wonder how to buy TikTok likes. I have found this service where my TikTok performance has completely changed. Trust me, guys, this is the best TikTok likes provider I have ever seen.",
+      name: "Maxine K Black",
+      text: "As they said, your next video will be a momentum for you. And it happened. I used TikTok views buy from TikyTop, and I'm ordering TikTok views again for my next video. Before this, my video was not watched by many, but as I dreamt, many started to watch.",
       rating: 4,
     },
     {
-      name: "Anne M",
-      text: "Even though I have purchased TikTok likes from other platforms, nothing matches this. If you want to buy cheap TikTok likes without sacrificing quality, I would highly recommend this.",
+      name: "Bishop D’Souza",
+      text: "I would proudly say that I have made the best decision. I was always thinking that my growth should speak louder and my video should grab attention. And finally, I made it happen with this service.",
       rating: 4.5,
     },
     {
-      name: "Janira",
-      text: "This platform is one of the best place to buy TikTok likes, and there is no compromise in quality. The likes were delivered within a few minutes, and the best part is that the TikTok likes are from a real account. Thank you, team!",
+      name: "Tazman",
+      text: "User interaction, appeared on the For You Page, organic traffic, and video exposure all at one place. Interesting, isn't it? I was planning to buy TikTok views from a trusted source, and this is all I found in TikyTop. Thank you for making me the best.",
       rating: 4,
     },
     {
-      name: "Salt",
-      text: "Just superb! And it has been almost 3 months since I have been using this service. Now I even recommend my friend to buy TikTok likes, and finally we are both satisfied with the results.",
-      rating: 4,
+      name: "Aalia",
+      text: "I just wanted to tell you how much I loved this platform. I don't even know how much time I have purchased. All those results are consistent, and it has boosted TikTok video performance.",
+      rating: 4.5,
     },
     {
-      name: "Ally",
-      text: "I have never seen an affordable TikTok likes service before. Friends, if you are a budding creator and don't have any support, trust me, you are not alone. The ordering process is easy: give your username, buy TikTok likes, complete payment, and get TikTok likes.",
+      name: "Marlee",
+      text: "Outstanding service with strong encryption. Need to increase TikTok view visibility? This platform works well for you. And I would tell you this is definitely worth trying. Believe me, guys, I have become a regular customer now.",
       rating: 4.5,
     },
   ];
@@ -98,7 +99,7 @@ export default function BuyTikTokLikes() {
   useEffect(() => {
     // 1. Title
     const originalTitle = document.title;
-    document.title = "Buy TikTok Likes | Real & Instant TikTok Likes | TikyTop";
+    document.title = "Buy TikTok Views | Organic Reach | 100% Real | TikyTop";
 
     // 2. Helper to set/update elements
     const setMetaTag = (attrName, attrValue, content) => {
@@ -113,23 +114,23 @@ export default function BuyTikTokLikes() {
     };
 
     // Description & Keywords
-    const metaDesc = setMetaTag('name', 'description', 'TikyTop has ranked #1 in 2026. To buy TikTok likes, simply enter your TikTok username, choose a package, complete your secure payment, and receive authentic TikTok likes instantly. Fast delivery, real engagement, secure checkout, and premium customer support.');
-    const metaKeywords = setMetaTag('name', 'keywords', 'buy tiktok likes, how to buy tiktok likes, how to get more tiktok likes, buy tiktok likes and views, buy likes on tiktok, tiktok likes buy, buy real tiktok likes, buy cheap tiktok likes, how to buy likes on tiktok, best place to buy tiktok likes, buy 50 tiktok likes, instant tiktok likes, real tiktok engagement, tiktok growth, tiktok promotion, viral tiktok, tiktok marketing, increase tiktok likes');
+    const metaDesc = setMetaTag('name', 'description', 'Need to buy TikTok views from a trusted platform? Then TikyTop will be your ultimate supporter. Buy TikTok views from TikyTop and increase your TikTok video views. Try us now for better video engagement and grab more audience attention.');
+    const metaKeywords = setMetaTag('name', 'keywords', 'buy tiktok views, how to buy tiktok views, how to get more tiktok views, buy tiktok views and likes, buy views on tiktok, tiktok views buy, buy real tiktok views, buy cheap tiktok views, how to buy views on tiktok, best place to buy tiktok views, instant tiktok views, real tiktok engagement, tiktok growth, tiktok promotion, viral tiktok, tiktok marketing');
     const metaRobots = setMetaTag('name', 'robots', 'index, follow');
 
     // OpenGraph Tags
     const ogType = setMetaTag('property', 'og:type', 'website');
-    const ogTitle = setMetaTag('property', 'og:title', 'Buy TikTok Likes | Real & Instant TikTok Likes | TikyTop');
-    const ogDesc = setMetaTag('property', 'og:description', 'Buy authentic TikTok Likes instantly with TikyTop. Fast delivery, secure payment, and real engagement to grow your TikTok profile.');
-    const ogUrl = setMetaTag('property', 'og:url', 'https://tikytop.com/tiktok/buy-likes');
-    const ogImage = setMetaTag('property', 'og:image', 'https://tikytop.com/images/tiktok-likes-banner.jpg');
+    const ogTitle = setMetaTag('property', 'og:title', 'Buy TikTok Views | Organic Reach | 100% Real | TikyTop');
+    const ogDesc = setMetaTag('property', 'og:description', 'Boost your TikTok profile with real TikTok Views. Secure checkout, instant delivery, and premium support from TikyTop.');
+    const ogUrl = setMetaTag('property', 'og:url', 'https://tikytop.com/tiktok/buy-views');
+    const ogImage = setMetaTag('property', 'og:image', 'https://tikytop.com/images/tiktok-views-banner.jpg');
     const ogSite = setMetaTag('property', 'og:site_name', 'TikyTop');
 
     // Twitter Tags
     const twitterCard = setMetaTag('name', 'twitter:card', 'summary_large_image');
-    const twitterTitle = setMetaTag('name', 'twitter:title', 'Buy TikTok Likes | Real & Instant TikTok Likes | TikyTop');
-    const twitterDesc = setMetaTag('name', 'twitter:description', 'Boost your TikTok profile with real TikTok Likes. Secure checkout, instant delivery, and premium support from TikyTop.');
-    const twitterImage = setMetaTag('name', 'twitter:image', 'https://tikytop.com/images/tiktok-likes-banner.jpg');
+    const twitterTitle = setMetaTag('name', 'twitter:title', 'Buy TikTok Views | Organic Reach | 100% Real | TikyTop');
+    const twitterDesc = setMetaTag('name', 'twitter:description', 'Boost your TikTok profile with real TikTok Views. Secure checkout, instant delivery, and premium support from TikyTop.');
+    const twitterImage = setMetaTag('name', 'twitter:image', 'https://tikytop.com/images/tiktok-views-banner.jpg');
 
     // Canonical link
     let canonical = document.querySelector('link[rel="canonical"]');
@@ -138,7 +139,7 @@ export default function BuyTikTokLikes() {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-likes');
+    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-views');
 
     // Clean up on component unmount
     return () => {
@@ -177,32 +178,28 @@ export default function BuyTikTokLikes() {
 
   const faqs = [
     {
-      q: "How to buy TikTok likes from TikyTop?",
-      a: "​You can easily buy TikTok likes online within a few minutes. Search for TikyTop on the search engine and click on the link. Select the buy TikTok likes service. Once the service is chosen, type or paste your TikTok username, then hit Enter. Again, choose the service and click the Enter button. Select the post for which you need likes, next you can easily customize the package based on your needs. Once the order is placed, you receive TikTok likes within a few minutes.",
+      q: "How to buy views on TikTok?",
+      a: "Buying TikTok views from us makes your experience simpler. You can see the TikTok button at the top; click and select to buy TikTok views. Next, enter your username; choose which post you want more views. Next, customize the package; for example, if you need 100 views or 500 views, the count doesn't matter. Go ahead and finalize the total count and complete payment. Once the order is placed, instant views will be delivered for the post. Look how simple the process is—no more difficulties in placing an order.",
     },
     {
-      q: "How to get more TikTok likes?",
-      a: "Every creator and marketer who uses TikTok will be thinking about how to get more TikTok likes. This is one of the most common questions creators ask. The key to gaining engagement is posting consistently and following trending topics. Choosing a trusted likes provider from TikyTop can help your content gain more visibility and support your growth. You'll find a wide range of packages, and you can choose how many TikTok likes you want.",
+      q: "Is there any best time to buy TikTok views?",
+      a: "It doesn't mean that there is a best time to purchase. It is all about requirements. But it is better to get views earlier because TikTok will be favoring content that has more visibility. Unfortunately, if your video has low visibility, then this could be a disadvantage. That is why we are here to support you. Once the video is uploaded, it is better to purchase TikTok video views from us so that the video can get more responses from the audience.",
     },
     {
-      q: "Why do TikTok likes matter?",
-      a: "TikTok likes matter more because they show how engaged viewers are with your content and how much they value it. This is why many creators buy likes on TikTok to give their videos an initial push. You can buy 50 TikTok likes or 5000 TikTok likes, but all likes are from real accounts, and they remain for the long term. Once you have ordered from us, the TikTok likes will be delivered within a few minutes. Over time, your content will stand out from others.",
+      q: "Do TikTok views make a change in TikTok?",
+      a: "Yes definitely. When you place an order, the views will be delivered automatically to your selected post. And the views are from an organic account, so they will not disappear; they remain for the long term. As they remain, your videos will improve visibility, users will start searching for your other videos, you'll get a chance to collaborate, and more.",
     },
     {
-      q: "Will my competitors know I have bought likes from TikyTop?",
-      a: "No, not at all! Your competitors will never know that you have bought TikTok likes from us. Your order will remain hidden; no information is shared. Anyway, when you buy TikTok likes from us, they are from real accounts, so there is no chance of finding out whether the likes are fake or real. Yes, you can grow your account with confidence.",
+      q: "Can you buy views on TikTok?",
+      a: "Of course you can purchase from a trusted platform like TikyTop. You get views from authentic accounts, so without any second thought, you can place an order. We offer fast TikTok views delivery with flexible packages. Our packages will be suitable for all types of users, creators, businesses, or brands. With no restrictions and no complicated steps, get secure TikTok growth.",
     },
     {
-      q: "What are the benefits of buying TikTok likes?",
-      a: "When you buy real TikTok likes from us, you will receive high-retention likes. Here is what you can expect from us:\n\n• Trusted TikTok growth service.\n• Place your order without sharing your password.\n• Authentic TikTok likes.\n• Boost TikTok visibility and improve engagement.\n• Safe and secure service with no interruptions.",
+      q: "Can I buy TikTok views for my private TikTok account?",
+      a: "Our service applies only to public TikTok accounts, and you will not be able to get views for private TikTok accounts. If you want affordable TikTok views, then set your account to public. Unless the video or account is public, you will not be able to place the order. So before placing an order, make sure your account is public.",
     },
     {
-      q: "Is it worth to buy tiktok likes in 2026?",
-      a: "Why not? There is heavy competition, and it might be difficult for new creators. Low-quality likes might disappear within a short period, which is why we deliver quality likes to our customers. So, it is effective to buy TikTok likes from a trusted service provider like us to boost your TikTok profile. Engagement will still be a major part in 2026.",
-    },
-    {
-      q: "What makes our service best among all?",
-      a: "We always focus on our customers' satisfaction. We never ask for passwords, and customers do not need to share any personal information. From choosing TikTok likes to the payment process, everything is made simple and easier. If customers have any difficulties, they can reach our team for help. Also, many top creators, marketers, and business people buy TikTok likes from us. This is what makes us the best among all.",
+      q: "Is there any option to customize the package?",
+      a: "Why not? We have flexible packages. The quantity of views can be anything; just customize one that fits your needs. For example, if you want to buy TikTok views and likes, choose the service and then customize. Everything is made easier for our customers. So there is no need to hold off on your work; get what you actually prefer.",
     },
   ];
 
@@ -241,8 +238,8 @@ export default function BuyTikTokLikes() {
           userdata: data,
           platform: "tiktok",
           username: input,
-          selectedServiceKey: "likes",
-          entryPath: "/tiktok/buy-likes"
+          selectedServiceKey: "views",
+          entryPath: "/tiktok/buy-views"
         },
       });
     } catch (error) {
@@ -315,28 +312,32 @@ export default function BuyTikTokLikes() {
 
             {/* Main Headline */}
             <h1 className="text-[34px] sm:text-5xl lg:text-6xl font-bold leading-tight font-righteous tracking-tight">
-              Buy TikTok Likes <br />
+              Buy TikTok Views Online <br />
               <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-rose-500 bg-clip-text text-transparent block sm:inline">
-                with Instant Delivery
+                Safe and Secure
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-[340px] sm:max-w-xl mx-auto lg:mx-0">
-              TikyTop helps you buy TikTok likes instantly and gain more real engagement. Our reliable
-              growth service will make you stand out with ease
+              Your TikTok videos deserve some spotlight.
+              Yes, at TikyTop, you can buy TikTok views with secure payment
+              and customize packages based on your needs.
             </p>
 
             {/* Feature Row Badge Badges */}
             <div className="grid grid-cols-2 gap-3 w-full max-w-[340px] sm:max-w-xl pt-2">
               <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
-                ❤️ Premium TikTok Likes
+                <Shield className="w-3.5 h-3.5 text-cyan-400" />
+                Secure Service
               </span>
               <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
-                📈 Real Engagement Rate
+                <Tag className="w-3.5 h-3.5 text-pink-400" />
+                Affordable Price
               </span>
               <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
-                👥 Active TikTok Users
+                <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                Quality Views
               </span>
             </div>
 
@@ -381,7 +382,7 @@ export default function BuyTikTokLikes() {
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                   ) : (
-                    "Get TikTok Likes"
+                    "Get TikTok Views"
                   )}
                 </button>
               </div>
@@ -474,12 +475,12 @@ export default function BuyTikTokLikes() {
           <div className="max-w-3xl mx-auto text-center">
 
             <h2 className="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
-              How to Buy TikTok Likes
+              How to Buy TikTok Views?
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-slate-500">
-              Order genuine TikTok likes in just a few clicks. Fast delivery,
-              secure payment, and real engagement.
+              Ordering is made easier as 1,2,3! No complicated steps,
+              just easier than you think. Experience real growth, extend your growth globally.
             </p>
           </div>
 
@@ -535,8 +536,8 @@ export default function BuyTikTokLikes() {
                 </h3>
 
                 <p className="mt-4 leading-7 text-slate-600">
-                  Type or paste your TikTok username and ensure your account is public
-                  before placing the order.
+                  Enter your TikTok profile name in the given
+                  box and click the Get TikTok Views button.
                 </p>
 
               </div>
@@ -549,7 +550,7 @@ export default function BuyTikTokLikes() {
                 02
               </div>
 
-              <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-pink-50 via-white to-pink-100">
+              <div className="relative h-[405px] overflow-hidden bg-gradient-to-br from-pink-50 via-white to-pink-100">
 
                 <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-pink-400/30 blur-[120px]" />
 
@@ -573,19 +574,18 @@ export default function BuyTikTokLikes() {
 
               </div>
 
-              <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow">
+              <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow -mt-6 z-20">
 
                 <span className="inline-flex rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-pink-600">
                   Step 02
                 </span>
 
                 <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                  Select the Package
+                  Select the Post
                 </h3>
 
                 <p className="mt-4 leading-7 text-slate-600">
-                  Choose the TikTok likes package that matches your growth goals and
-                  select the quantity you need.
+                  You can choose one or more posts to instantly get views.
                 </p>
 
               </div>
@@ -598,7 +598,7 @@ export default function BuyTikTokLikes() {
                 03
               </div>
 
-              <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-violet-50 via-white to-violet-100">
+              <div className="relative h-[405px] overflow-hidden bg-gradient-to-br from-violet-50 via-white to-violet-100">
 
                 <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-violet-400/30 blur-[120px]" />
 
@@ -622,19 +622,19 @@ export default function BuyTikTokLikes() {
 
               </div>
 
-              <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow">
+              <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow -mt-6 z-20">
 
                 <span className="inline-flex rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-violet-600">
                   Step 03
                 </span>
 
                 <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                  Get Instant Likes
+                  Payment Process
                 </h3>
 
                 <p className="mt-4 leading-7 text-slate-600">
-                  Complete your payment securely and receive real TikTok likes with
-                  fast delivery and reliable support.
+                  Finally, select the number of views and recheck before proceeding with payment.
+                  Once the order is placed, you will get it within a few moments.
                 </p>
 
               </div>
@@ -664,12 +664,13 @@ export default function BuyTikTokLikes() {
           >
             {/* Title */}
             <h2 className="text-[26px] sm:text-3xl md:text-[38px] font-extrabold text-[#111827] leading-[1.2] text-center tracking-tight mb-5">
-              Try our Service Now!
+              Want to Boost your TikTok Video Views
             </h2>
 
             {/* Description */}
             <p className="text-[14px] md:text-[16px] font-normal text-[#4B5563] leading-[1.6] max-w-[620px] text-center mb-7">
-              Need to stand out from the crowd? Then buy TikTok likes now and enhance your profile.
+              No more waiting for the right moment. Reach out to us, and we will make it happen.
+              Get reach like never before.
             </p>
 
             {/* Premium Button */}
@@ -677,7 +678,7 @@ export default function BuyTikTokLikes() {
               onClick={handleCTAClick}
               className="inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-sm sm:text-[15px] bg-[#ff1788] hover:bg-[#ff2e9c] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,23,136,0.3)] transition-all duration-300 select-none cursor-pointer"
             >
-              Buy Likes
+              Buy Views
             </button>
           </motion.div>
         </div>
@@ -687,10 +688,10 @@ export default function BuyTikTokLikes() {
       <section className="pt-8 pb-20 px-6 bg-gradient-to-b from-[#f8fafc] via-white to-[#f8fafc] text-gray-900">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-            Benefits of Buying TikTok Likes
+            Why Buy TikTok Views From TikyTop?
           </h2>
           <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Want to grow faster on TikTok? Then here is the simple solution: TikTok likes buy service from TikyTop helps boost audience engagement and improve the chance of going viral.
+            We always provide authenticity over fake promises. You can start growing your TikTok account without any interruptions. You get clean, quick results and a seamless experience.
           </p>
 
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -699,9 +700,9 @@ export default function BuyTikTokLikes() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center text-white mb-4">
                 <TrendingUp className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">Greater Visibility</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Increased Profile Traffic</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                TikTok will reward you when your videos gain more engagement. The more interaction you get, the more you will reach your audience. Many creators choose to buy TikTok likes online to strengthen their video’s engagement. As a result, your content visibility will be improved, and you will have the opportunity to reach the TikTok For You Page.
+                Make your content visible to your non-followers as well. Gaining more views as a creator is one of the main goals, and we help you out with that, which truly makes a change. You can buy TikTok views safely by using our service and improve your audience engagement. As more people discover your profile, the more you will reach globally.
               </p>
             </div>
 
@@ -710,9 +711,9 @@ export default function BuyTikTokLikes() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white mb-4">
                 <UserCheck className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">Organic Growth</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Get Premium Views</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Your content deserves to be seen. With more engagement, people are more likely to watch it and share it with others. We are here to help you, and with our TikTok growth service, you can increase your content visibility, attract new viewers, and support long-term growth. Now your growth is made simpler and easier!
+                Now getting high-quality views is easier. With TikyTop, you can experience reliable service, and there is no need to worry about engagement. You can choose one or more videos; the quality will remain the same. Once the order is placed, you will get them in a few moments. With premium views, your content will be visible more than usual.
               </p>
             </div>
 
@@ -721,9 +722,9 @@ export default function BuyTikTokLikes() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center text-white mb-4">
                 <Shield className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">More Credible</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Strong Video Presence</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Trust begins with credibility. Usually, a credible TikTok profile can build a lasting connection, isn't it? Yes, a lasting connection matters more than random viewers. You can buy TikTok likes from TikyTop, and we help your TikTok account appear more credible and encourage new viewers to see your content.
+                Can you buy views on TikTok to strengthen your video? Of course you can do it. We help you reach a new audience and improve your video performance. The video can be about a brand, a promotional video, or an entertaining video; we help you out. Whenever you need a video boost, we will support you.
               </p>
             </div>
 
@@ -732,9 +733,9 @@ export default function BuyTikTokLikes() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white mb-4">
                 <Clock className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">Saves Time</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Gain More Exposure</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Growing on TikTok needs consistency, and sometimes it might take time. It is easier to buy TikTok likes, and we will help speed up engagement. From now on, you can focus on creating quality content and what matters most. You can spend less time on engagement; we will handle the rest.
+                Being a creator or an influencer is not so easy today. The reason is that millions of users use TikTok. Thousands of videos are posted in one day. To overcome all those challenges, you need to build a strategy and maintain consistency. We are here to support you. Yes, buy real TikTok views from us and increase your chances of your video appearing on FYP.
               </p>
             </div>
 
@@ -743,9 +744,9 @@ export default function BuyTikTokLikes() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-white mb-4">
                 <ThumbsUp className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">High Engagement</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Affordable Views Cost</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                The most important thing is that your content should not look inactive, and users should not skip your video. Each and every TikTok like matters more. That is where TikyTop comes in. We provide premium TikTok likes that receive strong engagement and visibility. As your engagement grows, connect with your audience globally.
+                You might think social media services are expensive and that you need to spend more on them. But the fact is, we don't do that. At TikyTop, you can customize packages, making it simple to choose one that fits your goals. No additional payment and no hidden fees; visit our site and you'll see.
               </p>
             </div>
 
@@ -754,9 +755,9 @@ export default function BuyTikTokLikes() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white mb-4">
                 <Check className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">100% Real Likes</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Friendly User Access</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Having more TikTok likes for the video can add to your social proof. People are more likely to watch videos that have more views, likes, and shares. To make it simple, you can buy genuine TikTok likes from us and boost your credibility. As you get real likes, they never disappear for any reason.
+                Whether you're a budding or experienced creator looking to increase TikTok views, TikyTop is the best place to use it. No additional information is required; enter your username, choose the post, select the quantity and package, and complete the payment. Get your TikTok views instantly—smooth, convenient access.
               </p>
             </div>
           </div>
@@ -767,10 +768,10 @@ export default function BuyTikTokLikes() {
       <section className="py-24 px-6 bg-slate-50 text-gray-900">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
-            Everything You Need To Know About Buying TikTok Likes
+            Why Do Creators Buy TikTok Views From Us?
           </h2>
           <p className="mt-4 text-gray-500 max-w-xl mx-auto text-sm sm:text-base">
-            We ensure that all TikTok likes are from real users. Increase TikTok video reach without compromising the quality.
+            We always offer the best and help your content stand out from the competition. With our premium TikTok views service, you can reach new heights.
           </p>
 
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -780,10 +781,9 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-500 mb-4">
                 <Lock className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">No Password Required</h3>
+              <h3 className="font-bold text-gray-900 text-base mb-2">Multiple Payment Options</h3>
               <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                We always prioritize your privacy first. Yes, we never ask for your passwords. You can experience a smooth process from beginning to end. Only your username is required, along with other required details for payment. With our secure TikTok growth service, you can get instant TikTok likes.
-              </p>
+                When you buy TikTok views, the payment options should be easy. This is why we offer multiple options, so you can choose the one that works for you. Whether the package is small or large, a wide range of payment options is available. You can easily complete the payment in a few steps with our strong encryption.              </p>
             </div>
 
             {/* Support */}
@@ -792,10 +792,9 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 mb-4">
                 <Headphones className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Best Customer Support</h3>
+              <h3 className="font-bold text-gray-900 text-base mb-2">Easily Customize Packages</h3>
               <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                Do you need help with a TikTok likes buy order? No worries, you are not alone; our dedicated support team is always there to support you. The queries might be about service, how to place an order, or delivery. From placing an order to tracking delivery, our team will support you at any time.
-              </p>
+                Each creator and business has a different set of goals. This is why we provide a wide range of options where you can buy TikTok likes and views instantly. Just enter your username, select the post, the number of views you need, and finally make a payment. Now make your growth incredible and achieve more than ever before              </p>
             </div>
 
             {/* Ordering */}
@@ -804,10 +803,9 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600 mb-4">
                 <Zap className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Easy Ordering Process</h3>
+              <h3 className="font-bold text-gray-900 text-base mb-2">100% Trusted Performance</h3>
               <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                TikyTop is easy because you can buy high-retention likes in 3 steps. All you have to do is enter your TikTok username, select a service and package based on your needs and goals, and then choose a video to improve discoverability. Once the video is selected, pay and get likes instantly.
-              </p>
+                We never make fake promises under any circumstances. You can get TikTok views instantly, and there is no compromise in quality. Thousands of creators have gained organic reach, and they come back to us again. This is not only about their success; it's about the commitment, quality, and reliability that we provide.              </p>
             </div>
 
             {/* Premium */}
@@ -816,10 +814,9 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-orange-100 text-orange-600 mb-4">
                 <Star className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Premium TikTok Likes</h3>
+              <h3 className="font-bold text-gray-900 text-base mb-2">High Security Access</h3>
               <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                Our premium service is for all users who are looking to strengthen their profile. We never put your account at risk. You can enjoy a simple ordering process, no fake likes, and customized likes packages. This is why many of the top creators and marketers buy likes for their TikTok account.
-              </p>
+                While using our service, your payment, right from choosing your order to making payment, is done securely. We also use strong encryption so your details are kept safe from being shared or stolen. You can buy TikTok views with confidence. We prioritize your safety, so there is no need to worry about security.              </p>
             </div>
           </div>
         </div>
@@ -833,16 +830,15 @@ export default function BuyTikTokLikes() {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="bg-slate-900/5 backdrop-blur-xl rounded-[2.5rem] border border-slate-200/50 p-12 md:p-16 shadow-xl text-center">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-955 mb-6 leading-tight">
-              Want to Boost Your TikTok Profile?
+              Looking To Buy Views Without a Password?
             </h2>
             <p className="text-lg text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto">
-              We have premium-quality TikTok likes that deliver to your selected video instantly!
-            </p>
+              You can purchase real TikTok views without sharing any of your details. Just your username is enough, and no more details are required.             </p>
             <button
               onClick={handleCTAClick}
               className="px-10 py-4.5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105"
             >
-              Get TikTok Likes
+              Grow Account Now
             </button>
           </div>
         </div>
@@ -853,11 +849,10 @@ export default function BuyTikTokLikes() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
-              Frequently Asked Questions on Buy TikTok Likes
+              Frequently Asked Questions on TikTok Views
             </h2>
             <p className="mt-4 text-gray-500 text-sm sm:text-base">
-              Have Questions About Buying TikTok Likes? We've got you covered! Here are the most commonly asked questions on how to buy likes on TikTok, packages, security, and more.
-            </p>
+              No more confusion. We answer all your questions so you can learn more about our service. Explore your queries and get views instantly.            </p>
           </div>
 
           <div className="space-y-4">
@@ -908,17 +903,16 @@ export default function BuyTikTokLikes() {
 
         <div className="max-w-4xl mx-auto relative z-10 space-y-8">
           <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-            Grow Your Profile With Us!
+            Order TikTok Views
           </h2>
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
-            We offer the best TikTok likes in the market. If you want to boost your profile, buy TikTok likes and views from us!
-          </p>
+            With proper support and simple ordering, you can get results within a few moments. Your account growth starts here.           </p>
           <div className="pt-4">
             <button
               onClick={handleCTAClick}
               className="px-12 py-5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-extrabold text-lg hover:shadow-[0_0_35px_rgba(236,72,153,0.4)] hover:scale-105 transition-all duration-300 border border-pink-400/30"
             >
-              Click Here
+              Purchase Now
             </button>
           </div>
         </div>
@@ -928,11 +922,10 @@ export default function BuyTikTokLikes() {
       <section className="py-24 px-6 bg-white overflow-hidden relative text-gray-900">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-            Hear From Our Real Customers
+            TikTok Views: Hear From Our Real Customers
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto mb-16 text-sm sm:text-base">
-            We are proud to have so many TikyTop customers coming back again and again to buy TikTok likes and increase their profile reach.
-          </p>
+            Our customer satisfaction is our top priority. See what our customers say about our service and how satisfied they are.          </p>
         </div>
 
         {/* Carousel container */}

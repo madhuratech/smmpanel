@@ -22,11 +22,20 @@ import FreeTrial from './pages/FreeTrial';
 import FreeService from './pages/FreeService';
 import DirectOrderService from './pages/DirectOrderService';
 import BuyTikTokLikes from './pages/BuyTikTokLikes';
+import BuyTikTokViews from './pages/BuyTikTokViews';
+import About from './pages/About';
+import ContactUs from './pages/ContactUs';
+import Terms from './pages/Terms';
+import RefundPolicy from './pages/RefundPolicy';
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact-us" element={<ContactUs />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/refund-policy" element={<RefundPolicy />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
@@ -36,6 +45,7 @@ export default function AppRoutes() {
       <Route path="/account" element={<Account />} />
       <Route path="/tiktok" element={<TikTok />} />
       <Route path="/tiktok/buy-likes" element={<BuyTikTokLikes />} />
+      <Route path="/tiktok/buy-views" element={<BuyTikTokViews />} />
       <Route path="/instagram" element={<Instagram />} />
       <Route path="/facebook" element={<Facebook />} />
       <Route path="/youtube" element={<YouTube />} />

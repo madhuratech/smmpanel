@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 
@@ -71,6 +71,56 @@ const handleSubmit = async (e) => {
   }
 };
 
+  const handleGoogleResponse = async (response) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: response.credential }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Google sign-in failed. Please try again.");
+      }
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || "1029384756-abcdefg.apps.googleusercontent.com",
+          callback: handleGoogleResponse,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById("google-signin-btn"),
+          { theme: "outline", size: "large", width: 382 }
+        );
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-transparent flex items-center justify-center pt-28 pb-8 sm:pt-32 sm:pb-12 px-4">
       <div className="max-w-md w-full">
@@ -103,6 +153,16 @@ const handleSubmit = async (e) => {
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
+
+          <div className="my-6 flex items-center justify-between">
+            <span className="border-b w-1/5 lg:w-1/4"></span>
+            <span className="text-xs text-center text-gray-500 uppercase">or login with</span>
+            <span className="border-b w-1/5 lg:w-1/4"></span>
+          </div>
+
+          <div className="flex justify-center mb-6">
+            <div id="google-signin-btn"></div>
+          </div>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">

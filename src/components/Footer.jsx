@@ -5,6 +5,7 @@ import Paypal from "../assets/logos/PayPal.svg"
 import PayU from "../assets/logos/PayU.svg"
 import TikyTop from "../assets/logos/TikyTop.png"
 import Cashfree from "../assets/logos/Cashfree.svg"
+import { Link } from "react-router-dom";
 import Hero from "./Hero";
 
 export default function Footer() {
@@ -36,18 +37,16 @@ export default function Footer() {
             <h3 className="font-bold text-[22px] mb-4.5 text-pink-500">
               Resources
             </h3>
-            <ul className="text-left text-[17px] leading-[1.8]">
-              {["Blog", "Press", "Support", "Terms of Service", "Privacy Policy"].map((item) => (
-                <li
-                  key={item}
-                  onClick={() => {
-                    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="cursor-pointer transition duration-300 min-h-[44px] flex items-center"
-                >
-                  {item}
-                </li>
-              ))}
+            <ul className="text-left text-[17px] leading-[1.8] space-y-1">
+              <li className="min-h-[44px] flex items-center">
+                <Link to="/contact-us" className="transition duration-300 w-full hover:text-pink-500">Contact Us</Link>
+              </li>
+              <li className="min-h-[44px] flex items-center">
+                <Link to="/terms" className="transition duration-300 w-full hover:text-pink-500">Terms</Link>
+              </li>
+              <li className="min-h-[44px] flex items-center">
+                <Link to="/refund-policy" className="transition duration-300 w-full hover:text-pink-500">Refund Policy</Link>
+              </li>
             </ul>
           </div>
 
@@ -107,8 +106,9 @@ export default function Footer() {
             </p>
             <ul className="flex flex-col gap-4 text-[14px] font-medium text-white/70">
               <li className="cursor-pointer" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })}>Privacy Policy</li>
-              <li className="cursor-pointer" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })}>Terms & Conditions</li>
-              <li className="cursor-pointer" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })}>Refund Policy</li>
+              <li><Link to="/terms" className="hover:underline">Terms & Conditions</Link></li>
+              <li><Link to="/refund-policy" className="hover:underline">Refund Policy</Link></li>
+              <li><Link to="/contact-us" className="hover:underline">Contact Us</Link></li>
             </ul>
           </div>
         </div>
@@ -129,18 +129,16 @@ export default function Footer() {
               <h3 className="font-semibold text-lg mb-4 text-pink-500">
                 Resources
               </h3>
-              <ul className="space-y-3 text-sm">
-                {["Blog", "Press", "Support", "Terms of Service", "Privacy Policy"].map((item) => (
-                  <li
-                    key={item}
-                    onClick={() => {
-                      document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="cursor-pointer transition duration-300 min-h-[44px] flex items-center"
-                  >
-                    {item}
-                  </li>
-                ))}
+              <ul className="text-sm">
+                <li className="min-h-[44px] flex items-center">
+                  <Link to="/contact-us" className="hover:text-pink-500 transition duration-300">Contact Us</Link>
+                </li>
+                <li className="min-h-[44px] flex items-center">
+                  <Link to="/terms" className="hover:text-pink-500 transition duration-300">Terms</Link>
+                </li>
+                <li className="min-h-[44px] flex items-center">
+                  <Link to="/refund-policy" className="hover:text-pink-500 transition duration-300">Refund Policy</Link>
+                </li>
               </ul>
             </div>
           </div>

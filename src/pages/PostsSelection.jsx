@@ -6,7 +6,7 @@ const PostsSelection = () => {
   useScrollToTop()
   const navigate = useNavigate()
   const location = useLocation()
-  const {username,platform,selectedService,quantity} = location.state || {}
+  const {username,platform,selectedService,quantity,entryPath} = location.state || {}
   const [selectedPosts, setSelectedPosts] = useState(
   location.state?.selectedPostsIds || []
  );
@@ -205,7 +205,8 @@ const PostsSelection = () => {
         selectedPosts: filteredPosts,
         selectedPostsIds: selectedPosts,
         splitQuantities,
-        contentType
+        contentType,
+        entryPath
       }
     })
   };
@@ -222,10 +223,16 @@ const PostsSelection = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-6">
           <button
-            onClick={() => navigate('/profile-overview', {
-              state: { username, platform, userdata },
-              replace: true
-            })}
+            onClick={() => {
+              if (entryPath) {
+                navigate(entryPath, { replace: true });
+              } else {
+                navigate('/profile-overview', {
+                  state: { username, platform, userdata },
+                  replace: true
+                });
+              }
+            }}
             className="group flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white hover:bg-gray-50 border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300"
           >
             <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-gray-200 group-hover:text-gray-900 transition-all duration-300 text-[10px] font-bold">
@@ -299,7 +306,10 @@ const PostsSelection = () => {
                 The account may be private or have no {label.toLowerCase()}s.
               </p>
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => {
+                  if (entryPath) navigate(entryPath, { replace: true });
+                  else navigate('/profile-overview', { state: { username, platform, userdata }, replace: true });
+                }}
                 className={`bg-gradient-to-r ${config.color} text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all`}
               >
                 ← Go Back

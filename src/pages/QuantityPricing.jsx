@@ -167,6 +167,7 @@ const QuantityPricing = () => {
   const selectedPosts = location.state?.selectedPosts || location.state?.posts || []
   const selectedService = location.state?.selectedService
   const userdata = location.state?.userdata
+  const entryPath = location.state?.entryPath
 
   const contentType = location.state?.contentType
   const singleLink = location.state?.link
@@ -608,10 +609,14 @@ const QuantityPricing = () => {
 
   const handleBackToPosts = () => {
     if (isProfileService) {
-      navigate("/profile-overview", {
-        state: { username, platform, selectedService, userdata },
-        replace: true
-      })
+      if (entryPath) {
+        navigate(entryPath, { replace: true })
+      } else {
+        navigate("/profile-overview", {
+          state: { username, platform, selectedService, userdata },
+          replace: true
+        })
+      }
       return
     }
 
@@ -619,7 +624,8 @@ const QuantityPricing = () => {
       state: {
         username, platform, selectedService, userdata, quantity,
         selectedPostsIds: selectedPosts.map((p, i) => p.id || p.videoId || p.pk || i),
-        splitQuantities: location.state?.splitQuantities || {}
+        splitQuantities: location.state?.splitQuantities || {},
+        entryPath
       },
       replace: true
     })
@@ -635,7 +641,7 @@ const QuantityPricing = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-6">
           <button
-            onClick={isDirectOrder ? () => navigate('/', { replace: true }) : handleBackToPosts}
+            onClick={isDirectOrder ? () => navigate(-1) : handleBackToPosts}
             className="group flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white hover:bg-gray-50 border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300"
           >
             <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-gray-200 group-hover:text-gray-900 transition-all duration-300 text-[10px] font-bold">

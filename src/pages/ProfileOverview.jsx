@@ -83,12 +83,7 @@ const ProfileOverview = () => {
   useScrollToTop()
   const navigate = useNavigate()
   const location = useLocation()
-  const { username, platform } = location.state || {}
-  
-  const [selectedService, setSelectedService] = useState(null)
-  const [livePrices, setLivePrices] = useState({});
-  const [services, setServices] = useState([]);
-  const [isLoadingContent, setIsLoadingContent] = useState(false);
+  const { username, platform, selectedServiceKey, entryPath } = location.state || {}
   const userdata = location.state?.userdata || (username ? {
     username: username,
     avatar: '',
@@ -97,6 +92,58 @@ const ProfileOverview = () => {
     postsCount: 0,
     posts: []
   } : null);
+  
+  const [selectedService, setSelectedService] = useState(null)
+  const [livePrices, setLivePrices] = useState({});
+  const [services, setServices] = useState([]);
+  const [isLoadingContent, setIsLoadingContent] = useState(false);
+
+  // Auto-redirect if service is pre-selected from Navbar
+  useEffect(() => {
+    if (services.length > 0 && Object.keys(livePrices).length > 0 && selectedServiceKey) {
+      const targetKey = selectedServiceKey.toLowerCase().trim();
+      const matched = services.find(s => {
+        const type = detectServiceType(s.name);
+        return type === targetKey || s.name.toLowerCase().includes(targetKey);
+      });
+      if (matched) {
+        // Prepare the selected service with pricing
+        const key = getServiceKey(platform, matched.name);
+        const livePriceItem = livePrices[key];
+        const serviceWithPricing = {
+          ...matched,
+          serviceKey: key,
+          packages: livePriceItem?.packages || [],
+          pricing: livePriceItem?.pricing || null
+        };
+        const contentType = matched.contentType || resolveContentType(matched);
+
+        if (contentType === "profile") {
+          navigate("/quantity-pricing", {
+            state: {
+              username,
+              platform,
+              selectedService: serviceWithPricing,
+              userdata,
+              entryPath
+            }
+          });
+        } else {
+          navigate("/posts-selection", {
+            state: {
+              username,
+              platform,
+              selectedService: serviceWithPricing,
+              userdata,
+              contentType,
+              entryPath
+            }
+          });
+        }
+      }
+    }
+  }, [services, livePrices, selectedServiceKey, platform, username, userdata, entryPath, navigate]);
+
 
   const API_URL = "http://localhost:5000/api/pricing/all";
   const SERVICES_API ="http://localhost:5001/api/services";
@@ -386,6 +433,15 @@ const getServiceIcon = (serviceName) => {
     if (item && item.description) return item.description;
     return `Boost your ${serviceName} instantly.`;
   };
+
+  if (selectedServiceKey) {
+    return (
+      <div className="min-h-screen bg-[#0f0817] flex flex-col items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+        <p className="text-gray-400 mt-4 text-sm font-semibold">Loading your posts...</p>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen bg-transparent py-8 px-4`}>

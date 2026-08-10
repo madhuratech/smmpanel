@@ -23,7 +23,7 @@ import {
 import { FaThreads, FaXTwitter } from "react-icons/fa6";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Tiky from "../assets/images/Tikytopnew3.png";
+import Tiky from "../assets/images/Landingpage2.png";
 
 const EXTRA_PLATFORMS = [
   { name: "Facebook", icon: <FaFacebook className="text-[#1877F2]" />, key: "facebook" },
@@ -368,7 +368,9 @@ export default function Hero({ platform: propPlatform, onSearch }) {
         state: {
           userdata: data,
           platform,
-          username: input
+          username: input,
+          selectedServiceKey: location.state?.selectedServiceKey,
+          entryPath: location.pathname
         }
       });
     } catch (error) {
@@ -383,21 +385,37 @@ export default function Hero({ platform: propPlatform, onSearch }) {
 
   return (
     <section id="hero" className="relative w-full min-h-screen bg-[#1a0b2e] flex items-center justify-center pt-28 pb-10 overflow-x-clip overflow-y-visible">
-      {/* Immersive background wrapper to restrict image zoom overflow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="w-full h-full bg-center bg-no-repeat transition-transform duration-300"
-          style={{
-            backgroundImage: `url(${Tiky})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-            transform: "scale(1)",
-          }}
-        />
-      </div>
-      <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+      {/* HERO IMAGE - BACKGROUND */}
+      <img
+        src={Tiky}
+        alt=""
+        className="absolute inset-0 z-0 w-full h-full object-cover"
+      />
 
-      <div className="relative z-30 text-white w-full global-container flex flex-col justify-center min-h-screen">
+      {/* Main dark purple base */}
+      <div className="absolute inset-0 z-[1] bg-[#16002d]/35 pointer-events-none" />
+
+      {/* TOP PINK/PURPLE GLOW */}
+      <div
+        className="absolute inset-x-0 top-0 z-[2] h-[45%] pointer-events-none bg-[radial-gradient(ellipse_at_12%_0%,rgba(255,0,128,0.72)_0%,rgba(190,0,120,0.42)_28%,rgba(80,0,100,0.18)_55%,transparent_78%)]"
+      />
+
+      {/* TOP RIGHT BLUE GLOW */}
+      <div
+        className="absolute inset-x-0 top-0 z-[2] h-[50%] pointer-events-none bg-[radial-gradient(ellipse_at_90%_0%,rgba(20,30,180,0.55)_0%,rgba(20,20,100,0.25)_45%,transparent_75%)]"
+      />
+
+      {/* BOTTOM PINK/PURPLE GLOW */}
+      <div
+        className="absolute inset-x-0 bottom-0 z-[2] h-[45%] pointer-events-none bg-[radial-gradient(ellipse_at_12%_100%,rgba(255,0,128,0.68)_0%,rgba(180,0,120,0.42)_30%,rgba(70,0,100,0.18)_58%,transparent_80%)]"
+      />
+
+      {/* BOTTOM RIGHT BLUE/PURPLE GLOW */}
+      <div
+        className="absolute inset-x-0 bottom-0 z-[2] h-[45%] pointer-events-none bg-[radial-gradient(ellipse_at_88%_100%,rgba(35,20,180,0.48)_0%,rgba(30,10,120,0.25)_45%,transparent_78%)]"
+      />
+
+      <div className="relative z-10 text-white w-full global-container flex flex-col justify-center min-h-screen">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full text-center md:text-center lg:text-left">
           {/* Left Column content (7/12 width in lg, full in mobile/tablet) */}
           <div className="lg:col-span-7 space-y-8 flex flex-col items-center lg:items-start">

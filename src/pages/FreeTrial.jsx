@@ -1,8 +1,24 @@
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
 const FreeTrialPage = () => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [rewardCoins, setRewardCoins] = useState(20);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/freetrial/reward-info")
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error();
+      })
+      .then(data => {
+        if (data.coins) {
+          setRewardCoins(data.coins);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
  const handleGenerateClick = async (
   service
@@ -87,7 +103,7 @@ const FreeTrialPage = () => {
     );
 
     alert(
-      "50 Coins Added Successfully 🎉"
+      "20 Coins Added Successfully 🎉"
     );
 
     navigate(
@@ -125,7 +141,7 @@ const FreeTrialPage = () => {
           </p>
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#FF6B35] to-[#FFA500] text-white px-6 py-3 rounded-full font-semibold shadow-lg">
             <span className="text-xl">🎁</span>
-            <span>Get 50 Free Coins to Try Selected Services</span>
+            <span>Get {rewardCoins} Free Coins to Try Selected Services</span>
           </div>
         </div>
 
@@ -153,7 +169,7 @@ const FreeTrialPage = () => {
             {[
                {step: "1", title: "Choose Service", desc: "Select Instagram trial service",},
                {step: "2", title: "Create Account", desc: "Login or register instantly",},
-               {step: "3", title: "Claim Coins", desc: "Get 50 free trial coins",},
+               {step: "3", title: "Claim Coins", desc: `Get ${rewardCoins} free trial coins`},
                {step: "4",title: "See Results", desc: "Experience fast delivery",},
              ].map((item) => (
               <div key={item.step} className="text-center">

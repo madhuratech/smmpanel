@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import bgImage from "../assets/images/direct_link_bg.png";
 
 const detectServiceType = (name, category) => {
   const n = (name || "").toLowerCase();
@@ -65,7 +66,7 @@ const getServiceKey = (platform, serviceName) => {
   } else {
     key = s.replace(/[^a-z0-9]/g, "_");
   }
-  
+
   return `${p}_${key}`;
 };
 
@@ -76,6 +77,16 @@ export default function DirectOrderService() {
   const [hoveredService, setHoveredService] = useState(null);
   const [mounted, setMounted] = useState(false);
   const [pricingMap, setPricingMap] = useState({});
+  const [localLink, setLocalLink] = useState(orderLink || "");
+  const [currentLinkType, setCurrentLinkType] = useState(linkType || "profile");
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (!localLink.trim()) return;
+    const input = localLink.trim();
+    const isPost = input.includes("/p/") || input.includes("/reel/") || input.includes("/video/") || input.includes("/posts/") || input.includes("/watch?v=") || input.includes("/watch") || input.includes("/track/");
+    setCurrentLinkType(isPost ? "post" : "profile");
+  };
 
   const PRICING_API = "http://localhost:5000/api/pricing/all";
 
@@ -163,6 +174,63 @@ export default function DirectOrderService() {
   const config = platformConfig[platform] || platformConfig.instagram;
 
   // ── Services ──────────────────────────────────────────────────
+  const serviceStyles = {
+    followers: {
+      gradient: "linear-gradient(135deg, #F9E8FF, #E9D5FF, #F5E9FF)",
+      iconBg: "from-[#8b5cf6] to-[#ec4899]",
+      textColor: "text-[#111827]",
+      descColor: "text-[#4b5563]",
+      priceColor: "text-[#8b5cf6]",
+      dividerColor: "border-[#e5e7eb]",
+      glow: "shadow-[0_10px_25px_rgba(233,213,255,0.35)]"
+    },
+    subscribers: {
+      gradient: "linear-gradient(135deg, #E8F7FF, #DDF3FF, #EAF5FF)",
+      iconBg: "from-[#3b82f6] to-[#06b6d4]",
+      textColor: "text-[#111827]",
+      descColor: "text-[#4b5563]",
+      priceColor: "text-[#3b82f6]",
+      dividerColor: "border-[#e5e7eb]",
+      glow: "shadow-[0_10px_25px_rgba(221,243,255,0.35)]"
+    },
+    likes: {
+      gradient: "linear-gradient(135deg, #FFF0F2, #FFE4E8, #FFF5F6)",
+      iconBg: "from-[#fb7185] to-[#f43f5e]",
+      textColor: "text-[#111827]",
+      descColor: "text-[#4b5563]",
+      priceColor: "text-[#f43f5e]",
+      dividerColor: "border-[#e5e7eb]",
+      glow: "shadow-[0_10px_25px_rgba(255,228,232,0.35)]"
+    },
+    views: {
+      gradient: "linear-gradient(135deg, #FFFDF5, #FEF3C7, #FFFDF5)",
+      iconBg: "from-[#fbbf24] to-[#f59e0b]",
+      textColor: "text-[#111827]",
+      descColor: "text-[#4b5563]",
+      priceColor: "text-[#f59e0b]",
+      dividerColor: "border-[#e5e7eb]",
+      glow: "shadow-[0_10px_25px_rgba(254,243,199,0.35)]"
+    },
+    comments: {
+      gradient: "linear-gradient(135deg, #F0FDF4, #DCFCE7, #F0FDF4)",
+      iconBg: "from-[#34d399] to-[#10b981]",
+      textColor: "text-[#111827]",
+      descColor: "text-[#4b5563]",
+      priceColor: "text-[#10b981]",
+      dividerColor: "border-[#e5e7eb]",
+      glow: "shadow-[0_10px_25px_rgba(220,252,231,0.35)]"
+    },
+    shares: {
+      gradient: "linear-gradient(135deg, #F5F3FF, #EDE9FE, #F5F3FF)",
+      iconBg: "from-[#818cf8] to-[#6366f1]",
+      textColor: "text-[#111827]",
+      descColor: "text-[#4b5563]",
+      priceColor: "text-[#6366f1]",
+      dividerColor: "border-[#e5e7eb]",
+      glow: "shadow-[0_10px_25px_rgba(237,233,254,0.35)]"
+    }
+  };
+
   const profileServices = [
     {
       name: "Followers",
@@ -217,7 +285,7 @@ export default function DirectOrderService() {
     },
   ];
 
-  const services = linkType === "profile" ? profileServices : postServices;
+  const services = currentLinkType === "profile" ? profileServices : postServices;
 
   // ── Navigate to Quantity Page ─────────────────────────────────
   const handleService = (service) => {
@@ -226,9 +294,9 @@ export default function DirectOrderService() {
     navigate("/quantity-pricing", {
       state: {
         directOrder: true,
-        orderLink,
+        orderLink: localLink,
         platform,
-        linkType,
+        linkType: currentLinkType,
         service: key,
         selectedService: {
           name: service.name,
@@ -240,7 +308,13 @@ export default function DirectOrderService() {
     });
   };
   return (
-    <div className="min-h-screen bg-transparent relative overflow-hidden">
+    <div className="min-h-screen bg-[#0f0817] text-white relative overflow-hidden font-sans">
+
+      {/* ── Background Hero Image Overlay ── */}
+      <div className="absolute top-0 left-0 right-0 h-[600px] w-full z-0 overflow-hidden pointer-events-none">
+        <img src={bgImage} alt="" className="w-full h-full object-cover opacity-85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f0817]/70 to-[#0f0817]" />
+      </div>
 
       {/* ── Animated Background Orbs ── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -265,187 +339,164 @@ export default function DirectOrderService() {
         />
       </div>
 
-      <div className="relative z-10 max-w-3xl mx-auto px-4 py-12">
+      <div className="relative z-10 max-w-[1280px] mx-auto px-6 pt-44 pb-24">
 
         {/* ── Back Button ── */}
         <button
           onClick={() => navigate(-1)}
-          className="mb-10 flex items-center gap-2 text-gray-500 hover:text-white transition-all group"
+          className="mb-10 flex items-center gap-2 text-gray-400 hover:text-white transition-all group"
         >
           <span
-            className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white/30 group-hover:bg-white/10 transition-all"
+            className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white/30 group-hover:bg-white/10 transition-all text-sm"
           >
             ←
           </span>
           <span className="text-sm font-medium">Back</span>
         </button>
 
-        {/* ── Header ── */}
+        {/* ── Hero Section ── */}
         <div
-          className="text-center mb-10 text-black"
+          className="relative z-10 py-12 md:py-16 max-w-4xl space-y-8 text-left"
           style={{
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(16px)",
             transition: "all 0.6s cubic-bezier(0.4,0,0.2,1)",
           }}
         >
-          {/* Platform badge */}
-          <div className="flex justify-center mb-5">
-            <span
-              className={`${config.badge} text-white px-5 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-xl`}
-            >
-              <span>{config.icon}</span>
-              {config.name}
-              <span className="mx-1 opacity-50">·</span>
-              {linkType === "profile" ? "Profile Link" : "Post / Video Link"}
+          <div className="space-y-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-gray-300 uppercase tracking-wider">
+              ✨ Social Media Growth
             </span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+              Choose Your{" "}
+              <span className={`bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent`}>
+                Service
+              </span>
+            </h1>
+            <p className="text-gray-300 text-lg max-w-xl">
+              Select what you'd like to boost for this link. Build instant social proof with our high-retention services.
+            </p>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-3 leading-tight">
-            Choose Your{" "}
-            <span
-              className={`bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent`}
-            >
-              Service
-            </span>
-          </h1>
-          <p className="text-gray-400 text-lg">
-            Select what you'd like to boost for this link
-          </p>
-        </div>
+          {/* Profile / Target Link search bar */}
+          <div className="w-full max-w-2xl bg-white rounded-full p-1.5 flex items-center shadow-lg border border-white/20">
+            {/* Platform Circular Badge */}
+            <div className="flex-shrink-0 w-11 h-11 rounded-full bg-slate-900 flex items-center justify-center ml-1 text-lg shadow">
+              {config.icon}
+            </div>
 
-        {/* ── Link Preview Card ── */}
-        <div
-          className="mb-10"
-          style={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? "translateY(0)" : "translateY(16px)",
-            transition: "all 0.6s cubic-bezier(0.4,0,0.2,1) 0.1s",
-          }}
-        >
-          <div className="backdrop-blur-xl bg-black/[1.01] border border-white/[0.08] rounded-2xl p-5 flex items-center gap-4">
-            <div
-              className={`w-12 h-12 rounded-xl bg-gradient-to-br ${config.gradient} flex items-center justify-center text-2xl flex-shrink-0 shadow-lg`}
+            {/* Input Field */}
+            <input
+              type="text"
+              value={localLink}
+              onChange={(e) => setLocalLink(e.target.value)}
+              placeholder="Enter your profile link / username"
+              className="flex-grow h-full px-4 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-sm font-medium text-gray-800 placeholder-gray-400 min-w-0"
+            />
+
+            {/* Search Button */}
+            <button
+              onClick={handleSearchSubmit}
+              style={{
+                background: `linear-gradient(90deg, #ff008e, #8b2cff)`
+              }}
+              className="flex-shrink-0 flex items-center justify-center px-6 h-11 rounded-full text-white text-sm font-bold transition-all duration-300 mr-0.5 hover:scale-[1.02] hover:shadow-[0_0_15px_rgba(255,0,142,0.35)] select-none cursor-pointer capitalize"
             >
-              {linkType === "profile" ? "👤" : "📄"}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] text-white mb-1 font-semibold uppercase tracking-widest">
-                Target Link
-              </p>
-              <p className="text-gray-200 text-sm font-mono truncate">
-                {orderLink || "No link provided"}
-              </p>
-            </div>
-            <span
-              className={`text-xs px-3 py-1.5 rounded-full font-semibold flex-shrink-0 border ${
-                linkType === "profile"
-                  ? "bg-violet-500/10 text-violet-300 border-violet-500/20"
-                  : "bg-orange-500/10 text-orange-300 border-orange-500/20"
-              }`}
-            >
-              {linkType === "profile" ? "Profile" : "Post"}
-            </span>
+              {currentLinkType === "profile" ? "Profile" : "Post"}
+            </button>
+          </div>
+
+          {/* Optional supporting tags */}
+          <div className="flex flex-wrap gap-3 pt-2">
+            {["⚡ Fast Delivery", "🔒 Secure Checkouts", "💯 Real Results"].map(tag => (
+              <span key={tag} className="text-xs text-gray-300 bg-white/10 border border-white/10 px-3 py-1.5 rounded-full font-medium">
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* ── Service Cards ── */}
+        {/* ── Service Section Title ── */}
+        <div className="text-center mb-8 relative z-10">
+          <h2 className="text-2xl font-bold text-white">Choose a service for this link</h2>
+        </div>
+
+        {/* ── Service Cards Grid ── */}
         <div
-          className={`grid ${
-            services.length === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2"
-          } gap-4`}
+          className="flex flex-wrap justify-center gap-6 relative z-10 mx-auto max-w-5xl"
           style={{
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(16px)",
             transition: "all 0.6s cubic-bezier(0.4,0,0.2,1) 0.2s",
           }}
         >
-          {services.map((service, idx) => (
-            <button
-              key={service.key}
-              onClick={() => handleService(service)}
-              onMouseEnter={() => setHoveredService(service.key)}
-              onMouseLeave={() => setHoveredService(null)}
-              className="group relative text-left"
-              style={{
-                transitionDelay: `${idx * 60}ms`,
-                opacity: mounted ? 1 : 0,
-                transform: mounted ? "translateY(0)" : "translateY(12px)",
-                transition: `all 0.5s cubic-bezier(0.4,0,0.2,1) ${0.2 + idx * 0.06}s`,
-              }}
-            >
-              <div
-             className={`relative overflow-hidden rounded-2xl border transition-all duration-300 p-6 ${
-              hoveredService === service.key
-             ? `border-black/20 bg-white text-black  scale-[1.02] 
-             shadow-2xl 
-            ${config.cardGlow}`
-           : "border-black/[0.07] bg-black text-white hover:border-white/10"
-         }`}>
-                {/* Inner glow overlay */}
-                <div
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-[0.07] transition-opacity duration-300`}
-                />
-
-                {/* Most popular badge */}
-                {service.badge && (
-                  <div className="absolute top-4 right-4">
-                    <span
-                      className={`text-[10px] px-2.5 py-1 rounded-full font-bold bg-gradient-to-r ${service.color} text-white shadow-lg`}
-                    >
-                      {service.badge}
-                    </span>
+          {services.map((service, idx) => {
+            const pricing = getServicePricing(service.name);
+            const style = serviceStyles[service.key] || serviceStyles.followers;
+            return (
+              <button
+                key={service.key}
+                onClick={() => handleService(service)}
+                onMouseEnter={() => setHoveredService(service.key)}
+                onMouseLeave={() => setHoveredService(null)}
+                className={`group text-left focus:outline-none w-[340px] rounded-[24px] transition-all duration-300 transform ${style.glow} hover:scale-[1.02] hover:-translate-y-1`}
+                style={{
+                  background: style.gradient,
+                  transitionDelay: `${idx * 60}ms`
+                }}
+              >
+                <div className={`relative overflow-hidden rounded-[24px] border ${style.dividerColor} p-7 flex flex-col justify-between h-full min-h-[240px]`}>
+                  
+                  {/* Top section: Icon, badge, Arrow */}
+                  <div className="flex items-start justify-between w-full mb-4 relative z-10">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${style.iconBg} flex items-center justify-center text-2xl shadow-sm`}>
+                      <span className="text-white">{service.icon}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      {service.badge && (
+                        <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold bg-[#8b5cf6]/10 border border-[#8b5cf6]/20 text-[#8b5cf6]`}>
+                          {service.badge}
+                        </span>
+                      )}
+                      <span className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-gray-700 font-bold transition-all duration-300 group-hover:scale-105 shadow-sm border border-gray-100">
+                        →
+                      </span>
+                    </div>
                   </div>
-                )}
 
-                {/* Icon + Arrow */}
-                <div className="flex items-start justify-between mb-5">
-                  <div
-                    className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    {service.icon}
+                  {/* Middle section: Content */}
+                  <div className="space-y-2 relative z-10">
+                    <h3 className={`text-xl font-bold ${style.textColor}`}>
+                      {service.name}
+                    </h3>
+                    <p className={`text-sm leading-relaxed ${style.descColor} font-medium`}>
+                      {pricing.description || service.desc}
+                    </p>
                   </div>
-                  <span
-                    className={`mt-1 w-8 h-8 rounded-full border flex items-center justify-center text-sm transition-all duration-300 ${
-                      hoveredService === service.key
-                        ? "border-white/30 bg-white/10 text-white"
-                        : "border-white/10 text-gray-600"
-                    }`}
-                  >
-                    →
-                  </span>
+
+                  {/* Divider */}
+                  <div className={`my-4 border-t ${style.dividerColor}`} />
+
+                  {/* Bottom section: Pricing */}
+                  <div className="relative z-10 flex items-center justify-between">
+                    {pricing.startingPrice !== undefined && pricing.startingPrice !== null ? (
+                      <span className={`text-base font-bold ${style.priceColor}`}>
+                        From ${pricing.startingPrice}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-gray-500">Checking price...</span>
+                    )}
+                  </div>
                 </div>
-
-                {/* Text */}
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-black transition-colors">
-                  {service.name}
-                </h3>
-                <p className="text-gray-500 text-sm group-hover:text-gray-400 transition-colors leading-relaxed">
-                  {getServicePricing(service.name).description || `Boost your ${service.name} instantly.`}
-                </p>
-
-                <div className="mt-3">
-                  {getServicePricing(service.name).startingPrice !== undefined && getServicePricing(service.name).startingPrice !== null && (
-                    <span className="inline-block text-xs font-bold text-green-400 group-hover:text-green-600 transition-colors">
-                      From ${getServicePricing(service.name).startingPrice}
-                    </span>
-                  )}
-                </div>
-
-                {/* Bottom gradient bar */}
-                <div
-                  className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r ${service.color} transition-opacity duration-300 ${
-                    hoveredService === service.key ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
 
         {/* ── Trust Badges ── */}
         <div
-          className="mt-12 flex flex-wrap justify-center gap-6 text-gray-700 text-xs"
+          className="mt-16 flex flex-wrap justify-center gap-6 text-gray-500 text-xs"
           style={{
             opacity: mounted ? 1 : 0,
             transition: "opacity 0.6s 0.5s",
@@ -455,13 +506,50 @@ export default function DirectOrderService() {
             (badge) => (
               <span
                 key={badge}
-                className="backdrop-blur-md bg-white/[0.03] border border-white/[0.06] px-4 py-2 rounded-full"
+                className="backdrop-blur-md bg-white/5 border border-white/10 px-4 py-2 rounded-full font-medium"
               >
                 {badge}
               </span>
             )
           )}
         </div>
+      </div>
+
+      {/* ── Bottom Wave UI SVG ── */}
+      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-[0] z-0 pointer-events-none">
+        <svg
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+          className="relative block w-full h-[60px] md:h-[90px]"
+        >
+          <path
+            d="M0,32L80,37.3C160,43,320,53,480,58.7C640,64,800,64,960,58.7C1120,53,1280,43,1360,37.3L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+            fill="#ffffff"
+            opacity="0.10"
+            style={{ filter: "blur(2px)" }}
+          />
+          <path
+            d="M0,53L80,48C160,43,320,32,480,37.3C640,43,800,64,960,69.3C1120,75,1280,64,1360,58.7L1440,53L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+            fill="#ffffff"
+            opacity="0.20"
+          />
+          <path
+            d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+            fill="#ffffff"
+            opacity="0.40"
+          />
+          <path
+            d="M0,85L80,80C160,75,320,64,480,69.3C640,75,800,96,960,96C1120,96,1280,75,1360,64L1440,53L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+            fill="#ffffff"
+            opacity="0.70"
+          />
+          <path
+            d="M0,96L80,90.7C160,85,320,75,480,80C640,75,800,107,960,107C1120,107,1280,85,1360,74.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+            fill="#ffffff"
+            opacity="1.00"
+          />
+          <rect x="0" y="110" width="1440" height="20" fill="#ffffff" />
+        </svg>
       </div>
     </div>
   );
