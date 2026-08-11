@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useScrollToTop from "../hooks/useScrollToTop";
+import API_URL from "../config/api";
 
 export default function RefundPolicy() {
   useScrollToTop();
@@ -30,7 +31,7 @@ export default function RefundPolicy() {
     setApiError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/refunds", {
+      const response = await fetch(`${API_URL}/api/refunds`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

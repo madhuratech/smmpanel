@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import API_URL from './config/api';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Routes from './routes';
@@ -20,7 +21,7 @@ function AppLayout() {
         const user = JSON.parse(userStr);
         // If they have not claimed, attempt to claim automatically
         if (user.freeTrialClaimed === false) {
-          fetch("http://localhost:5000/api/freetrial/claim-free-trial", {
+          fetch(`${API_URL}/api/freetrial/claim-free-trial`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

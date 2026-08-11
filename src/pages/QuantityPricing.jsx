@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import API_URL_BASE from '../config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
 
@@ -218,7 +219,7 @@ const QuantityPricing = () => {
     ? selectedItems.length * MIN_PER_POST
     : 0
 
-  const API_URL = "http://localhost:5000/api/pricing/calculate"
+  const API_URL = `${API_URL_BASE}/api/pricing/calculate`
 
   useEffect(() => {
     setPrices({})
@@ -686,7 +687,7 @@ const QuantityPricing = () => {
                     alt="Profile"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.target.src = `http://localhost:5000/api/instagram/image?url=${encodeURIComponent(userdata?.avatar)}`
+                      e.target.src = `${API_URL_BASE}/api/instagram/image?url=${encodeURIComponent(userdata?.avatar)}`
                     }}
                   />
                 ) : (

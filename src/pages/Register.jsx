@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
+import API_URL from '../config/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Register = () => {
     try {
 
   const response = await fetch(
-    "http://localhost:5000/api/auth/register",
+    `${API_URL}/api/auth/register`,
     {
       method: "POST",
 
@@ -89,7 +90,7 @@ const Register = () => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${API_URL}/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

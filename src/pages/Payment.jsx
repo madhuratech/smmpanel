@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API_URL from '../config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
 import { getPlatformFromUrl } from '../utils/urlGenerator'
@@ -126,7 +127,7 @@ const OrderPayment = () => {
 
     try {
       // 1 — Create Razorpay order on backend
-      const response = await fetch('http://localhost:5000/api/payment/order', {
+      const response = await fetch(`${API_URL}/api/payment/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -169,7 +170,7 @@ const OrderPayment = () => {
         // 3 — On successful payment: verify on backend
         handler: async function (razorpayResponse) {
           try {
-            const verifyRes = await fetch('http://localhost:5000/api/payment/verify', {
+            const verifyRes = await fetch(`${API_URL}/api/payment/verify`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -223,7 +224,7 @@ const OrderPayment = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/payment/paypal/order",
+        `${API_URL}/api/payment/paypal/order`,
         {
           method: "POST",
           headers: {
@@ -277,7 +278,7 @@ const OrderPayment = () => {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/payment/verify",
+        `${API_URL}/api/payment/verify`,
         {
           method: "POST",
           headers: {

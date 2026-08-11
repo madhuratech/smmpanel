@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
+import API_URL from '../config/api';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const handleSubmit = async (e) => {
   try {
 
     const response = await fetch(
-      "http://localhost:5000/api/auth/login",
+      `${API_URL}/api/auth/login`,
       {
         method: "POST",
 
@@ -75,7 +76,7 @@ const handleSubmit = async (e) => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${API_URL}/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import API_URL from '../config/api'
 import { useState, useEffect } from 'react'
 
 const FreeTrialPage = () => {
@@ -7,7 +8,7 @@ const FreeTrialPage = () => {
   const [rewardCoins, setRewardCoins] = useState(20);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/freetrial/reward-info")
+    fetch(`${API_URL}/api/freetrial/reward-info`)
       .then(res => {
         if (res.ok) return res.json();
         throw new Error();
@@ -39,7 +40,7 @@ const FreeTrialPage = () => {
 
     // CLAIM FREE TRIAL
     const response = await fetch(
-      "http://localhost:5000/api/freetrial/claim-free-trial",
+      `${API_URL}/api/freetrial/claim-free-trial`,
       {
         method: "POST",
 

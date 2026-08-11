@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import API_URL_BASE from '../config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
 import { resolveContentType } from '../utils/contentTypeMap'
@@ -145,8 +146,7 @@ const ProfileOverview = () => {
   }, [services, livePrices, selectedServiceKey, platform, username, userdata, entryPath, navigate]);
 
 
-  const API_URL = "http://localhost:5000/api/pricing/all";
-  const SERVICES_API ="http://localhost:5001/api/services";
+  const API_URL = `${API_URL_BASE}/api/pricing/all`;
 
   useEffect(() =>{
     if(!username && !userdata){
@@ -471,7 +471,7 @@ const getServiceIcon = (serviceName) => {
                     alt="Profile" 
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.target.src =`http://localhost:5000/api/instagram/image?url=${encodeURIComponent(userdata?.avatar)}`
+                      e.target.src =`${API_URL_BASE}/api/instagram/image?url=${encodeURIComponent(userdata?.avatar)}`
 
                     }}
                   />

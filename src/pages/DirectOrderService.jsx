@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import API_URL from "../config/api";
 import { useState, useEffect } from "react";
 import bgImage from "../assets/images/direct_link_bg.png";
 
@@ -88,7 +89,7 @@ export default function DirectOrderService() {
     setCurrentLinkType(isPost ? "post" : "profile");
   };
 
-  const PRICING_API = "http://localhost:5000/api/pricing/all";
+  const PRICING_API = `${API_URL}/api/pricing/all`;
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);

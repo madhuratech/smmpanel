@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import API_URL from "../config/api";
 import {
   FaStar,
   FaSearch,
@@ -118,10 +119,10 @@ export default function Hero({ platform: propPlatform, onSearch }) {
   ];
 
   const Platform_API_URLS = {
-    Instagram: "http://localhost:5000/api/instagram/user/",
-    YouTube: "http://localhost:5000/api/youtube/search/",
-    TikTok: "http://localhost:5000/api/tiktok/user/",
-    Facebook: "http://localhost:5000/api/facebook/user/all/"
+    Instagram: `${API_URL}/api/instagram/user/`,
+    YouTube: `${API_URL}/api/youtube/search/`,
+    TikTok: `${API_URL}/api/tiktok/user/`,
+    Facebook: `${API_URL}/api/facebook/user/all/`
   };
 
   const clearCaches = () => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import API_URL from "../config/api";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -225,7 +226,7 @@ export default function BuyTikTokViews() {
     // Default username search flow
     try {
       setIsSearching(true);
-      const response = await fetch(`http://localhost:5000/api/tiktok/user/${input}`);
+      const response = await fetch(`${API_URL}/api/tiktok/user/${input}`);
       const data = await response.json();
 
       if (!response.ok) {

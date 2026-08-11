@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MessageSquare } from "lucide-react";
 import useScrollToTop from "../hooks/useScrollToTop";
+import API_URL from "../config/api";
 
 export default function ContactUs() {
   useScrollToTop();
@@ -65,7 +66,7 @@ export default function ContactUs() {
         formData.append("attachment", file);
       }
 
-      const response = await fetch("http://localhost:5000/api/contact", {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         body: formData
       });
