@@ -147,6 +147,7 @@ const ProfileOverview = () => {
 
 
   const API_URL = `${API_URL_BASE}/api/pricing/all`;
+  const SERVICES_API = `${API_URL_BASE}/api/services`;
 
   useEffect(() =>{
     if(!username && !userdata){
@@ -219,6 +220,11 @@ useEffect(() => {
         SERVICES_API
       );
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Services API failed: ${response.status} ${errorText}`);
+      }
+
       const data = await response.json();
 
       if (data.success) {
@@ -232,6 +238,7 @@ useEffect(() => {
 
         const formatted =
           filtered.map((s) => ({
+            ...s,
 
             id: s._id,
 
