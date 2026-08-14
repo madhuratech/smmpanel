@@ -22,7 +22,7 @@ import useScrollToTop from "../hooks/useScrollToTop";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
-import Post from "../assets/images/post.png";
+import Post from "../assets/images/Likeimage.png";
 import Likes from "../assets/images/likes.png";
 
 export default function BuyTikTokLikes() {
@@ -114,7 +114,7 @@ export default function BuyTikTokLikes() {
     };
 
     // Description & Keywords
-    const metaDesc = setMetaTag('name', 'description', 'TikyTop has ranked #1 in 2026. To buy TikTok likes, simply enter your TikTok username, choose a package, complete your secure payment, and receive authentic TikTok likes instantly. Fast delivery, real engagement, secure checkout, and premium customer support.');
+    const metaDesc = setMetaTag('name', 'description', 'Ranked #1 service in 2026. TikyTop offers the best packages where you can customize and buy TikTok likes that is without providing your personal information.');
     const metaKeywords = setMetaTag('name', 'keywords', 'buy tiktok likes, how to buy tiktok likes, how to get more tiktok likes, buy tiktok likes and views, buy likes on tiktok, tiktok likes buy, buy real tiktok likes, buy cheap tiktok likes, how to buy likes on tiktok, best place to buy tiktok likes, buy 50 tiktok likes, instant tiktok likes, real tiktok engagement, tiktok growth, tiktok promotion, viral tiktok, tiktok marketing, increase tiktok likes');
     const metaRobots = setMetaTag('name', 'robots', 'index, follow');
 
@@ -261,7 +261,7 @@ export default function BuyTikTokLikes() {
   return (
     <div className=" text-white font-sans antialiased overflow-x-hidden">
       {/* ── REDESIGNED HERO SECTION ── */}
-      <section id="hero" className="relative w-full min-h-screen bg-[#1a0b2e] flex flex-col items-center justify-center pt-28 pb-20 px-5 md:px-6 overflow-hidden">
+      <section id="hero" className="relative w-full min-h-[auto] md:min-h-screen bg-[#1a0b2e] flex flex-col items-center justify-center pt-24 pb-12 sm:pt-28 sm:pb-20 px-5 md:px-6 overflow-hidden">
         {/* HERO IMAGE - BACKGROUND */}
         <img
           src={Tiky}
@@ -392,13 +392,13 @@ export default function BuyTikTokLikes() {
           {/* Right Column: Premium TikTok Smartphone Illustration Visual (Grid 5/12) */}
           <div className="lg:col-span-5 relative flex justify-center items-center w-full max-w-[320px] lg:max-w-none mx-auto mt-6 lg:mt-0">
             {/* Visual Glassmorphic Card Frame with pink/purple glowing effects */}
-            <div className="w-[80%] lg:w-[50%] aspect-square relative">
+            <div className="w-[80%] lg:w-[50%] h-[60px] lg:h-auto lg:aspect-square relative">
 
               {/* Internal Floating Decorative items */}
-              <div className="absolute -top-6 -right-6 w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-tr from-cyan-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30 animate-bounce">
+              <div className="absolute -top-2 -right-2 md:-top-6 md:-right-6 w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-tr from-cyan-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30 animate-bounce">
                 <FaTiktok />
               </div>
-              <div className="absolute -bottom-8 -left-6 w-14 h-14 lg:w-16 lg:h-16 bg-pink-500/20 backdrop-blur rounded-full border border-pink-500/40 flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30">
+              <div className="absolute -bottom-2 -left-2 md:-bottom-8 md:-left-6 w-14 h-14 lg:w-16 lg:h-16 bg-pink-500/20 backdrop-blur rounded-full border border-pink-500/40 flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30">
                 ❤️
               </div>
             </div>
@@ -407,23 +407,23 @@ export default function BuyTikTokLikes() {
         </div>
 
         {/* TikTok related statistics */}
-        <div className="max-w-7xl mx-auto w-full mt-20 relative z-30">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white/5 backdrop-blur rounded-[2rem] p-6 border border-white/10">
-            <div className="text-center p-4">
-              <h3 className="text-3xl font-extrabold text-cyan-400">100K+</h3>
-              <p className="text-xs text-gray-300 mt-1 uppercase tracking-wider">Orders Completed</p>
+        <div className="max-w-7xl mx-auto w-full mt-8 md:mt-20 relative z-30">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white/5 backdrop-blur rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border border-white/10">
+            <div className="text-center p-2 sm:p-4">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-cyan-400">100K+</h3>
+              <p className="text-[10px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">Orders Completed</p>
             </div>
-            <div className="text-center p-4">
-              <h3 className="text-3xl font-extrabold text-pink-500">50K+</h3>
-              <p className="text-xs text-gray-300 mt-1 uppercase tracking-wider">Happy TikTok Creators</p>
+            <div className="text-center p-2 sm:p-4">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-pink-500">50K+</h3>
+              <p className="text-[10px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">Happy TikTok Creators</p>
             </div>
-            <div className="text-center p-4">
-              <h3 className="text-3xl font-extrabold text-cyan-400">99.9%</h3>
-              <p className="text-xs text-gray-300 mt-1 uppercase tracking-wider">Success Rate</p>
+            <div className="text-center p-2 sm:p-4">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-cyan-400">99.9%</h3>
+              <p className="text-[10px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">Success Rate</p>
             </div>
-            <div className="text-center p-4">
-              <h3 className="text-3xl font-extrabold text-pink-500">24/7</h3>
-              <p className="text-xs text-gray-300 mt-1 uppercase tracking-wider">Customer Support</p>
+            <div className="text-center p-2 sm:p-4">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-pink-500">24/7</h3>
+              <p className="text-[10px] sm:text-xs text-gray-300 mt-1 uppercase tracking-wider">Customer Support</p>
             </div>
           </div>
         </div>
@@ -479,8 +479,7 @@ export default function BuyTikTokLikes() {
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-slate-500">
-              Order genuine TikTok likes in just a few clicks. Fast delivery,
-              secure payment, and real engagement.
+              You can easily buy real TikTok likes with a fast and secure ordering process. Just place your order, complete the payment, and receive high-quality TikTok likes instantly.
             </p>
           </div>
 
@@ -581,12 +580,11 @@ export default function BuyTikTokLikes() {
                 </span>
 
                 <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                  Select the Package
+                  Select the Post
                 </h3>
 
                 <p className="mt-4 leading-7 text-slate-600">
-                  Choose the TikTok likes package that matches your growth goals and
-                  select the quantity you need.
+                  Choose the TikTok post you want to improve your engagement for
                 </p>
 
               </div>
@@ -634,8 +632,7 @@ export default function BuyTikTokLikes() {
                 </h3>
 
                 <p className="mt-4 leading-7 text-slate-600">
-                  Complete your payment securely and receive real TikTok likes with
-                  fast delivery and reliable support.
+                  Once you select the number of likes, double-check and complete the payment to get TikTok likes instantly.
                 </p>
 
               </div>

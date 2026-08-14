@@ -24,6 +24,14 @@ import { FaThreads, FaXTwitter } from "react-icons/fa6";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setMobileDropdown(null);
+    }
+  }, [isOpen]);
+
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [closeTimeout, setCloseTimeout] = useState(null);
   const [user, setUser] = useState(null);
@@ -252,7 +260,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="z-50 font-sans absolute top-0 left-0 right-0 bg-transparent w-full">
+    <nav className="z-[9999] font-sans absolute top-0 left-0 right-0 bg-transparent w-full">
       <style>{`
         @keyframes ripple {
           0% {
@@ -310,17 +318,17 @@ const Navbar = () => {
           }
         }
       `}</style>
-      <div className="max-w-[1600px] mx-auto px-6 w-full">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-6 w-full">
         {/* Floating White Navbar container */}
         <motion.div
           ref={navContainerRef}
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="w-full h-[68px] md:h-[76px] lg:h-[81px] bg-white rounded-[42px] px-8 flex justify-between items-center shadow-[0_15px_40px_rgba(0,0,0,0.01)] relative border border-gray-100 mt-4 overflow-visible"
+          className="w-full h-[64px] md:h-[76px] lg:h-[81px] bg-white rounded-[24px] md:rounded-[42px] px-4 md:px-8 flex justify-between items-center shadow-[0_15px_40px_rgba(0,0,0,0.01)] relative border border-gray-100 mt-4 overflow-visible z-50"
         >
-          {/* Left: Logo (18% width) */}
-          <div className="flex items-center flex-shrink-0 pr-12 xl:pr-6">
+          {/* Left: Logo */}
+          <div className="flex items-center flex-shrink-0 pr-0 md:pr-12 xl:pr-6">
             <Link
               to="/"
               className="flex items-center"
@@ -329,13 +337,13 @@ const Navbar = () => {
               <img
                 src={TikyTop}
                 alt="TikyTop"
-                className="w-[150px] h-auto object-contain"
+                className="w-[120px] md:w-[150px] h-auto object-contain"
               />
             </Link>
           </div>
 
-          {/* Center: Navigation Menu (52% width, max-width 720px, margin: auto) */}
-          <div className="inline-flex relative left-12 items-center justify-center gap-4 xl:gap-5">
+          {/* Center: Navigation Menu (Hidden on mobile/tablet) */}
+          <div className="hidden md:inline-flex relative left-0 lg:left-12 items-center justify-center gap-4 xl:gap-5">
 
             {/* Platforms: TikTok, Instagram, YouTube */}
             {platforms.map((plat) => (
@@ -470,120 +478,121 @@ const Navbar = () => {
 
           </div>
 
-          {/* Right: User Login/Register Buttons (30% width) */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-5 pl-12 xl:pl-16 flex-shrink-0">            {user ? (
-            <div className="relative">
-              <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors border border-gray-150"
-              >
-                {user.picture ? (
-                  <img
-                    src={user.picture}
-                    alt="Profile"
-                    className="w-6 h-6 rounded-full object-cover shadow-sm"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <div className="w-6 h-6 bg-gradient-to-br from-[#ff2d95] to-[#7b2cff] rounded-full flex items-center justify-center text-white font-semibold shadow-sm text-[10px]">
-                    {(user.fullname || user.name || user.email)?.charAt(0).toUpperCase()}
-                  </div>
-                )}
-                <span className="font-semibold text-[#16345f] text-xs">
-                  {user.fullname || user.name || user.email}
-                </span>
-                <ChevronDown className="w-3 h-3 text-gray-500" />
-              </button>
-
-              <AnimatePresence>
-                {showUserMenu && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-2xl py-2 border border-gray-100 z-50"
-                  >
-                    <Link
-                      to="/profile"
-                      onClick={() => setShowUserMenu(false)}
-                      className="block px-4 py-1.5 text-xs text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] font-medium transition-colors"
-                    >
-                      Profile / Account
-                    </Link>
-                    <hr className="my-1" />
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-1.5 text-xs text-red-600 hover:bg-red-50 font-medium transition-colors flex items-center gap-1.5"
-                    >
-                      <LogOut className="w-3.5 h-3.5" />
-                      Logout
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ) : (
-            <div className="flex items-center gap-3 xl:gap-2">
-              <Link to="/login">
-                <button className="h-[32px] px-[20px] rounded-[24px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[16px] transition-all duration-300 hover:border-[#ff1681]/60 hover:text-[#ff1681] hover:bg-pink-50/20 hover:scale-[1.02] hover:shadow-[0_0_12px_rgba(255,22,129,0.15)] active:scale-[0.97]">
-                  Login
-                </button>
-              </Link>
-              <div onClick={handleManualRegisterClick} className="relative group cursor-pointer">
-                {/* Tiny Micro Badge */}
-                {animState !== 'fading-out' && animState !== 'done' && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-[8px] font-bold py-0.5 px-1.5 rounded-full uppercase tracking-wider scale-90 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none select-none z-30 whitespace-nowrap">
-                    JOIN FREE
-                  </span>
-                )}
+          {/* Right: User Login/Register Buttons (Hidden on mobile) */}
+          <div className="hidden md:flex items-center gap-4 xl:gap-5 pl-4 lg:pl-12 xl:pl-16 flex-shrink-0">
+            {user ? (
+              <div className="relative">
                 <button
-                  style={{
-                    opacity: animState === 'fading-out' ? 0 : 1,
-                    transform: animState === 'fading-out' ? 'scale(0.85)' : animState === 'clicking' ? 'scale(0.96)' : undefined,
-                    transition: 'transform 0.2s ease-out, opacity 0.25s ease-out'
-                  }}
-                  className={`relative h-[32px] w-[124px] rounded-[24px] text-white font-bold text-[15px] transition-all duration-300 hover:brightness-110 hover:scale-[1.06] active:scale-[0.97] hover:shadow-[0_8px_25px_rgba(255,20,150,0.40),0_0_35px_rgba(140,50,255,0.30)] flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#ff1681] focus:ring-offset-2 ${animState === 'clicked-success'
-                    ? 'bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 shadow-[0_0_30px_rgba(255,22,129,0.7)] animate-register-gradient'
-                    : 'bg-gradient-to-r from-[#ff1681] via-[#d800ff] to-[#ff1681] animate-register-pulse'
-                    }`}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors border border-gray-150"
                 >
-                  <span className="relative z-10 flex items-center gap-1">
-                    {animState === 'clicked-success' ? "✓ Register" : (
-                      <>
-                        Register
-                        <span className="transition-transform duration-300 group-hover:translate-x-1 inline-block">→</span>
-                      </>
-                    )}
+                  {user.picture ? (
+                    <img
+                      src={user.picture}
+                      alt="Profile"
+                      className="w-6 h-6 rounded-full object-cover shadow-sm"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <div className="w-6 h-6 bg-gradient-to-br from-[#ff2d95] to-[#7b2cff] rounded-full flex items-center justify-center text-white font-semibold shadow-sm text-[10px]">
+                      {(user.fullname || user.name || user.email)?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <span className="font-semibold text-[#16345f] text-xs">
+                    {user.fullname || user.name || user.email}
                   </span>
-                  <span className="absolute inset-y-0 -left-full w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] animate-shine pointer-events-none z-20" />
+                  <ChevronDown className="w-3 h-3 text-gray-500" />
                 </button>
 
-                {/* Click ripple element */}
-                {(animState === 'clicking' || animState === 'clicked-success') && (
-                  <span className="absolute left-[62px] top-[16px] -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-2 border-pink-500 bg-pink-500/20 animate-ripple z-40 pointer-events-none" />
-                )}
-
-                {/* Realistic Computer Hand Pointer Cursor */}
-                {animState !== 'done' && animState !== 'idle' && (
-                  <div
-                    style={pointerStyle}
-                    className="absolute bottom-[-10px] right-[-20px] pointer-events-none z-50 select-none hidden lg:block"
-                  >
-                    <img src={HandCursor} alt="" className="w-[55px] lg:w-[65px] h-auto pointer-events-none select-none" />
-                  </div>
-                )}
+                <AnimatePresence>
+                  {showUserMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-2xl py-2 border border-gray-100 z-50"
+                    >
+                      <Link
+                        to="/profile"
+                        onClick={() => setShowUserMenu(false)}
+                        className="block px-4 py-1.5 text-xs text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] font-medium transition-colors"
+                      >
+                        Profile / Account
+                      </Link>
+                      <hr className="my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-1.5 text-xs text-red-600 hover:bg-red-50 font-medium transition-colors flex items-center gap-1.5"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center gap-3 xl:gap-2">
+                <Link to="/login">
+                  <button className="h-[32px] px-[20px] rounded-[24px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[16px] transition-all duration-300 hover:border-[#ff1681]/60 hover:text-[#ff1681] hover:bg-pink-50/20 hover:scale-[1.02] hover:shadow-[0_0_12px_rgba(255,22,129,0.15)] active:scale-[0.97]">
+                    Login
+                  </button>
+                </Link>
+                <div onClick={handleManualRegisterClick} className="relative group cursor-pointer">
+                  {/* Tiny Micro Badge */}
+                  {animState !== 'fading-out' && animState !== 'done' && (
+                    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-[8px] font-bold py-0.5 px-1.5 rounded-full uppercase tracking-wider scale-90 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none select-none z-30 whitespace-nowrap">
+                      JOIN FREE
+                    </span>
+                  )}
+                  <button
+                    style={{
+                      opacity: animState === 'fading-out' ? 0 : 1,
+                      transform: animState === 'fading-out' ? 'scale(0.85)' : animState === 'clicking' ? 'scale(0.96)' : undefined,
+                      transition: 'transform 0.2s ease-out, opacity 0.25s ease-out'
+                    }}
+                    className={`relative h-[32px] w-[124px] rounded-[24px] text-white font-bold text-[15px] transition-all duration-300 hover:brightness-110 hover:scale-[1.06] active:scale-[0.97] hover:shadow-[0_8px_25px_rgba(255,20,150,0.40),0_0_35px_rgba(140,50,255,0.30)] flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#ff1681] focus:ring-offset-2 ${animState === 'clicked-success'
+                      ? 'bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 shadow-[0_0_30px_rgba(255,22,129,0.7)] animate-register-gradient'
+                      : 'bg-gradient-to-r from-[#ff1681] via-[#d800ff] to-[#ff1681] animate-register-pulse'
+                      }`}
+                  >
+                    <span className="relative z-10 flex items-center gap-1">
+                      {animState === 'clicked-success' ? "✓ Register" : (
+                        <>
+                          Register
+                          <span className="transition-transform duration-300 group-hover:translate-x-1 inline-block">→</span>
+                        </>
+                      )}
+                    </span>
+                    <span className="absolute inset-y-0 -left-full w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] animate-shine pointer-events-none z-20" />
+                  </button>
+
+                  {/* Click ripple element */}
+                  {(animState === 'clicking' || animState === 'clicked-success') && (
+                    <span className="absolute left-[62px] top-[16px] -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-2 border-pink-500 bg-pink-500/20 animate-ripple z-40 pointer-events-none" />
+                  )}
+
+                  {/* Realistic Computer Hand Pointer Cursor */}
+                  {animState !== 'done' && animState !== 'idle' && (
+                    <div
+                      style={pointerStyle}
+                      className="absolute bottom-[-10px] right-[-20px] pointer-events-none z-50 select-none hidden lg:block"
+                    >
+                      <img src={HandCursor} alt="" className="w-[55px] lg:w-[65px] h-auto pointer-events-none select-none" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Mobile Hamburger menu */}
           <button
-            className="lg:hidden p-2 rounded-full hover:bg-gray-50 transition-colors z-10 flex-shrink-0"
+            className="md:hidden p-2 rounded-full hover:bg-gray-50 transition-colors z-10 flex-shrink-0 min-w-[40px] min-h-[40px] flex items-center justify-center"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X className="w-5.5 h-5.5 text-[#1d3557]" /> : <MenuIcon className="w-5.5 h-5.5 text-[#1d3557]" />}
+            {isOpen ? <X className="w-6 h-6 text-[#1d3557]" /> : <MenuIcon className="w-6 h-6 text-[#1d3557]" />}
           </button>
 
         </motion.div>
@@ -597,69 +606,133 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute left-0 right-0 top-full mt-3 mx-auto w-[92%] bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 overflow-hidden z-50"
+            className="absolute left-0 right-0 top-full mt-3 mx-auto w-[92%] max-w-[92vw] bg-white rounded-3xl p-6 shadow-2xl border border-gray-100 overflow-y-auto max-h-[80vh] z-50"
           >
             <div className="space-y-4">
 
               {/* Dynamic mobile rendering of platforms */}
-              {platforms.map((plat) => (
-                <div key={plat.name} className="space-y-2">
-                  <div className="font-bold text-[#1d3557] text-lg flex items-center gap-2">
-                    <span>
-                      {plat.name === 'TikTok' && '🎵'}
-                      {plat.name === 'Instagram' && '📸'}
-                      {plat.name === 'YouTube' && '▶️'}
-                    </span>
-                    <span>{plat.name} Services</span>
-                  </div>
-                  <div className="pl-4 space-y-1">
-                    {plat.services.map((s, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => {
-                          handleServiceClick(s.path || plat.path);
-                          setIsOpen(false);
-                        }}
-                        className="block text-sm text-gray-600 py-2 hover:text-[#ff1681]"
-                      >
-                        {s.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              {/* Free Trials */}
-              <div className="space-y-2">
-                <div className="font-bold text-[#1d3557] text-lg">🎁 Free Trials</div>
-                <div className="pl-4 space-y-1">
-                  {freeTrials.map((s, idx) => (
+              {platforms.map((plat) => {
+                const isPlatOpen = mobileDropdown === plat.name;
+                return (
+                  <div key={plat.name} className="border-b border-gray-100 pb-2">
                     <button
-                      key={idx}
-                      onClick={() => {
-                        handleServiceClick(s.path);
-                        setIsOpen(false);
-                      }}
-                      className="block text-sm text-gray-600 py-2 hover:text-[#ff1681]"
+                      onClick={() => setMobileDropdown(isPlatOpen ? null : plat.name)}
+                      className="w-full flex justify-between items-center py-2 font-bold text-[#1d3557] text-lg text-left"
                     >
-                      {s.name}
+                      <span className="flex items-center gap-2">
+                        {plat.name === 'TikTok' && '🎵'}
+                        {plat.name === 'Instagram' && '📸'}
+                        {plat.name === 'YouTube' && '▶️'}
+                        {plat.name} Services
+                      </span>
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isPlatOpen ? 'rotate-180' : ''}`} />
                     </button>
-                  ))}
-                </div>
+                    <AnimatePresence>
+                      {isPlatOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="pl-6 py-1 space-y-1 overflow-hidden"
+                        >
+                          {plat.services.map((s, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => {
+                                handleServiceClick(s, plat);
+                                setIsOpen(false);
+                              }}
+                              className="block w-full text-left text-sm text-gray-600 py-2 hover:text-[#ff1681]"
+                            >
+                              {s.name}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+
+              {/* Explore More Services Accordion */}
+              <div className="border-b border-gray-100 pb-2">
+                <button
+                  onClick={() => setMobileDropdown(mobileDropdown === 'explore' ? null : 'explore')}
+                  className="w-full flex justify-between items-center py-2 font-bold text-[#1d3557] text-lg text-left"
+                >
+                  <span className="flex items-center gap-2">🚀 Explore More Services</span>
+                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${mobileDropdown === 'explore' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {mobileDropdown === 'explore' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-6 py-2 grid grid-cols-2 gap-2 overflow-hidden"
+                    >
+                      {extraPlatforms.map((plat) => (
+                        <button
+                          key={plat.name}
+                          onClick={() => {
+                            setIsOpen(false);
+                            navigate(plat.path, { state: plat.state });
+                          }}
+                          className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-100 rounded-lg text-xs font-semibold text-gray-800 text-left hover:text-[#ff1681]"
+                        >
+                          <span className="text-sm flex-shrink-0">{plat.icon}</span>
+                          <span className="truncate">{plat.name}</span>
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Free Trials Accordion */}
+              <div className="border-b border-gray-100 pb-2">
+                <button
+                  onClick={() => setMobileDropdown(mobileDropdown === 'free-trials' ? null : 'free-trials')}
+                  className="w-full flex justify-between items-center py-2 font-bold text-[#1d3557] text-lg text-left"
+                >
+                  <span className="flex items-center gap-2">🎁 Free Trials</span>
+                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${mobileDropdown === 'free-trials' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {mobileDropdown === 'free-trials' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-6 py-1 space-y-1 overflow-hidden"
+                    >
+                      {freeTrials.map((s, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            navigate(s.path);
+                            setIsOpen(false);
+                          }}
+                          className="block w-full text-left text-sm text-gray-600 py-2 hover:text-[#ff1681]"
+                        >
+                          {s.name}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* About Us */}
-              <div className="pt-1">
+              <div className="border-b border-gray-100 pb-2">
                 <Link
                   to="/about"
                   onClick={() => setIsOpen(false)}
-                  className="block text-lg font-bold text-[#1d3557] hover:text-[#ff1681]"
+                  className="block py-2 text-lg font-bold text-[#1d3557] hover:text-[#ff1681]"
                 >
                   ℹ️ About Us
                 </Link>
               </div>
-
-              <hr />
 
               {/* User options */}
               {user ? (
@@ -678,12 +751,12 @@ const Navbar = () => {
               ) : (
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <button className="w-full h-[52px] rounded-full border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[15px]">
+                    <button className="w-full h-[48px] rounded-full border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[15px]">
                       Login
                     </button>
                   </Link>
                   <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <button className="w-full h-[52px] rounded-full bg-[#ff1681] text-white font-semibold text-[15px]">
+                    <button className="w-full h-[48px] rounded-full bg-[#ff1681] text-white font-semibold text-[15px]">
                       Register
                     </button>
                   </Link>
