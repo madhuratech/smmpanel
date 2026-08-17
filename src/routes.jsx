@@ -23,6 +23,7 @@ import FreeService from './pages/FreeService';
 import DirectOrderService from './pages/DirectOrderService';
 import BuyTikTokLikes from './pages/BuyTikTokLikes';
 import BuyTikTokViews from './pages/BuyTikTokViews';
+import BuyTikTokFollowers from './pages/BuyTikTokFollowers';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
 import Terms from './pages/Terms';
@@ -46,6 +47,7 @@ export default function AppRoutes() {
       <Route path="/tiktok" element={<TikTok />} />
       <Route path="/tiktok/buy-likes" element={<BuyTikTokLikes />} />
       <Route path="/tiktok/buy-views" element={<BuyTikTokViews />} />
+      <Route path="/tiktok/buy-followers" element={<BuyTikTokFollowers />} />
       <Route path="/instagram" element={<Instagram />} />
       <Route path="/facebook" element={<Facebook />} />
       <Route path="/youtube" element={<YouTube />} />

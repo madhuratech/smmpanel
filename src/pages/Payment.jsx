@@ -443,24 +443,24 @@ const OrderPayment = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm text-gray-600">
                   <span>Subtotal</span>
-                  <span>₹{total.toFixed(2)}</span>
+                  <span>${total.toFixed(2)}</span>
                 </div>
                 {appliedCoupon && (
                   <div className="flex justify-between text-sm text-green-600">
                     <span>Discount ({appliedCoupon.description})</span>
-                    <span>-₹{(total * appliedCoupon.discount).toFixed(2)}</span>
+                    <span>-${(total * appliedCoupon.discount).toFixed(2)}</span>
                   </div>
                 )}
                 <div className="border-t border-gray-150 pt-4 flex justify-between font-bold text-lg text-gray-900">
                   <span>Total</span>
-                  <span>₹{total.toFixed(2)}</span>
+                  <span>${total.toFixed(2)}</span>
                 </div>
               </div>
 
               {paymentMethod === "coins" && (
                 <div className="mb-6 p-3 bg-pink-50 text-pink-600 rounded-xl text-xs font-semibold flex justify-between">
                   <span>Your Balance:</span>
-                  <span>₹{balance.toFixed(2)} Coins</span>
+                  <span>${balance.toFixed(2)} Coins</span>
                 </div>
               )}
 
@@ -476,7 +476,7 @@ const OrderPayment = () => {
                   </>
                 ) : (
                   <>
-                    Pay ₹{total.toFixed(2)}
+                    Pay ${total.toFixed(2)}
                   </>
                 )}
               </button>

@@ -127,7 +127,7 @@ const Navbar = () => {
       path: '/tiktok',
       services: [
         { name: 'TikTok Views', service: 'views', path: '/tiktok/buy-views' },
-        { name: 'TikTok Followers', service: 'followers' },
+        { name: 'TikTok Followers', service: 'followers', path: '/tiktok/buy-followers' },
         { name: 'TikTok Likes', service: 'likes', path: '/tiktok/buy-likes' },
         { name: 'TikTok Comments', service: 'comments' }
       ]

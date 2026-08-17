@@ -248,7 +248,10 @@ export default function Hero({ platform: propPlatform, onSearch }) {
     };
   };
 
-  const Getuser = async () => {
+  const Getuser = async (e) => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
     if (!username) return;
 
     const input = username.trim();
@@ -617,7 +620,10 @@ export default function Hero({ platform: propPlatform, onSearch }) {
               </div>
 
               {/* Search Bar Wrapper */}
-              <div className="global-input-wrapper max-w-xl w-full">
+              <form
+                onSubmit={Getuser}
+                className="global-input-wrapper max-w-xl w-full"
+              >
                 <div
                   style={{
                     boxShadow: isFocused
@@ -643,12 +649,18 @@ export default function Hero({ platform: propPlatform, onSearch }) {
                     onChange={(e) => setUsername(e.target.value)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        Getuser(e);
+                      }
+                    }}
                     placeholder={getPlaceholderText(active)}
                     className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-[#777777] min-w-0"
                   />
 
                   {/* Search Button */}
                   <button
+                    type="submit"
                     onClick={Getuser}
                     disabled={isSearching}
                     style={{
@@ -666,7 +678,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
                     )}
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
 
 

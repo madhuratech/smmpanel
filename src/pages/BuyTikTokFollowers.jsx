@@ -6,15 +6,16 @@ import {
   ChevronDown,
   ChevronUp,
   Star,
-  Users,
   Shield,
   Clock,
-  ThumbsUp,
-  Lock,
+  Tag,
   Headphones,
   Zap,
   TrendingUp,
   UserCheck,
+  Lock,
+  ThumbsUp,
+  Users,
 } from "lucide-react";
 import { FaTiktok, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -23,14 +24,14 @@ import QuickPackageSelector from "../components/QuickPackageSelector";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
-import Post from "../assets/images/Likeimage.png";
-import Likes from "../assets/images/likes.png";
+import Post from "../assets/images/viewcard1.png";
+import Likes from "../assets/images/viewscard.png";
 
-export default function BuyTikTokLikes() {
+export default function BuyTikTokFollowers() {
   useScrollToTop();
   const navigate = useNavigate();
 
-  // Search Flow States matching main Hero.jsx
+  // Search Flow States matching BuyTikTokViews
   const [username, setUsername] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -39,72 +40,67 @@ export default function BuyTikTokLikes() {
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
 
-  // Testimonials Auto-scroll Carousel Ref
-  const scrollContainerRef = React.useRef(null);
-
   const testimonials = [
     {
-      name: "Basil",
-      text: "OMG! Guys, I can't believe this. It actually works better than my expectations! This is a big bang for all creators and business people.",
+      name: "Douglas",
+      text: "Honestly, I was not expecting this much. The results took it to the next level. Guys, you can really give it a try!",
+      rating: 5,
+    },
+    {
+      name: "Luke",
+      text: "While searching for TikTok buy followers, I recently came across TikyTop and never thought this could be the place for my growth. The reason I come again and again is that the results are genuine.",
+      rating: 5,
+    },
+    {
+      name: "K",
+      text: "Nothing makes you happier than reaching your success. And this happened when I used TikyTop. When I buy followers for TikTok from them, they never disappoint me. No matter how much time I purchase, it is worth the money.",
+      rating: 5,
+    },
+    {
+      name: "Lue P",
+      text: "No cap, this service has understood exactly what I need. Even though I have used many sites, this is unique and the best of all. Overall, it is just awesome.",
+      rating: 5,
+    },
+    {
+      name: "Travis",
+      text: "I really had a great experience, and now I am very happy because my TikTok account has started growing. No words to explain. Thank you so much, team!",
+      rating: 5,
+    },
+    {
+      name: "Rodriguez",
+      text: "You can easily buy active TikTok followers here. At first, I thought order processing would be challenging. But it is the opposite: from start to finish, the process is simple and beginner-friendly.",
       rating: 4.5,
     },
     {
-      name: "Cummins",
-      text: "How to get more TikTok likes? This is all I was thinking about. Then one of my friends suggested me to buy TikTok likes, and now my TikTok visibility has increased, and I highly recommend it!",
-      rating: 4,
+      name: "Ramsey",
+      text: "Hey guys, as a small creator, I am looking for ways to gain followers. And for the past 3 months, I was not able to increase my follower count. But now my profile has seen massive growth, and my followers remain consistent and maintain strong engagement.",
+      rating: 5,
     },
     {
-      name: "Mosby",
-      text: "Authentic TikTok likes, high-quality TikTok likes, and content visibility all at one place. Can't even imagine it, right? Yes, guys, I was a small creator, and now I'm able to reach a wider audience. I received exactly what I needed. It's your turn!",
+      name: "Mirren H",
+      text: "I would say this service is totally a vibe because it is fast, beginner-friendly, and just a wow experience. If you are looking to buy TikTok followers safely, then I would highly recommend this service.",
+      rating: 5,
+    },
+    {
+      name: "Lyon",
+      text: "No, I don't need to look back at my account because all the followers I received are from real accounts.",
       rating: 4.5,
     },
     {
-      name: "Francis D’Souza",
-      text: "This platform could be a great option for those who are looking to buy cheap TikTok likes and an affordable package.",
-      rating: 4,
-    },
-    {
-      name: "Joe Wilson",
-      text: "Recently, I decided to buy likes on TikTok for one of my posts. From beginning to end, the entire process was smooth and easy. The likes that arrived were completely natural, and I never found any fake accounts. Kudos to the team! Thank you for the support.",
-      rating: 4.5,
-    },
-    {
-      name: "Jimmy",
-      text: "Guys, if you are a creator, you might get confused and wonder how to buy TikTok likes. I have found this service where my TikTok performance has completely changed. Trust me, guys, this is the best TikTok likes provider I have ever seen.",
-      rating: 4,
-    },
-    {
-      name: "Anne M",
-      text: "Even though I have purchased TikTok likes from other platforms, nothing matches this. If you want to buy cheap TikTok likes without sacrificing quality, I would highly recommend this.",
-      rating: 4.5,
-    },
-    {
-      name: "Janira",
-      text: "This platform is one of the best place to buy TikTok likes, and there is no compromise in quality. The likes were delivered within a few minutes, and the best part is that the TikTok likes are from a real account. Thank you, team!",
-      rating: 4,
-    },
-    {
-      name: "Salt",
-      text: "Just superb! And it has been almost 3 months since I have been using this service. Now I even recommend my friend to buy TikTok likes, and finally we are both satisfied with the results.",
-      rating: 4,
-    },
-    {
-      name: "Ally",
-      text: "I have never seen an affordable TikTok likes service before. Friends, if you are a budding creator and don't have any support, trust me, you are not alone. The ordering process is easy: give your username, buy TikTok likes, complete payment, and get TikTok likes.",
-      rating: 4.5,
+      name: "Emma",
+      text: "My TikTok account performance was very low, and I literally thought the account was dead. And with TikyTop, I made a comeback. Usually I don't get much response, but the real account users have started building a strong relationship with me. Kudos to the team!",
+      rating: 5,
     },
   ];
 
   const duplicatedTestimonials = [...testimonials, ...testimonials];
 
-  // Set page titles and meta description
+  // Dynamic Metadata
   useEffect(() => {
-    // 1. Title
     const originalTitle = document.title;
-    document.title = "Buy TikTok Likes | Real & Instant TikTok Likes | TikyTop";
+    document.title = "TikyTop | Buy TikTok Followers | Social Media Growth";
 
-    // 2. Helper to set/update elements
-    const setMetaTag = (attrName, attrValue, content) => {
+    const updateOrCreateMetaTag = (attrName, attrValue, content) => {
       let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
       if (!element) {
         element = document.createElement('meta');
@@ -112,100 +108,59 @@ export default function BuyTikTokLikes() {
         document.head.appendChild(element);
       }
       element.setAttribute('content', content);
-      return element;
     };
 
-    // Description & Keywords
-    const metaDesc = setMetaTag('name', 'description', 'Ranked #1 service in 2026. TikyTop offers the best packages where you can customize and buy TikTok likes that is without providing your personal information.');
-    const metaKeywords = setMetaTag('name', 'keywords', 'buy tiktok likes, how to buy tiktok likes, how to get more tiktok likes, buy tiktok likes and views, buy likes on tiktok, tiktok likes buy, buy real tiktok likes, buy cheap tiktok likes, how to buy likes on tiktok, best place to buy tiktok likes, buy 50 tiktok likes, instant tiktok likes, real tiktok engagement, tiktok growth, tiktok promotion, viral tiktok, tiktok marketing, increase tiktok likes');
-    const metaRobots = setMetaTag('name', 'robots', 'index, follow');
+    updateOrCreateMetaTag('name', 'description', 'Buy TikTok followers from TikyTop and improve your TikTok analytics. Our 100% real followers will make your profile more engaging than ever before.');
+    updateOrCreateMetaTag('name', 'keywords', 'Buy tiktok followers, tiktok followers buy, buy 1000 tiktok followers, how to buy tiktok followers, tiktok buy followers, can you buy tiktok followers');
+    updateOrCreateMetaTag('name', 'robots', 'index, follow');
 
-    // OpenGraph Tags
-    const ogType = setMetaTag('property', 'og:type', 'website');
-    const ogTitle = setMetaTag('property', 'og:title', 'Buy TikTok Likes | Real & Instant TikTok Likes | TikyTop');
-    const ogDesc = setMetaTag('property', 'og:description', 'Buy authentic TikTok Likes instantly with TikyTop. Fast delivery, secure payment, and real engagement to grow your TikTok profile.');
-    const ogUrl = setMetaTag('property', 'og:url', 'https://tikytop.com/tiktok/buy-likes');
-    const ogImage = setMetaTag('property', 'og:image', 'https://tikytop.com/images/tiktok-likes-banner.jpg');
-    const ogSite = setMetaTag('property', 'og:site_name', 'TikyTop');
+    updateOrCreateMetaTag('property', 'og:type', 'website');
+    updateOrCreateMetaTag('property', 'og:title', 'TikyTop | Buy TikTok Followers | Social Media Growth');
+    updateOrCreateMetaTag('property', 'og:description', 'Buy TikTok followers from TikyTop and improve your TikTok analytics. Our 100% real followers will make your profile more engaging than ever before.');
+    updateOrCreateMetaTag('property', 'og:url', 'https://tikytop.com/tiktok/buy-followers');
+    updateOrCreateMetaTag('property', 'og:site_name', 'TikyTop');
 
-    // Twitter Tags
-    const twitterCard = setMetaTag('name', 'twitter:card', 'summary_large_image');
-    const twitterTitle = setMetaTag('name', 'twitter:title', 'Buy TikTok Likes | Real & Instant TikTok Likes | TikyTop');
-    const twitterDesc = setMetaTag('name', 'twitter:description', 'Boost your TikTok profile with real TikTok Likes. Secure checkout, instant delivery, and premium support from TikyTop.');
-    const twitterImage = setMetaTag('name', 'twitter:image', 'https://tikytop.com/images/tiktok-likes-banner.jpg');
+    updateOrCreateMetaTag('name', 'twitter:card', 'summary_large_image');
+    updateOrCreateMetaTag('name', 'twitter:title', 'TikyTop | Buy TikTok Followers | Social Media Growth');
+    updateOrCreateMetaTag('name', 'twitter:description', 'Buy TikTok followers from TikyTop and improve your TikTok analytics. Our 100% real followers will make your profile more engaging than ever before.');
 
-    // Canonical link
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
       canonical = document.createElement('link');
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-likes');
+    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-followers');
 
-    // Clean up on component unmount
     return () => {
       document.title = originalTitle;
-
-      const removeMetaTag = (attrName, attrValue) => {
-        const element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
-        if (element) element.remove();
-      };
-
-      removeMetaTag('name', 'description');
-      removeMetaTag('name', 'keywords');
-      removeMetaTag('name', 'robots');
-
-      removeMetaTag('property', 'og:type');
-      removeMetaTag('property', 'og:title');
-      removeMetaTag('property', 'og:description');
-      removeMetaTag('property', 'og:url');
-      removeMetaTag('property', 'og:image');
-      removeMetaTag('property', 'og:site_name');
-
-      removeMetaTag('name', 'twitter:card');
-      removeMetaTag('name', 'twitter:title');
-      removeMetaTag('name', 'twitter:description');
-      removeMetaTag('name', 'twitter:image');
-
-      const canonicalEl = document.querySelector('link[rel="canonical"]');
-      if (canonicalEl) canonicalEl.remove();
     };
-  }, []);
-
-  // Testimonials Auto-scroll carousel is now handled via GPU accelerated CSS keyframes
-  useEffect(() => {
-    // No timer code required - completely CSS driven marquee
   }, []);
 
   const faqs = [
     {
-      q: "How to buy TikTok likes from TikyTop?",
-      a: "​You can easily buy TikTok likes online within a few minutes. Search for TikyTop on the search engine and click on the link. Select the buy TikTok likes service. Once the service is chosen, type or paste your TikTok username, then hit Enter. Again, choose the service and click the Enter button. Select the post for which you need likes, next you can easily customize the package based on your needs. Once the order is placed, you receive TikTok likes within a few minutes.",
+      q: "How to buy TikTok followers?",
+      a: "Just simple! Before you buy TikTok followers, make sure your account is public. First, open TikyTop, then enter your username. Next, choose the service (TikTok followers). Once the service is chosen, it takes you to the profile page; next, choose how many followers you need. Once you've finalized your order, make the payment and get followers instantly.",
     },
     {
-      q: "How to get more TikTok likes?",
-      a: "Every creator and marketer who uses TikTok will be thinking about how to get more TikTok likes. This is one of the most common questions creators ask. The key to gaining engagement is posting consistently and following trending topics. Choosing a trusted likes provider from TikyTop can help your content gain more visibility and support your growth. You'll find a wide range of packages, and you can choose how many TikTok likes you want.",
+      q: "Can you buy TikTok followers?",
+      a: "Of course you can buy TikTok followers from a trusted site like TikyTop. All followers are from real accounts, and none are fake or temporary. Many top creators and marketers use our service to enhance their TikTok profile. Since our priority is to provide the best, we ensure nothing goes wrong.",
     },
     {
-      q: "Why do TikTok likes matter?",
-      a: "TikTok likes matter more because they show how engaged viewers are with your content and how much they value it. This is why many creators buy likes on TikTok to give their videos an initial push. You can buy 50 TikTok likes or 5000 TikTok likes, but all likes are from real accounts, and they remain for the long term. Once you have ordered from us, the TikTok likes will be delivered within a few minutes. Over time, your content will stand out from others.",
+      q: "What qualities can I expect from TikyTop?",
+      a: "We always focus on high-quality service. Under no circumstances do we disappoint our customers. Once you buy TikTok followers from us, you can expect fast ordering and a user-friendly experience. The followers are 100% real accounts used regularly on TikTok. As they are from real accounts, they increase your reach.",
     },
     {
-      q: "Will my competitors know I have bought likes from TikyTop?",
-      a: "No, not at all! Your competitors will never know that you have bought TikTok likes from us. Your order will remain hidden; no information is shared. Anyway, when you buy TikTok likes from us, they are from real accounts, so there is no chance of finding out whether the likes are fake or real. Yes, you can grow your account with confidence.",
+      q: "Is buying TikTok followers enough for growth?",
+      a: "Definitely, you will get a chance to improve your profile when you buy high-quality TikTok followers from us. However, it is one way to improve your presence. As a creator or marketer, you can also focus on consistency, following current trends, and building relationships with your audience. All of these make your profile stronger and support growth.",
     },
     {
-      q: "What are the benefits of buying TikTok likes?",
-      a: "When you buy real TikTok likes from us, you will receive high-retention likes. Here is what you can expect from us:\n\n• Trusted TikTok growth service.\n• Place your order without sharing your password.\n• Authentic TikTok likes.\n• Boost TikTok visibility and improve engagement.\n• Safe and secure service with no interruptions.",
+      q: "Why is it important to buy TikTok followers?",
+      a: "The reason buying followers is important: it can strengthen your profile, make it engaging, and help you reach more audiences. Also, a high follower count can create a positive impression and encourage more people to follow your account. You can be any user and use a trusted site like TikyTop to buy TikTok followers with secure payment.",
     },
     {
-      q: "Is it worth to buy tiktok likes in 2026?",
-      a: "Why not? There is heavy competition, and it might be difficult for new creators. Low-quality likes might disappear within a short period, which is why we deliver quality likes to our customers. So, it is effective to buy TikTok likes from a trusted service provider like us to boost your TikTok profile. Engagement will still be a major part in 2026.",
-    },
-    {
-      q: "What makes our service best among all?",
-      a: "We always focus on our customers' satisfaction. We never ask for passwords, and customers do not need to share any personal information. From choosing TikTok likes to the payment process, everything is made simple and easier. If customers have any difficulties, they can reach our team for help. Also, many top creators, marketers, and business people buy TikTok likes from us. This is what makes us the best among all.",
+      q: "Which is better to buy TikTok followers or views?",
+      a: "They all help you grow and improve your overall performance. Whether it is followers or views, it helps boost your profile. Choose based on your needs and goals. Check what you need the most.",
     },
   ];
 
@@ -233,7 +188,6 @@ export default function BuyTikTokLikes() {
       return;
     }
 
-    // Default username search flow
     try {
       setIsSearching(true);
       const response = await fetch(`${API_URL}/api/tiktok/user/${input}`);
@@ -249,8 +203,8 @@ export default function BuyTikTokLikes() {
           userdata: data,
           platform: "tiktok",
           username: input,
-          selectedServiceKey: "likes",
-          entryPath: "/tiktok/buy-likes",
+          selectedServiceKey: "followers",
+          entryPath: "/tiktok/buy-followers",
           selectedPackage,
           quantity: selectedPackage ? selectedPackage.quantity : undefined
         },
@@ -268,8 +222,8 @@ export default function BuyTikTokLikes() {
   };
 
   return (
-    <div className=" text-white font-sans antialiased overflow-x-hidden">
-      {/* ── REDESIGNED HERO SECTION ── */}
+    <div className="text-white font-sans antialiased overflow-x-hidden">
+      {/* ── REDESIGNED HERO SECTION (MATCHING BUY TIKTOK VIEWS) ── */}
       <section id="hero" className="relative w-full min-h-[auto] md:min-h-screen bg-[#1a0b2e] flex flex-col items-center justify-center pt-24 pb-12 sm:pt-28 sm:pb-20 px-5 md:px-6 overflow-hidden">
         {/* HERO IMAGE - BACKGROUND */}
         <img
@@ -302,16 +256,16 @@ export default function BuyTikTokLikes() {
           className="absolute inset-x-0 bottom-0 z-[2] h-[45%] pointer-events-none bg-[radial-gradient(ellipse_at_88%_100%,rgba(35,20,180,0.48)_0%,rgba(30,10,120,0.25)_45%,transparent_78%)]"
         />
 
-        {/* Animated Background blobs (Floating TikTok elements & particles) */}
+        {/* Animated Background blobs */}
         <div className="absolute top-1/4 -left-48 w-96 h-96 bg-cyan-500/10 rounded-full blur-[110px] animate-pulse pointer-events-none" />
         <div className="absolute top-1/3 -right-48 w-96 h-96 bg-pink-500/10 rounded-full blur-[110px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
 
         <div className="max-w-7xl mx-auto w-full relative z-30 flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center text-center lg:text-left">
 
-          {/* Left Column: Redesigned Copy & Input (Grid 7/12) */}
+          {/* Left Column: Headline & Search Bar */}
           <div className="lg:col-span-7 space-y-6 lg:space-y-8 flex flex-col items-center lg:items-start w-full">
 
-            {/* Trust Badge & Premium Growth Pills */}
+            {/* Trust Badge */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-4 lg:mt-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 text-xs bg-white/10 rounded-full backdrop-blur border border-white/10 text-yellow-400 font-semibold">
                 <FaStar className="fill-current" />
@@ -325,28 +279,30 @@ export default function BuyTikTokLikes() {
 
             {/* Main Headline */}
             <h1 className="text-[34px] sm:text-5xl lg:text-6xl font-bold leading-tight font-righteous tracking-tight">
-              Buy TikTok Likes <br />
+              Buy TikTok Followers <br />
               <span className="bg-gradient-to-r from-cyan-400 via-pink-500 to-rose-500 bg-clip-text text-transparent block sm:inline">
-                with Instant Delivery
+                For Viral Reach
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-[340px] sm:max-w-xl mx-auto lg:mx-0">
-              TikyTop helps you buy TikTok likes instantly and gain more real engagement. Our reliable
-              growth service will make you stand out with ease
+              Make your growth extraordinary with TikyTop. Yes, buy TikTok followers with our multiple growth packages.
             </p>
 
-            {/* Feature Row Badge Badges */}
+            {/* Feature Row Badges */}
             <div className="grid grid-cols-2 gap-3 w-full max-w-[340px] sm:max-w-xl pt-2">
               <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
-                ❤️ Premium TikTok Likes
+                <Headphones className="w-3.5 h-3.5 text-cyan-400" />
+                Reliable Support
               </span>
               <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
-                📈 Real Engagement Rate
+                <TrendingUp className="w-3.5 h-3.5 text-pink-400" />
+                Maximum Growth
               </span>
               <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
-                👥 Active TikTok Users
+                <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                Privacy Focused
               </span>
             </div>
 
@@ -360,7 +316,7 @@ export default function BuyTikTokLikes() {
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-base flex-shrink-0 animate-bounce">✨</span>
                     <span className="truncate">
-                      Selected Package: <strong className="text-pink-400">{selectedPackage.quantity.toLocaleString()} Likes</strong> (${Number(selectedPackage.price).toFixed(2)})
+                      Selected Package: <strong className="text-pink-400">{selectedPackage.quantity.toLocaleString()} Followers</strong> (${Number(selectedPackage.price).toFixed(2)})
                     </span>
                   </div>
                   <button
@@ -381,7 +337,7 @@ export default function BuyTikTokLikes() {
                   }}
                   className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
                 >
-                  {/* Active Platform Card style: TikTok Icon */}
+                  {/* TikTok Icon */}
                   <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
                     <FaTiktok className="text-cyan-400 text-lg" />
                   </div>
@@ -400,7 +356,7 @@ export default function BuyTikTokLikes() {
                     }}
                     placeholder={
                       selectedPackage
-                        ? `Enter TikTok username for ${selectedPackage.quantity.toLocaleString()} Likes`
+                        ? `Enter TikTok username for ${selectedPackage.quantity.toLocaleString()} Followers`
                         : "Enter your TikTok Username"
                     }
                     className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-gray-400 min-w-0"
@@ -422,7 +378,7 @@ export default function BuyTikTokLikes() {
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
                     ) : (
-                      "Get TikTok Likes"
+                      "Get TikTok Followers"
                     )}
                   </button>
                 </div>
@@ -430,12 +386,9 @@ export default function BuyTikTokLikes() {
             </div>
           </div>
 
-          {/* Right Column: Premium TikTok Smartphone Illustration Visual (Grid 5/12) */}
+          {/* Right Column: Visual Frame matching BuyTikTokViews */}
           <div className="lg:col-span-5 relative flex justify-center items-center w-full max-w-[320px] lg:max-w-none mx-auto mt-6 lg:mt-0">
-            {/* Visual Glassmorphic Card Frame with pink/purple glowing effects */}
             <div className="w-[80%] lg:w-[50%] h-[60px] lg:h-auto lg:aspect-square relative">
-
-              {/* Internal Floating Decorative items */}
               <div className="absolute -top-2 -right-2 md:-top-6 md:-right-6 w-12 h-12 lg:w-14 lg:h-14 bg-gradient-to-tr from-cyan-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-xl lg:text-2xl shadow-lg shadow-pink-500/30 animate-bounce">
                 <FaTiktok />
               </div>
@@ -469,7 +422,7 @@ export default function BuyTikTokLikes() {
           </div>
         </div>
 
-        {/* Premium Wave Transition Layer */}
+        {/* Premium Wave Transition Layer (Matching BuyTikTokViews) */}
         <div className="absolute bottom-[-3px] left-0 right-0 w-full overflow-hidden leading-[0] z-10 pointer-events-none">
           <svg
             viewBox="0 0 1200 120"
@@ -505,200 +458,114 @@ export default function BuyTikTokLikes() {
             <rect x="0" y="110" width="1440" height="20" fill="#ffffff" />
           </svg>
         </div>
-
       </section>
 
-      {/* ── HOW IT WORKS SECTION ── */}
-      <section className="py-24 px-6 bg-gradient-to-b from-white via-slate-50 to-white">
+      {/* ── HOW TO BUY TIKTOK FOLLOWERS SECTION (WHITE THEME) ── */}
+      <section className="py-24 px-6 bg-gradient-to-b from-white via-slate-50 to-white text-slate-900">
         <div className="max-w-7xl mx-auto">
-
-          {/* Heading */}
           <div className="max-w-3xl mx-auto text-center">
-
             <h2 className="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
-              How to Buy TikTok Likes
+              How to Buy TikTok Followers?
             </h2>
-
             <p className="mt-5 text-lg leading-8 text-slate-500">
-              You can easily buy real TikTok likes with a fast and secure ordering process. Just place your order, complete the payment, and receive high-quality TikTok likes instantly.
+              We deliver our service quickly and securely. You can check our deals, and your growth will begin shortly.
             </p>
           </div>
 
-          {/* Cards */}
           <div className="mt-20 grid gap-10 lg:grid-cols-3">
-
-            {/* ================= CARD 1 ================= */}
+            {/* Step 1 */}
             <div className="group relative flex flex-col overflow-hidden rounded-[32px] border border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(6,182,212,0.18)]">
-
-              {/* Number */}
               <div className="absolute right-6 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500 text-lg font-bold text-white shadow-xl">
                 01
               </div>
-
-              {/* Image */}
               <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-cyan-100">
-
-                {/* Background Glow */}
-                <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-cyan-400/30 blur-[120px] transition duration-700 group-hover:scale-125" />
-
-                <div className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-blue-400/20 blur-[120px] transition duration-700 group-hover:scale-125" />
-
-                {/* Mesh Gradient */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(6,182,212,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.18),transparent_60%)]" />
-
                 <img
                   src={Username}
-                  alt="Username"
+                  alt="Enter Username"
                   className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:-rotate-2"
                 />
-
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
-
-                {/* Glass Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5" />
-
-                {/* Shine */}
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-                  <div className="absolute -left-40 top-0 h-full w-24 rotate-12 bg-white/40 blur-xl transition-all duration-1000 group-hover:left-[130%]" />
-                </div>
               </div>
-
-              {/* Content */}
               <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow">
-
                 <span className="inline-flex rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-600">
                   Step 01
                 </span>
-
                 <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                  Enter your Username
+                  Enter Username
                 </h3>
-
                 <p className="mt-4 leading-7 text-slate-600">
-                  Type or paste your TikTok username and ensure your account is public
-                  before placing the order.
+                  Firstly, enter your TikTok username in the given box.
                 </p>
-
               </div>
             </div>
 
-            {/* ================= CARD 2 ================= */}
+            {/* Step 2 */}
             <div className="group relative flex flex-col overflow-hidden rounded-[32px] border border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(236,72,153,0.18)]">
-
               <div className="absolute right-6 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-pink-500 text-lg font-bold text-white shadow-xl">
                 02
               </div>
-
               <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-pink-50 via-white to-pink-100">
-
-                <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-pink-400/30 blur-[120px]" />
-
-                <div className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-rose-400/20 blur-[120px]" />
-
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(244,63,94,0.18),transparent_60%)]" />
-
                 <img
                   src={Post}
-                  alt=""
+                  alt="Confirm Purchase"
                   className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
                 />
-
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
-
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5" />
-
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-                  <div className="absolute -left-40 top-0 h-full w-24 rotate-12 bg-white/40 blur-xl transition-all duration-1000 group-hover:left-[130%]" />
-                </div>
-
               </div>
-
               <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow">
-
                 <span className="inline-flex rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-pink-600">
                   Step 02
                 </span>
-
                 <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                  Select the Post
+                  Confirm Purchase
                 </h3>
-
                 <p className="mt-4 leading-7 text-slate-600">
-                  Choose the TikTok post you want to improve your engagement for
+                  Choose the package that you want to improve your follower count for.
                 </p>
-
               </div>
             </div>
 
-            {/* ================= CARD 3 ================= */}
+            {/* Step 3 */}
             <div className="group relative flex flex-col overflow-hidden rounded-[32px] border border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(139,92,246,0.18)]">
-
               <div className="absolute right-6 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-violet-500 text-lg font-bold text-white shadow-xl">
                 03
               </div>
-
               <div className="relative h-[380px] overflow-hidden bg-gradient-to-br from-violet-50 via-white to-violet-100">
-
-                <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-violet-400/30 blur-[120px]" />
-
-                <div className="absolute -bottom-24 -right-20 h-72 w-72 rounded-full bg-indigo-400/20 blur-[120px]" />
-
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.18),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.18),transparent_60%)]" />
-
                 <img
                   src={Likes}
-                  alt=""
+                  alt="Pay Securely"
                   className="relative z-10 h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:-rotate-2"
                 />
-
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent" />
-
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/5" />
-
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-                  <div className="absolute -left-40 top-0 h-full w-24 rotate-12 bg-white/40 blur-xl transition-all duration-1000 group-hover:left-[130%]" />
-                </div>
-
               </div>
-
               <div className="relative bg-gradient-to-b from-white to-slate-50 p-8 pb-12 flex-grow">
-
                 <span className="inline-flex rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-violet-600">
                   Step 03
                 </span>
-
                 <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                  Get Instant Likes
+                  Pay Securely
                 </h3>
-
                 <p className="mt-4 leading-7 text-slate-600">
-                  Once you select the number of likes, double-check and complete the payment to get TikTok likes instantly.
+                  Finally, select the payment button to pay and get followers instantly.
                 </p>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ── QUICK PACKAGE SELECTOR (FETCHED FROM DB) ── */}
+      {/* ── QUICK PACKAGE SELECTOR SECTION ── */}
       <QuickPackageSelector
         platform="tiktok"
-        serviceKey="likes"
-        serviceTitle="Likes"
+        serviceKey="followers"
+        serviceTitle="Followers"
         selectedPackage={selectedPackage}
         onSelectPackage={setSelectedPackage}
         scrollTargetId="tiktok-search-box"
       />
 
-      {/* ── MIDDLE CTA SECTION ── */}
+      {/* ── MID-PAGE CTA BANNER 1 ── */}
       <section className="py-16 md:py-24 px-4 bg-slate-50 relative overflow-hidden flex justify-center items-center">
-        {/* Decorative background glow circles */}
-        <div className="absolute top-1/2 left-[10%] -translate-y-1/2 w-[350px] md:w-[500px] h-[350px] md:h-[500px] bg-[#ebfaff] rounded-full blur-[100px] opacity-[0.4] pointer-events-none" />
-        <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[350px] md:w-[500px] h-[350px] md:h-[500px] bg-[#fff6fa] rounded-full blur-[100px] opacity-[0.4] pointer-events-none" />
-
         <div className="max-w-4xl w-[92%] md:w-full mx-auto relative z-10 flex justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.96 }}
@@ -712,201 +579,185 @@ export default function BuyTikTokLikes() {
             }}
             className="w-full rounded-[24px] md:rounded-[36px] p-8 md:py-16 md:px-12 text-center flex flex-col items-center justify-center overflow-hidden border border-white/60 relative"
           >
-            {/* Title */}
             <h2 className="text-[26px] sm:text-3xl md:text-[38px] font-extrabold text-[#111827] leading-[1.2] text-center tracking-tight mb-5">
-              Try our Service Now!
+              Grow Your Following with TikyTop
             </h2>
-
-            {/* Description */}
             <p className="text-[14px] md:text-[16px] font-normal text-[#4B5563] leading-[1.6] max-w-[620px] text-center mb-7">
-              Need to stand out from the crowd? Then buy TikTok likes now and enhance your profile.
+              TikyTop supports creators' growth and needs, consistently providing innovative solutions to our customers.
             </p>
-
-            {/* Premium Button */}
             <button
               onClick={handleCTAClick}
               className="inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-sm sm:text-[15px] bg-[#ff1788] hover:bg-[#ff2e9c] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,23,136,0.3)] transition-all duration-300 select-none cursor-pointer"
             >
-              Buy Likes
+              Get followers now!
             </button>
           </motion.div>
         </div>
       </section>
 
-      {/* ── BENEFITS SECTION ── */}
+      {/* ── WHY IS TIKYTOP THE #1 SERVICE TO BUY TIKTOK FOLLOWERS (WHITE THEME) ── */}
       <section className="pt-8 pb-20 px-6 bg-gradient-to-b from-[#f8fafc] via-white to-[#f8fafc] text-gray-900">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-            Benefits of Buying TikTok Likes
+            Why is TikyTop the #1 Service to Buy TikTok Followers?
           </h2>
           <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Want to grow faster on TikTok? Then here is the simple solution: TikTok likes buy service from TikyTop helps boost audience engagement and improve the chance of going viral.
+            Make your TikTok account stand out from your competitors. Start growing your account with our real followers.
           </p>
 
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Benefit 1 */}
-            <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center text-white mb-4">
-                <TrendingUp className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">Greater Visibility</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                TikTok will reward you when your videos gain more engagement. The more interaction you get, the more you will reach your audience. Many creators choose to buy TikTok likes online to strengthen their video’s engagement. As a result, your content visibility will be improved, and you will have the opportunity to reach the TikTok For You Page.
-              </p>
-            </div>
-
-            {/* Benefit 2 */}
+            {/* 1 */}
             <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white mb-4">
-                <UserCheck className="w-5 h-5" />
+                <Users className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">Organic Growth</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Get Real Followers</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Your content deserves to be seen. With more engagement, people are more likely to watch it and share it with others. We are here to help you, and with our TikTok growth service, you can increase your content visibility, attract new viewers, and support long-term growth. Now your growth is made simpler and easier!
+                When you buy TikTok followers from us, you will get real and active engagement. Many creators and influencers gain more engagement. No matter how engaged you are, more followers can help your profile grow even faster. TikyTop will connect you with real followers who align with your goals and needs.
               </p>
             </div>
 
-            {/* Benefit 3 */}
+            {/* 2 */}
             <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center text-white mb-4">
-                <Shield className="w-5 h-5" />
+                <Lock className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">More Credible</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">No Login Required</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Trust begins with credibility. Usually, a credible TikTok profile can build a lasting connection, isn't it? Yes, a lasting connection matters more than random viewers. You can buy TikTok likes from TikyTop, and we help your TikTok account appear more credible and encourage new viewers to see your content.
+                You don't need to create an account to use our service or tools. All you need is a public TikTok account. This keeps your data safe and saves you time. This supports long-term growth and keeps your account free from spam. Yes, your account will stay safe, and you can focus on what matters more.
               </p>
             </div>
 
-            {/* Benefit 4 */}
+            {/* 3 */}
+            <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center text-white mb-4">
+                <Zap className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Get Fast Delivery</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                When you want to grow online, it might take some time to reach new heights. That is why our service provides a smart way for customers. As soon as you order, you can get results within a few moments. With fast delivery, you will not miss the moment, and your efforts will be clearly visible when users check you out.
+              </p>
+            </div>
+
+            {/* 4 */}
             <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white mb-4">
-                <Clock className="w-5 h-5" />
+                <UserCheck className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">Saves Time</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">More Profile Visits</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Growing on TikTok needs consistency, and sometimes it might take time. It is easier to buy TikTok likes, and we will help speed up engagement. From now on, you can focus on creating quality content and what matters most. You can spend less time on engagement; we will handle the rest.
+                A profile should be steady and popular. Even follower count matters more. We help you improve your follower count at affordable prices. When you use our service, you will gain more real opportunities, trust, and more eyes on your profile. When your profile looks active, new visitors have a reason to follow your account.
               </p>
             </div>
 
-            {/* Benefit 5 */}
+            {/* 5 */}
             <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-white mb-4">
-                <ThumbsUp className="w-5 h-5" />
+                <TrendingUp className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">High Engagement</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Expand Your Reach</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                The most important thing is that your content should not look inactive, and users should not skip your video. Each and every TikTok like matters more. That is where TikyTop comes in. We provide premium TikTok likes that receive strong engagement and visibility. As your engagement grows, connect with your audience globally.
+                Make a push to your profile because it deserves more engagement. Expand your reach with our instant TikTok followers to easily improve your engagement rate. Now you are in safe hands; TikyTop will go the extra mile to support your profile. Because maintaining your account reputation is important, we will support you throughout the process.
               </p>
             </div>
 
-            {/* Benefit 6 */}
+            {/* 6 */}
             <div className="bg-white border border-slate-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white mb-4">
-                <Check className="w-5 h-5" />
+                <Shield className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-2">100% Real Likes</h3>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Build Social Proof</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Having more TikTok likes for the video can add to your social proof. People are more likely to watch videos that have more views, likes, and shares. To make it simple, you can buy genuine TikTok likes from us and boost your credibility. As you get real likes, they never disappear for any reason.
+                Social proof is important because it shows that people’s opinions matter when they're making a purchase. Whether it's about reviews or finding the best site to buy TikTok followers, we are the trusted choice. So without any confusion, you can purchase as much as you want and grow organically.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── WHY CHOOSE US / EVERYTHING YOU NEED TO KNOW ── */}
+      {/* ── WHAT CAN YOU EXPECT FROM TIKYTOP (WHITE THEME) ── */}
       <section className="py-24 px-6 bg-slate-50 text-gray-900">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
-            Everything You Need To Know About Buying TikTok Likes
+            What Can You Expect from TikyTop?
           </h2>
           <p className="mt-4 text-gray-500 max-w-xl mx-auto text-sm sm:text-base">
-            We ensure that all TikTok likes are from real users. Increase TikTok video reach without compromising the quality.
+            You can also buy 1000 TikTok followers; the quantity doesn't matter. Even for small packages, your account becomes more popular.
           </p>
 
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Password */}
-            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300 relative group">
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pink-500/20 transition-all duration-300 pointer-events-none" />
+            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300">
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-500 mb-4">
-                <Lock className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">No Password Required</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                We always prioritize your privacy first. Yes, we never ask for your passwords. You can experience a smooth process from beginning to end. Only your username is required, along with other required details for payment. With our secure TikTok growth service, you can get instant TikTok likes.
-              </p>
-            </div>
-
-            {/* Support */}
-            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300 relative group">
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pink-500/20 transition-all duration-300 pointer-events-none" />
-              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 mb-4">
-                <Headphones className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Best Customer Support</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                Do you need help with a TikTok likes buy order? No worries, you are not alone; our dedicated support team is always there to support you. The queries might be about service, how to place an order, or delivery. From placing an order to tracking delivery, our team will support you at any time.
-              </p>
-            </div>
-
-            {/* Ordering */}
-            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300 relative group">
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pink-500/20 transition-all duration-300 pointer-events-none" />
-              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600 mb-4">
-                <Zap className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Easy Ordering Process</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                TikyTop is easy because you can buy high-retention likes in 3 steps. All you have to do is enter your TikTok username, select a service and package based on your needs and goals, and then choose a video to improve discoverability. Once the video is selected, pay and get likes instantly.
-              </p>
-            </div>
-
-            {/* Premium */}
-            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300 relative group">
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pink-500/20 transition-all duration-300 pointer-events-none" />
-              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-orange-100 text-orange-600 mb-4">
                 <Star className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Premium TikTok Likes</h3>
+              <h3 className="font-bold text-gray-900 text-base mb-2">Satisfaction Guaranteed</h3>
               <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                Our premium service is for all users who are looking to strengthen their profile. We never put your account at risk. You can enjoy a simple ordering process, no fake likes, and customized likes packages. This is why many of the top creators and marketers buy likes for their TikTok account.
+                All users of our service will never be disappointed, as our priority is to meet their needs. As we provide quality followers, they enjoy real followers. Of course, we help our customers at every stage of their TikTok journey.
+              </p>
+            </div>
+
+            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300">
+              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 mb-4">
+                <Tag className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-gray-900 text-base mb-2">Multiple Payment Options</h3>
+              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+                We understand our users, so we offer multiple payment options. You can pay using a digital wallet, cards, or bank transfer. And this is why TikyTop stands out from other competitors.
+              </p>
+            </div>
+
+            <div className="bg-slate-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300">
+              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600 mb-4">
+                <Shield className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-gray-900 text-base mb-2">Highly Secure Encryption</h3>
+              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+                Safety comes first; many people think buying TikTok followers is unsafe. But the thing is, we don't ask for any of your passwords, and all transactions are fully encrypted. So, you can order without any hesitation.
+              </p>
+            </div>
+
+            <div className="bg-white border border-slate-150 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition duration-300">
+              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 mb-4">
+                <UserCheck className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-gray-900 text-base mb-2">Trustworthy & Reliable</h3>
+              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+                Many users prefer TikyTop because of our trustworthiness and the quality we provide. Purchasing any one of our TikTok fan packages can improve your profile growth. Also, we help you stand out from other users.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA SECTION ── */}
+      {/* ── MID-PAGE CTA BANNER 2 ── */}
       <section className="py-20 px-6 relative overflow-hidden bg-white text-gray-900">
-        <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-[#00f2fe]/20 to-[#4facfe]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-br from-[#ff0844]/20 to-[#ffb199]/10 rounded-full blur-3xl" />
-
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="bg-slate-900/5 backdrop-blur-xl rounded-[2.5rem] border border-slate-200/50 p-12 md:p-16 shadow-xl text-center">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-955 mb-6 leading-tight">
-              Want to Boost Your TikTok Profile?
+              What Makes Your Profile Look Better?
             </h2>
             <p className="text-lg text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto">
-              We have premium-quality TikTok likes that deliver to your selected video instantly!
+              Everyone is chasing growth, and you can start working smartly with TikyTop!
             </p>
             <button
               onClick={handleCTAClick}
               className="px-10 py-4.5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105"
             >
-              Get TikTok Likes
+              See our Packages
             </button>
           </div>
         </div>
       </section>
 
-      {/* ── FAQ SECTION (ACCORDION) ── */}
+      {/* ── FAQ SECTION (ACCORDION - WHITE THEME) ── */}
       <section className="py-24 px-6 bg-slate-50 border-t border-slate-100 text-gray-900">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900">
-              Frequently Asked Questions on Buy TikTok Likes
+              Frequently Asked Questions on Buy TikTok Followers
             </h2>
             <p className="mt-4 text-gray-500 text-sm sm:text-base">
-              Have Questions About Buying TikTok Likes? We've got you covered! Here are the most commonly asked questions on how to buy likes on TikTok, packages, security, and more.
+              Here are the most asked questions about our followers service. This will help you out of confusion. Start to buy TikTok followers and grow consistently!
             </p>
           </div>
 
@@ -950,44 +801,42 @@ export default function BuyTikTokLikes() {
         </div>
       </section>
 
-      {/* ── FINAL CTA SECTION ── */}
+      {/* ── FINAL CTA SECTION (MATCHING BUY TIKTOK VIEWS) ── */}
       <section className="py-24 px-6 bg-gradient-to-br from-[#3b0622] via-[#210438] to-[#0a0212] text-white text-center relative overflow-hidden">
-        {/* Glow Effects */}
         <div className="absolute top-[-100px] left-[-100px] w-[350px] h-[350px] bg-pink-500/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-100px] right-[-100px] w-[350px] h-[350px] bg-cyan-500/10 rounded-full blur-[120px]" />
 
         <div className="max-w-4xl mx-auto relative z-10 space-y-8">
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-            Grow Your Profile With Us!
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-yellow-300 text-xs font-bold uppercase tracking-wider">
+            ✨ Do You Know?
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+            With TikTok followers buy, you can get instant followers with lightning-fast delivery!
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
-            We offer the best TikTok likes in the market. If you want to boost your profile, buy TikTok likes and views from us!
-          </p>
           <div className="pt-4">
             <button
               onClick={handleCTAClick}
-              className="px-12 py-5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-extrabold text-lg hover:shadow-[0_0_35px_rgba(236,72,153,0.4)] hover:scale-105 transition-all duration-300 border border-pink-400/30"
+              className="px-12 py-5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-extrabold text-lg hover:shadow-[0_0_35px_rgba(236,72,153,0.4)] hover:scale-105 transition-all duration-300 border border-pink-400/30 cursor-pointer"
             >
-              Click Here
+              Buy TikTok Followers
             </button>
           </div>
         </div>
       </section>
 
-      {/* ── TESTIMONIALS SECTION ── */}
+      {/* ── REVIEWS SECTION (MATCHING BUY TIKTOK VIEWS) ── */}
       <section className="py-24 px-6 bg-white overflow-hidden relative text-gray-900">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-            Hear From Our Real Customers
+            Buy TikTok Followers Reviews
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto mb-16 text-sm sm:text-base">
-            We are proud to have so many TikyTop customers coming back again and again to buy TikTok likes and increase their profile reach.
+            Hear from our top creators and users on what they think about our service. Thousands of users have used our service, and now it is your turn to enhance!
           </p>
         </div>
 
         {/* Carousel container */}
         <div className="w-full overflow-hidden pause-hover relative">
-          {/* Subtle fade overlay on edges */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
@@ -998,7 +847,6 @@ export default function BuyTikTokLikes() {
                 className="flex-shrink-0 w-[300px] sm:w-[350px] bg-slate-50 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col justify-between"
               >
                 <div>
-                  {/* Star rating */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(5)].map((_, i) => {
                       const ratingValue = i + 1;
@@ -1007,9 +855,7 @@ export default function BuyTikTokLikes() {
                       } else if (ratingValue - 0.5 === t.rating) {
                         return (
                           <div key={i} className="relative w-4 h-4 text-gray-200">
-                            {/* Gray Background Star */}
                             <Star className="w-4 h-4 fill-current text-gray-200" />
-                            {/* Yellow Half-filled overlay Star */}
                             <div className="absolute top-0 left-0 h-full w-[50%] overflow-hidden">
                               <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
                             </div>
@@ -1020,13 +866,11 @@ export default function BuyTikTokLikes() {
                       }
                     })}
                   </div>
-                  {/* Comment text */}
                   <p className="text-[13px] sm:text-sm text-gray-600 leading-relaxed italic mb-6">
                     "{t.text}"
                   </p>
                 </div>
 
-                {/* Customer Avatar & Name */}
                 <div className="flex items-center gap-3 pt-4 border-t border-slate-200/50">
                   <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-400 to-pink-500 flex items-center justify-center text-white text-xs font-bold shadow-sm">
                     {t.name.charAt(0)}

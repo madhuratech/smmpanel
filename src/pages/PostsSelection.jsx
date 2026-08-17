@@ -7,15 +7,15 @@ const PostsSelection = () => {
   useScrollToTop()
   const navigate = useNavigate()
   const location = useLocation()
-  const {username,platform,selectedService,quantity,entryPath} = location.state || {}
+  const { username, platform, selectedService, quantity, entryPath, selectedPackage } = location.state || {}
   const [selectedPosts, setSelectedPosts] = useState(
-  location.state?.selectedPostsIds || []
- );
+    location.state?.selectedPostsIds || []
+  );
 
 
   const userdata = location.state?.userdata
 
-  const TOTAL_ALLOWED = Number(quantity) || 0;
+  const TOTAL_ALLOWED = Number(quantity) || Number(selectedPackage?.quantity) || 0;
 
   const initialSelectedPosts =
     location.state?.selectedPostsIds || [];
@@ -202,12 +202,13 @@ const PostsSelection = () => {
         platform,
         selectedService,
         userdata,
-        quantity: TOTAL_ALLOWED,
+        quantity: TOTAL_ALLOWED || Number(selectedPackage?.quantity) || undefined,
         selectedPosts: filteredPosts,
         selectedPostsIds: selectedPosts,
         splitQuantities,
         contentType,
-        entryPath
+        entryPath,
+        selectedPackage
       }
     })
   };
@@ -323,7 +324,7 @@ const PostsSelection = () => {
                 <div className="flex gap-3">
                   <button
                     onClick={() => {
-                      const allpost = media.map((p,i) => getPostId(p,i));
+                      const allpost = media.map((p, i) => getPostId(p, i));
                       setSelectedPosts(allpost)
                       setSplitQuantities(autoDistribute(allpost))
                     }}
@@ -332,7 +333,7 @@ const PostsSelection = () => {
                     Select All
                   </button>
                   <button
-                    onClick={() => { setSelectedPosts([]); setSplitQuantities({});}}
+                    onClick={() => { setSelectedPosts([]); setSplitQuantities({}); }}
                     className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"
                   >
                     Deselect All
@@ -378,28 +379,28 @@ const PostsSelection = () => {
                       </div>
 
                       {/* ✅ Selection Indicator */}
-                       {selectedPosts.includes(postId) && (
-                      <>
-  
-                     {/* CHECK ICON */} 
-                     <div className="absolute top-2 right-2 z-20 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                      <svg className="w-5 h-5 text-white" fill="currentColor"viewBox="0 0 20 20">
-                      <path fillRule="evenodd"
-                       d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                       clipRule="evenodd"
-                       />
-                      </svg>
-                    </div>
+                      {selectedPosts.includes(postId) && (
+                        <>
 
-    {/* SPLIT QUANTITY */}
-                   <div className="absolute top-2 left-2 z-20">
-                  <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                  { splitQuantities[postId] ?? ( selectedPosts.includes(postId) ?
-                   Math.floor(TOTAL_ALLOWED / selectedPosts.length): 0)}
-                 </div>
-                </div>
-                </>
-               )}
+                          {/* CHECK ICON */}
+                          <div className="absolute top-2 right-2 z-20 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+
+                          {/* SPLIT QUANTITY */}
+                          <div className="absolute top-2 left-2 z-20">
+                            <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                              {splitQuantities[postId] ?? (selectedPosts.includes(postId) ?
+                                Math.floor(TOTAL_ALLOWED / selectedPosts.length) : 0)}
+                            </div>
+                          </div>
+                        </>
+                      )}
 
                       {/* Stats */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
@@ -432,15 +433,15 @@ const PostsSelection = () => {
               </div>
             </>
           )}
-        {visibleCount < media.length && (
-       <div className="text-center mb-6 mt-5">
-       <button  onClick={() => setVisibleCount(prev => prev + 12)}
-      className={`bg-gradient-to-r ${config.color} text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
-       >
-        Load More {label}s
-       </button>
-       </div>
-        )}
+          {visibleCount < media.length && (
+            <div className="text-center mb-6 mt-5">
+              <button onClick={() => setVisibleCount(prev => prev + 12)}
+                className={`bg-gradient-to-r ${config.color} text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+              >
+                Load More {label}s
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

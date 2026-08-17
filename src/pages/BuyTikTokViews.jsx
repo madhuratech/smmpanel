@@ -20,6 +20,7 @@ import {
 import { FaTiktok, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
+import QuickPackageSelector from "../components/QuickPackageSelector";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
@@ -34,6 +35,7 @@ export default function BuyTikTokViews() {
   const [username, setUsername] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
@@ -204,7 +206,10 @@ export default function BuyTikTokViews() {
     },
   ];
 
-  const handleSearchSubmit = async () => {
+  const handleSearchSubmit = async (e) => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
     const input = username.trim();
     if (!input) return;
 
@@ -218,6 +223,8 @@ export default function BuyTikTokViews() {
           orderLink: input,
           platform: "tiktok",
           linkType: isProfileLink ? "profile" : "post",
+          selectedPackage,
+          quantity: selectedPackage ? selectedPackage.quantity : undefined
         },
       });
       return;
@@ -240,7 +247,9 @@ export default function BuyTikTokViews() {
           platform: "tiktok",
           username: input,
           selectedServiceKey: "views",
-          entryPath: "/tiktok/buy-views"
+          entryPath: "/tiktok/buy-views",
+          selectedPackage,
+          quantity: selectedPackage ? selectedPackage.quantity : undefined
         },
       });
     } catch (error) {
@@ -303,7 +312,7 @@ export default function BuyTikTokViews() {
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-4 lg:mt-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 text-xs bg-white/10 rounded-full backdrop-blur border border-white/10 text-yellow-400 font-semibold">
                 <FaStar className="fill-current" />
-                <span>⭐ Rated 4.9 by 50,000+ TikTok Creators</span>
+                <span>Rated 4.9 by 50,000+ TikTok Creators</span>
               </div>
 
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-pink-500/20 border border-pink-500/30 text-pink-400 text-xs font-bold uppercase tracking-wider">
@@ -343,50 +352,82 @@ export default function BuyTikTokViews() {
             </div>
 
             {/* Search Bar / Input flow */}
-            <div id="tiktok-search-box" className="pt-2 w-full max-w-xl">
-              <div
-                style={{
-                  boxShadow: isFocused
-                    ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
-                    : "0 20px 50px rgba(0,0,0,0.12)"
-                }}
-                className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
-              >
-                {/* Active Platform Card style: TikTok Icon */}
-                <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
-                  <FaTiktok className="text-cyan-400 text-lg" />
+            <div
+              id="tiktok-search-box"
+              className="w-full max-w-xl pt-2 flex flex-col gap-2.5 relative"
+            >
+              {selectedPackage && (
+                <div className="w-full flex items-center justify-between bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-pink-500/20 border border-pink-500/40 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs sm:text-sm font-semibold shadow-lg">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-base flex-shrink-0 animate-bounce">✨</span>
+                    <span className="truncate">
+                      Selected Package: <strong className="text-pink-400">{selectedPackage.quantity.toLocaleString()} Views</strong> (${Number(selectedPackage.price).toFixed(2)})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPackage(null)}
+                    className="ml-2 text-white/80 hover:text-white font-bold text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-full transition-colors flex-shrink-0"
+                  >
+                    Clear ✕
+                  </button>
                 </div>
-
-                {/* Input Field */}
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  placeholder="Enter your TikTok Username"
-                  className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-gray-400 min-w-0"
-                />
-
-                {/* Search Button */}
-                <button
-                  onClick={handleSearchSubmit}
-                  disabled={isSearching}
+              )}
+              <form onSubmit={handleSearchSubmit} className="w-full relative">
+                <div
                   style={{
-                    background: "linear-gradient(90deg, #ff008e, #8b2cff)"
+                    boxShadow: isFocused
+                      ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
+                      : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className="flex-shrink-0 flex items-center justify-center w-[120px] sm:w-[160px] h-[48px] rounded-full text-white text-[13px] sm:text-[15px] font-bold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
+                  className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
                 >
-                  {isSearching ? (
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  ) : (
-                    "Get TikTok Views"
-                  )}
-                </button>
-              </div>
+                  {/* Active Platform Card style: TikTok Icon */}
+                  <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
+                    <FaTiktok className="text-cyan-400 text-lg" />
+                  </div>
+
+                  {/* Input Field */}
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleSearchSubmit(e);
+                      }
+                    }}
+                    placeholder={
+                      selectedPackage
+                        ? `Enter TikTok username for ${selectedPackage.quantity.toLocaleString()} Views`
+                        : "Enter your TikTok Username"
+                    }
+                    className="flex-grow h-full px-3.5 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-[15px] sm:text-[16px] font-medium text-gray-800 placeholder-gray-400 min-w-0"
+                  />
+
+                  {/* Search Button */}
+                  <button
+                    type="submit"
+                    onClick={handleSearchSubmit}
+                    disabled={isSearching}
+                    style={{
+                      background: "linear-gradient(90deg, #ff008e, #8b2cff)"
+                    }}
+                    className="flex-shrink-0 flex items-center justify-center w-[120px] sm:w-[160px] h-[48px] rounded-full text-white text-[13px] sm:text-[15px] font-bold transition-all duration-300 mr-0.5 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,0,142,0.4)] disabled:opacity-80 disabled:cursor-not-allowed select-none cursor-pointer"
+                  >
+                    {isSearching ? (
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    ) : (
+                      "Get TikTok Views"
+                    )}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
 
@@ -644,6 +685,17 @@ export default function BuyTikTokViews() {
           </div>
         </div>
       </section>
+
+      {/* ── QUICK PACKAGE SELECTOR (FETCHED FROM DB) ── */}
+      <QuickPackageSelector
+        platform="tiktok"
+        serviceKey="views"
+        serviceTitle="Views"
+        selectedPackage={selectedPackage}
+        onSelectPackage={setSelectedPackage}
+        scrollTargetId="tiktok-search-box"
+      />
+
       {/* ── MIDDLE CTA SECTION ── */}
       <section className="py-16 md:py-24 px-4 bg-slate-50 relative overflow-hidden flex justify-center items-center">
         {/* Decorative background glow circles */}

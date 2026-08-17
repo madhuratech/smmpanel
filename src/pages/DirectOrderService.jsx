@@ -74,7 +74,7 @@ const getServiceKey = (platform, serviceName) => {
 export default function DirectOrderService() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { orderLink, platform, linkType } = location.state || {};
+  const { orderLink, platform, linkType, selectedPackage, quantity } = location.state || {};
   const [hoveredService, setHoveredService] = useState(null);
   const [mounted, setMounted] = useState(false);
   const [pricingMap, setPricingMap] = useState({});
@@ -130,6 +130,29 @@ export default function DirectOrderService() {
       startingPrice: pricing.startingPrice,
       description: pricing.description,
     };
+  };
+
+  // ── Navigate to Quantity Page ─────────────────────────────────
+  const handleService = (service) => {
+    const key = getServiceKey(platform, service.name);
+    const pricing = pricingMap[key] || {};
+    navigate("/quantity-pricing", {
+      state: {
+        directOrder: true,
+        orderLink: localLink,
+        platform,
+        linkType: currentLinkType,
+        service: key,
+        selectedPackage,
+        quantity: quantity || selectedPackage?.quantity,
+        selectedService: {
+          name: service.name,
+          serviceKey: key,
+          packages: pricing.packages || [],
+          pricing: pricing.pricing || null
+        },
+      },
+    });
   };
 
   // ── Platform Configuration ────────────────────────────────────
@@ -287,27 +310,6 @@ export default function DirectOrderService() {
   ];
 
   const services = currentLinkType === "profile" ? profileServices : postServices;
-
-  // ── Navigate to Quantity Page ─────────────────────────────────
-  const handleService = (service) => {
-    const key = getServiceKey(platform, service.name);
-    const pricing = pricingMap[key] || {};
-    navigate("/quantity-pricing", {
-      state: {
-        directOrder: true,
-        orderLink: localLink,
-        platform,
-        linkType: currentLinkType,
-        service: key,
-        selectedService: {
-          name: service.name,
-          serviceKey: key,
-          packages: pricing.packages || [],
-          pricing: pricing.pricing || null
-        },
-      },
-    });
-  };
   return (
     <div className="min-h-screen bg-[#0f0817] text-white relative overflow-hidden font-sans">
 
@@ -380,7 +382,10 @@ export default function DirectOrderService() {
           </div>
 
           {/* Profile / Target Link search bar */}
-          <div className="w-full max-w-2xl bg-white rounded-full p-1.5 flex items-center shadow-lg border border-white/20">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="w-full max-w-2xl bg-white rounded-full p-1.5 flex items-center shadow-lg border border-white/20"
+          >
             {/* Platform Circular Badge */}
             <div className="flex-shrink-0 w-11 h-11 rounded-full bg-slate-900 flex items-center justify-center ml-1 text-lg shadow">
               {config.icon}
@@ -391,12 +396,18 @@ export default function DirectOrderService() {
               type="text"
               value={localLink}
               onChange={(e) => setLocalLink(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearchSubmit(e);
+                }
+              }}
               placeholder="Enter your profile link / username"
               className="flex-grow h-full px-4 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-sm font-medium text-gray-800 placeholder-gray-400 min-w-0"
             />
 
             {/* Search Button */}
             <button
+              type="submit"
               onClick={handleSearchSubmit}
               style={{
                 background: `linear-gradient(90deg, #ff008e, #8b2cff)`
@@ -405,7 +416,7 @@ export default function DirectOrderService() {
             >
               {currentLinkType === "profile" ? "Profile" : "Post"}
             </button>
-          </div>
+          </form>
 
           {/* Optional supporting tags */}
           <div className="flex flex-wrap gap-3 pt-2">
@@ -447,13 +458,13 @@ export default function DirectOrderService() {
                 }}
               >
                 <div className={`relative overflow-hidden rounded-[24px] border ${style.dividerColor} p-7 flex flex-col justify-between h-full min-h-[240px]`}>
-                  
+
                   {/* Top section: Icon, badge, Arrow */}
                   <div className="flex items-start justify-between w-full mb-4 relative z-10">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${style.iconBg} flex items-center justify-center text-2xl shadow-sm`}>
                       <span className="text-white">{service.icon}</span>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                       {service.badge && (
                         <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold bg-[#8b5cf6]/10 border border-[#8b5cf6]/20 text-[#8b5cf6]`}>

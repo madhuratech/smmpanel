@@ -84,7 +84,7 @@ const ProfileOverview = () => {
   useScrollToTop()
   const navigate = useNavigate()
   const location = useLocation()
-  const { username, platform, selectedServiceKey, entryPath } = location.state || {}
+  const { username, platform, selectedServiceKey, entryPath, selectedPackage, quantity } = location.state || {}
   const userdata = location.state?.userdata || (username ? {
     username: username,
     avatar: '',
@@ -126,7 +126,9 @@ const ProfileOverview = () => {
               platform,
               selectedService: serviceWithPricing,
               userdata,
-              entryPath
+              entryPath,
+              selectedPackage,
+              quantity: quantity || selectedPackage?.quantity
             }
           });
         } else {
@@ -137,7 +139,9 @@ const ProfileOverview = () => {
               selectedService: serviceWithPricing,
               userdata,
               contentType,
-              entryPath
+              entryPath,
+              selectedPackage,
+              quantity: quantity || selectedPackage?.quantity
             }
           });
         }
@@ -400,7 +404,9 @@ const getServiceIcon = (serviceName) => {
           username,
           platform,
           selectedService: serviceWithPricing,
-          userdata
+          userdata,
+          selectedPackage,
+          quantity: quantity || selectedPackage?.quantity
         }
       });
       return;
@@ -413,7 +419,9 @@ const getServiceIcon = (serviceName) => {
         platform,
         selectedService: serviceWithPricing,
         userdata,
-        contentType
+        contentType,
+        selectedPackage,
+        quantity: quantity || selectedPackage?.quantity
       }
     });
   };
@@ -563,16 +571,6 @@ const getServiceIcon = (serviceName) => {
           </div>
         </div>
 
-
-        {/* Loading Overlay */}
-        {isLoadingContent && (
-          <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-4">
-              <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin" />
-              <p className="text-gray-700 font-semibold">Loading content...</p>
-            </div>
-          </div>
-        )}
 
         {/* Services Section */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">

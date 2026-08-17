@@ -32,7 +32,7 @@ export default function Search() {
           profile organically.
         </p>
         {/* SEARCH BAR */}
-        <div className="flex items-center bg-white rounded-full shadow-md overflow-hidden max-w-xl mx-auto">
+        <form onSubmit={(e) => e.preventDefault()} className="flex items-center bg-white rounded-full shadow-md overflow-hidden max-w-xl mx-auto">
           {/* INPUT */}
           <div className="flex items-center px-4 w-full">
             <span className="text-gray-400 mr-2">@</span>
@@ -43,11 +43,11 @@ export default function Search() {
             />
           </div>
           {/* BUTTON */}
-          <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold hover:opacity-90 transition">
+          <button type="submit" className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold hover:opacity-90 transition">
             <FaSearch />
             SEARCH
           </button>
-        </div>
+        </form>
         {/* STATS */}
         <div className="flex justify-center gap-12 mt-10 text-center">
           <div>

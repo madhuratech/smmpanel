@@ -176,12 +176,12 @@ const QuantityPricing = () => {
 
   const [loading, setLoading] = useState(false)
   const [prices, setPrices] = useState({})
-  const [selectedPackage, setSelectedPackage] = useState(null)
+  const [selectedPackage, setSelectedPackage] = useState(location.state?.selectedPackage || null)
   const [total, setTotal] = useState(0)
   const [couponCode, setCouponCode] = useState('')
   const [appliedCoupon, setAppliedCoupon] = useState(null)
   const [orderLimits, setOrderLimits] = useState({ min: 50, max: 10000, step: 50 })
-  const [quantity, setQuantity] = useState(location.state?.quantity || 50)
+  const [quantity, setQuantity] = useState(location.state?.quantity || (location.state?.selectedPackage ? Number(location.state.selectedPackage.quantity) : 50))
   const [splitQuantities, setSplitQuantities] = useState(() => {
     const passed = location.state?.splitQuantities || {}
     const isMultiPost = location.state?.contentType && (location.state?.selectedItems || []).length > 0
@@ -974,6 +974,11 @@ const QuantityPricing = () => {
                     type="text"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        applyCoupon();
+                      }
+                    }}
                     placeholder="Enter coupon code"
                     className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
@@ -984,7 +989,7 @@ const QuantityPricing = () => {
                     Apply
                   </button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {Object.entries(coupons).map(([code, coupon]) => (
                     <div
                       key={code}
@@ -995,7 +1000,7 @@ const QuantityPricing = () => {
                       <div className="text-sm text-green-600">{coupon.description}</div>
                     </div>
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

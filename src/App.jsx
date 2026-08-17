@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import API_URL from './config/api';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Agentation } from 'agentation';
 import Routes from './routes';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 function AppLayout() {
   const location = useLocation();
-  const hasHero = ['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/free-trial', '/free-service', '/login', '/register', '/tiktok/buy-likes', '/tiktok/buy-views', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(location.pathname);
+  const hasHero = ['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/free-trial', '/free-service', '/login', '/register', '/tiktok/buy-likes', '/tiktok/buy-views', '/tiktok/buy-followers', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(location.pathname);
   const [showRewardPopup, setShowRewardPopup] = useState(false);
   const [rewardCoins, setRewardCoins] = useState(20);
 
@@ -62,7 +63,7 @@ function AppLayout() {
     const state = location.state || {};
     const platform = (state.platform || '').toLowerCase().trim();
 
-    if (['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/tiktok/buy-likes', '/tiktok/buy-views', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(path)) {
+    if (['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/tiktok/buy-likes', '/tiktok/buy-views', '/tiktok/buy-followers', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(path)) {
       return '';
     }
 
@@ -140,9 +141,11 @@ function AppLayout() {
 }
 
 export default function App() {
+  const isDev = import.meta.env.DEV || (typeof process !== 'undefined' && process.env.NODE_ENV === 'development');
   return (
     <BrowserRouter>
       <AppLayout />
+      {isDev && <Agentation />}
     </BrowserRouter>
   );
 }
