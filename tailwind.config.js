@@ -41,8 +41,9 @@ export default {
         },
       },
       fontFamily: {
-        // poppins: ["Poppins", "sans-serif"],
-        righteous: ["Righteous", "cursive"],
+        sans: ["'Plus Jakarta Sans'", "sans-serif"],
+        righteous: ["Sora", "sans-serif"],
+        sora: ["Sora", "sans-serif"],
       },
       animation: {
         fadeInDown: "fadeInDown 0.6s ease-out",

@@ -141,7 +141,7 @@ export default function BuyTikTokLikes() {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-likes');
+    canonical.setAttribute('href', 'https://tikytop.com/buy-tiktok-likes');
 
     // Clean up on component unmount
     return () => {
@@ -250,7 +250,7 @@ export default function BuyTikTokLikes() {
           platform: "tiktok",
           username: input,
           selectedServiceKey: "likes",
-          entryPath: "/tiktok/buy-likes",
+          entryPath: "/buy-tiktok-likes",
           selectedPackage,
           quantity: selectedPackage ? selectedPackage.quantity : undefined
         },
@@ -339,13 +339,13 @@ export default function BuyTikTokLikes() {
 
             {/* Feature Row Badge Badges */}
             <div className="grid grid-cols-2 gap-3 w-full max-w-[340px] sm:max-w-xl pt-2">
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 ❤️ Premium TikTok Likes
               </span>
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 📈 Real Engagement Rate
               </span>
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
                 👥 Active TikTok Users
               </span>
             </div>
@@ -830,8 +830,8 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-500 mb-4">
                 <Lock className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">No Password Required</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">No Password Required</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 We always prioritize your privacy first. Yes, we never ask for your passwords. You can experience a smooth process from beginning to end. Only your username is required, along with other required details for payment. With our secure TikTok growth service, you can get instant TikTok likes.
               </p>
             </div>
@@ -842,8 +842,8 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 mb-4">
                 <Headphones className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Best Customer Support</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Best Customer Support</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 Do you need help with a TikTok likes buy order? No worries, you are not alone; our dedicated support team is always there to support you. The queries might be about service, how to place an order, or delivery. From placing an order to tracking delivery, our team will support you at any time.
               </p>
             </div>
@@ -854,8 +854,8 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600 mb-4">
                 <Zap className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Easy Ordering Process</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Easy Ordering Process</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 TikyTop is easy because you can buy high-retention likes in 3 steps. All you have to do is enter your TikTok username, select a service and package based on your needs and goals, and then choose a video to improve discoverability. Once the video is selected, pay and get likes instantly.
               </p>
             </div>
@@ -866,8 +866,8 @@ export default function BuyTikTokLikes() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-orange-100 text-orange-600 mb-4">
                 <Star className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Premium TikTok Likes</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Premium TikTok Likes</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 Our premium service is for all users who are looking to strengthen their profile. We never put your account at risk. You can enjoy a simple ordering process, no fake likes, and customized likes packages. This is why many of the top creators and marketers buy likes for their TikTok account.
               </p>
             </div>

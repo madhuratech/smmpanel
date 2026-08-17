@@ -142,7 +142,7 @@ export default function BuyTikTokViews() {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-views');
+    canonical.setAttribute('href', 'https://tikytop.com/buy-tiktok-views');
 
     // Clean up on component unmount
     return () => {
@@ -247,7 +247,7 @@ export default function BuyTikTokViews() {
           platform: "tiktok",
           username: input,
           selectedServiceKey: "views",
-          entryPath: "/tiktok/buy-views",
+          entryPath: "/buy-tiktok-views",
           selectedPackage,
           quantity: selectedPackage ? selectedPackage.quantity : undefined
         },
@@ -337,15 +337,15 @@ export default function BuyTikTokViews() {
 
             {/* Feature Row Badge Badges */}
             <div className="grid grid-cols-2 gap-3 w-full max-w-[340px] sm:max-w-xl pt-2">
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 <Shield className="w-3.5 h-3.5 text-cyan-400" />
                 Secure Service
               </span>
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 <Tag className="w-3.5 h-3.5 text-pink-400" />
                 Affordable Price
               </span>
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
                 <Eye className="w-3.5 h-3.5 text-cyan-400" />
                 Quality Views
               </span>
@@ -834,8 +834,8 @@ export default function BuyTikTokViews() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-500 mb-4">
                 <Lock className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Multiple Payment Options</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Multiple Payment Options</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 When you buy TikTok views, the payment options should be easy. This is why we offer multiple options, so you can choose the one that works for you. Whether the package is small or large, a wide range of payment options is available. You can easily complete the payment in a few steps with our strong encryption.              </p>
             </div>
 
@@ -845,9 +845,10 @@ export default function BuyTikTokViews() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 mb-4">
                 <Headphones className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Easily Customize Packages</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                Each creator and business has a different set of goals. This is why we provide a wide range of options where you can buy TikTok likes and views instantly. Just enter your username, select the post, the number of views you need, and finally make a payment. Now make your growth incredible and achieve more than ever before              </p>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Easily Customize Packages</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
+                Each creator and business has a different set of goals. This is why we provide a wide range of options where you can buy TikTok likes and views instantly. Just enter your username, select the post, the number of views you need, and finally make a payment. Now make your growth incredible and achieve more than ever before.
+              </p>
             </div>
 
             {/* Ordering */}
@@ -856,9 +857,10 @@ export default function BuyTikTokViews() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600 mb-4">
                 <Zap className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">100% Trusted Performance</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                We never make fake promises under any circumstances. You can get TikTok views instantly, and there is no compromise in quality. Thousands of creators have gained organic reach, and they come back to us again. This is not only about their success; it's about the commitment, quality, and reliability that we provide.              </p>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">100% Trusted Performance</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
+                We never make fake promises under any circumstances. You can get TikTok views instantly, and there is no compromise in quality. Thousands of creators have gained organic reach, and they come back to us again. This is not only about their success; it's about the commitment, quality, and reliability that we provide.
+              </p>
             </div>
 
             {/* Premium */}
@@ -867,9 +869,10 @@ export default function BuyTikTokViews() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-orange-100 text-orange-600 mb-4">
                 <Star className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">High Security Access</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
-                While using our service, your payment, right from choosing your order to making payment, is done securely. We also use strong encryption so your details are kept safe from being shared or stolen. You can buy TikTok views with confidence. We prioritize your safety, so there is no need to worry about security.              </p>
+              <h3 className="font-bold text-gray-900 text-lg mb-2">High Security Access</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
+                While using our service, your payment, right from choosing your order to making payment, is done securely. We also use strong encryption so your details are kept safe from being shared or stolen. You can buy TikTok views with confidence. We prioritize your safety, so there is no need to worry about security.
+              </p>
             </div>
           </div>
         </div>

@@ -45,12 +45,28 @@ export default function AppRoutes() {
       <Route path="/password" element={<ChangePassword />} />
       <Route path="/account" element={<Account />} />
       <Route path="/tiktok" element={<TikTok />} />
-      <Route path="/tiktok/buy-likes" element={<BuyTikTokLikes />} />
-      <Route path="/tiktok/buy-views" element={<BuyTikTokViews />} />
-      <Route path="/tiktok/buy-followers" element={<BuyTikTokFollowers />} />
+      <Route path="/buy-tiktok-likes" element={<BuyTikTokLikes />} />
+      <Route path="/buy-tiktok-views" element={<BuyTikTokViews />} />
+      <Route path="/buy-tiktok-followers" element={<BuyTikTokFollowers />} />
+      <Route path="/buy-tiktok-shares" element={<TikTok />} />
+      
       <Route path="/instagram" element={<Instagram />} />
+      <Route path="/buy-instagram-likes" element={<Instagram />} />
+      <Route path="/buy-instagram-views" element={<Instagram />} />
+      <Route path="/buy-instagram-followers" element={<Instagram />} />
+      <Route path="/buy-instagram-comments" element={<Instagram />} />
+      
       <Route path="/facebook" element={<Facebook />} />
+      <Route path="/buy-facebook-likes" element={<Facebook />} />
+      <Route path="/buy-facebook-followers" element={<Facebook />} />
+      <Route path="/buy-facebook-views" element={<Facebook />} />
+      
       <Route path="/youtube" element={<YouTube />} />
+      <Route path="/buy-youtube-likes" element={<YouTube />} />
+      <Route path="/buy-youtube-views" element={<YouTube />} />
+      <Route path="/buy-youtube-subscribers" element={<YouTube />} />
+      <Route path="/buy-youtube-comments" element={<YouTube />} />
+      
       <Route path="/profile-overview" element={<ProfileOverview />} />
        <Route path="/posts-selection" element={<PostsSelection />} />
        <Route path="/content-selection" element={<ContentSelection />} />

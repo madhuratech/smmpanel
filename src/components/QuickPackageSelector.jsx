@@ -21,7 +21,7 @@ export default function QuickPackageSelector({
         setLoading(true);
         const res = await fetch(`${API_URL}/api/pricing/all`, { cache: "no-store" });
         const data = await res.json();
-        
+
         if (!isMounted) return;
 
         if (data.success && Array.isArray(data.data)) {
@@ -127,11 +127,10 @@ export default function QuickPackageSelector({
               <div
                 key={index}
                 onClick={() => handleCardClick(pkg)}
-                className={`group relative bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 border ${
-                  isSelected
+                className={`group relative bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 border ${isSelected
                     ? "border-2 border-pink-500 ring-4 ring-pink-500/10 bg-gradient-to-b from-pink-50/60 via-white to-white shadow-lg"
                     : "border-slate-200/90 hover:border-pink-300"
-                }`}
+                  }`}
               >
                 {/* Highlight Badge */}
                 {badgeText && (
@@ -186,11 +185,10 @@ export default function QuickPackageSelector({
 
                   <button
                     type="button"
-                    className={`w-full py-2.5 px-3 sm:px-4 rounded-full font-bold text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
-                      isSelected
+                    className={`w-full py-2.5 px-3 sm:px-4 rounded-full font-bold text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-2 ${isSelected
                         ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md shadow-pink-500/20"
                         : "bg-pink-50 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-600 text-pink-600 group-hover:text-white"
-                    }`}
+                      }`}
                   >
                     {isSelected ? (
                       <>

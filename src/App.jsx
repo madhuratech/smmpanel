@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 
 function AppLayout() {
   const location = useLocation();
-  const hasHero = ['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/free-trial', '/free-service', '/login', '/register', '/tiktok/buy-likes', '/tiktok/buy-views', '/tiktok/buy-followers', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(location.pathname);
+  const hasHero = ['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/free-trial', '/free-service', '/login', '/register', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(location.pathname) || location.pathname.startsWith('/buy-');
   const [showRewardPopup, setShowRewardPopup] = useState(false);
   const [rewardCoins, setRewardCoins] = useState(20);
 
@@ -63,7 +63,7 @@ function AppLayout() {
     const state = location.state || {};
     const platform = (state.platform || '').toLowerCase().trim();
 
-    if (['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/tiktok/buy-likes', '/tiktok/buy-views', '/tiktok/buy-followers', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(path)) {
+    if (['/', '/tiktok', '/instagram', '/youtube', '/facebook', '/about', '/contact-us', '/terms', '/refund-policy', '/direct-order-service'].includes(path) || path.startsWith('/buy-')) {
       return '';
     }
 

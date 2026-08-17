@@ -126,32 +126,33 @@ const Navbar = () => {
       name: 'TikTok',
       path: '/tiktok',
       services: [
-        { name: 'TikTok Views', service: 'views', path: '/tiktok/buy-views' },
-        { name: 'TikTok Followers', service: 'followers', path: '/tiktok/buy-followers' },
-        { name: 'TikTok Likes', service: 'likes', path: '/tiktok/buy-likes' },
-        { name: 'TikTok Comments', service: 'comments' }
+        { name: 'TikTok Views', service: 'views', path: '/buy-tiktok-views' },
+        { name: 'TikTok Followers', service: 'followers', path: '/buy-tiktok-followers' },
+        { name: 'TikTok Likes', service: 'likes', path: '/buy-tiktok-likes' },
+        { name: 'TikTok Comments', service: 'comments', path: '/buy-tiktok-comments' },
+        { name: 'TikTok Shares', service: 'shares', path: '/buy-tiktok-shares' }
       ]
     },
     {
       name: 'Instagram',
       path: '/instagram',
       services: [
-        { name: 'Instagram Followers', service: 'followers' },
-        { name: 'Instagram Likes', service: 'likes' },
-        { name: 'Instagram Views', service: 'views' },
-        { name: 'Instagram Comments', service: 'comments' }
+        { name: 'Instagram Followers', service: 'followers', path: '/buy-instagram-followers' },
+        { name: 'Instagram Likes', service: 'likes', path: '/buy-instagram-likes' },
+        { name: 'Instagram Views', service: 'views', path: '/buy-instagram-views' },
+        { name: 'Instagram Comments', service: 'comments', path: '/buy-instagram-comments' }
       ]
     },
     {
       name: 'YouTube',
       path: '/youtube',
       services: [
-        { name: 'YouTube Views', service: 'views' },
-        { name: 'YouTube Subscribers', service: 'subscribers' },
-        { name: 'YouTube Likes', service: 'likes' },
-        { name: 'YouTube Comments', service: 'comments' }
+        { name: 'YouTube Views', service: 'views', path: '/buy-youtube-views' },
+        { name: 'YouTube Subscribers', service: 'subscribers', path: '/buy-youtube-subscribers' },
+        { name: 'YouTube Likes', service: 'likes', path: '/buy-youtube-likes' },
+        { name: 'YouTube Comments', service: 'comments', path: '/buy-youtube-comments' }
       ]
-    }
+    },
   ];
 
   const freeTrials = [

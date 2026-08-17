@@ -47,6 +47,21 @@ const EXTRA_PLATFORMS = [
 export default function Hero({ platform: propPlatform, onSearch }) {
   const location = useLocation();
   const [active, setActive] = useState(() => {
+    // 1) First check URL path for SEO structure (/buy-platform-service)
+    if (location.pathname.startsWith('/buy-')) {
+      const parts = location.pathname.split('-'); // ["", "buy", "instagram", "likes"]
+      if (parts.length >= 3) {
+        const pName = parts[2].toLowerCase();
+        if (pName === "tiktok") return "TikTok";
+        if (pName === "instagram") return "Instagram";
+        if (pName === "youtube") return "YouTube";
+        if (pName === "facebook") return "Facebook";
+        const extra = EXTRA_PLATFORMS.find(p => p.key === pName);
+        if (extra) return extra.name;
+      }
+    }
+
+    // 2) Fallback to prop or location state
     const targetPlatform = propPlatform || location.state?.selectPlatform;
     if (targetPlatform) {
       const name = targetPlatform.toLowerCase();
@@ -163,7 +178,14 @@ export default function Hero({ platform: propPlatform, onSearch }) {
   }, []);
 
   useEffect(() => {
-    const targetPlatform = propPlatform || location.state?.selectPlatform;
+    let targetPlatform = propPlatform || location.state?.selectPlatform;
+    if (location.pathname.startsWith('/buy-')) {
+      const parts = location.pathname.split('-');
+      if (parts.length >= 3) {
+        targetPlatform = parts[2];
+      }
+    }
+
     if (targetPlatform) {
       const name = targetPlatform.toLowerCase();
       let matchedName = "TikTok";
@@ -179,7 +201,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
       setRotateIcon(true);
       clearCaches();
     }
-  }, [propPlatform, location.state]);
+  }, [propPlatform, location.state, location.pathname]);
 
   const detectInputType = (input) => {
     const value = input.trim();

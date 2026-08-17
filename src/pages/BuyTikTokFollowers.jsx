@@ -117,12 +117,38 @@ export default function BuyTikTokFollowers() {
     updateOrCreateMetaTag('property', 'og:type', 'website');
     updateOrCreateMetaTag('property', 'og:title', 'TikyTop | Buy TikTok Followers | Social Media Growth');
     updateOrCreateMetaTag('property', 'og:description', 'Buy TikTok followers from TikyTop and improve your TikTok analytics. Our 100% real followers will make your profile more engaging than ever before.');
-    updateOrCreateMetaTag('property', 'og:url', 'https://tikytop.com/tiktok/buy-followers');
+    updateOrCreateMetaTag('property', 'og:url', 'https://tikytop.com/buy-tiktok-followers');
     updateOrCreateMetaTag('property', 'og:site_name', 'TikyTop');
 
     updateOrCreateMetaTag('name', 'twitter:card', 'summary_large_image');
     updateOrCreateMetaTag('name', 'twitter:title', 'TikyTop | Buy TikTok Followers | Social Media Growth');
     updateOrCreateMetaTag('name', 'twitter:description', 'Buy TikTok followers from TikyTop and improve your TikTok analytics. Our 100% real followers will make your profile more engaging than ever before.');
+
+    // Remove existing schema scripts to avoid duplicates on re-renders
+    const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]');
+    existingSchemas.forEach(el => el.remove());
+
+    // Schema.org Structured Data
+    const schemaScript = document.createElement('script');
+    schemaScript.type = 'application/ld+json';
+    schemaScript.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Buy TikTok Followers",
+      "description": "Increase your TikTok following instantly with high-quality, real followers from TikyTop.",
+      "brand": {
+        "@type": "Brand",
+        "name": "TikyTop"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "3.90",
+        "highPrice": "249.90",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    });
+    document.head.appendChild(schemaScript);
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -130,7 +156,7 @@ export default function BuyTikTokFollowers() {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', 'https://tikytop.com/tiktok/buy-followers');
+    canonical.setAttribute('href', 'https://tikytop.com/buy-tiktok-followers');
 
     return () => {
       document.title = originalTitle;
@@ -204,7 +230,7 @@ export default function BuyTikTokFollowers() {
           platform: "tiktok",
           username: input,
           selectedServiceKey: "followers",
-          entryPath: "/tiktok/buy-followers",
+          entryPath: "/buy-tiktok-followers",
           selectedPackage,
           quantity: selectedPackage ? selectedPackage.quantity : undefined
         },
@@ -292,15 +318,15 @@ export default function BuyTikTokFollowers() {
 
             {/* Feature Row Badges */}
             <div className="grid grid-cols-2 gap-3 w-full max-w-[340px] sm:max-w-xl pt-2">
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 <Headphones className="w-3.5 h-3.5 text-cyan-400" />
                 Reliable Support
               </span>
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap">
                 <TrendingUp className="w-3.5 h-3.5 text-pink-400" />
                 Maximum Growth
               </span>
-              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
+              <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm sm:text-base text-gray-300 bg-white/5 px-3 py-2 rounded-full border border-white/5 whitespace-nowrap col-span-2 sm:col-span-1">
                 <Lock className="w-3.5 h-3.5 text-cyan-400" />
                 Privacy Focused
               </span>
@@ -564,6 +590,7 @@ export default function BuyTikTokFollowers() {
         scrollTargetId="tiktok-search-box"
       />
 
+
       {/* ── MID-PAGE CTA BANNER 1 ── */}
       <section className="py-16 md:py-24 px-4 bg-slate-50 relative overflow-hidden flex justify-center items-center">
         <div className="max-w-4xl w-[92%] md:w-full mx-auto relative z-10 flex justify-center">
@@ -690,8 +717,8 @@ export default function BuyTikTokFollowers() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-500 mb-4">
                 <Star className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Satisfaction Guaranteed</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Satisfaction Guaranteed</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 All users of our service will never be disappointed, as our priority is to meet their needs. As we provide quality followers, they enjoy real followers. Of course, we help our customers at every stage of their TikTok journey.
               </p>
             </div>
@@ -700,8 +727,8 @@ export default function BuyTikTokFollowers() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 mb-4">
                 <Tag className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Multiple Payment Options</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Multiple Payment Options</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 We understand our users, so we offer multiple payment options. You can pay using a digital wallet, cards, or bank transfer. And this is why TikyTop stands out from other competitors.
               </p>
             </div>
@@ -710,8 +737,8 @@ export default function BuyTikTokFollowers() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-purple-100 text-purple-600 mb-4">
                 <Shield className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Highly Secure Encryption</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Highly Secure Encryption</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 Safety comes first; many people think buying TikTok followers is unsafe. But the thing is, we don't ask for any of your passwords, and all transactions are fully encrypted. So, you can order without any hesitation.
               </p>
             </div>
@@ -720,8 +747,8 @@ export default function BuyTikTokFollowers() {
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 mb-4">
                 <UserCheck className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">Trustworthy & Reliable</h3>
-              <p className="text-gray-500 text-xs md:text-[13px] leading-relaxed">
+              <h3 className="font-bold text-gray-900 text-lg mb-2">Trustworthy & Reliable</h3>
+              <p className="text-gray-500 text-sm md:text-[15px] leading-relaxed">
                 Many users prefer TikyTop because of our trustworthiness and the quality we provide. Purchasing any one of our TikTok fan packages can improve your profile growth. Also, we help you stand out from other users.
               </p>
             </div>
