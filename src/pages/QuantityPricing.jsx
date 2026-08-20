@@ -178,8 +178,6 @@ const QuantityPricing = () => {
   const [prices, setPrices] = useState({})
   const [selectedPackage, setSelectedPackage] = useState(location.state?.selectedPackage || null)
   const [total, setTotal] = useState(0)
-  const [couponCode, setCouponCode] = useState('')
-  const [appliedCoupon, setAppliedCoupon] = useState(null)
   const [orderLimits, setOrderLimits] = useState({ min: 50, max: 10000, step: 50 })
   const [quantity, setQuantity] = useState(location.state?.quantity || (location.state?.selectedPackage ? Number(location.state.selectedPackage.quantity) : 50))
   const [splitQuantities, setSplitQuantities] = useState(() => {
@@ -494,11 +492,7 @@ const QuantityPricing = () => {
     })
   }
 
-  const coupons = {
-    'FIRST10': { discount: 0.10, minOrder: 0, description: '10% off first order' },
-    'BULK20': { discount: 0.20, minOrder: 50, description: '20% off orders above $50' },
-    'SAVE15': { discount: 0.15, minOrder: 25, description: '15% off orders above $25' }
-  }
+
 
   const platformConfig = {
     instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50' },
@@ -557,21 +551,6 @@ const QuantityPricing = () => {
 
   const getEffectiveSubtotal = () => computedSubtotal || 0
 
-  const calculatePrice = () => {
-    const subtotal = getEffectiveSubtotal()
-    return appliedCoupon ? +(subtotal - subtotal * appliedCoupon.discount).toFixed(2) : subtotal
-  }
-
-  const applyCoupon = () => {
-    const coupon = coupons[couponCode.toUpperCase()]
-    if (coupon && calculatePrice() >= coupon.minOrder) {
-      setAppliedCoupon(coupon)
-      setCouponCode('')
-    } else {
-      alert('Invalid coupon code or minimum order not met')
-    }
-  }
-
   const handleContinue = () => {
     if (contentType && selectedItems.length > 0) {
       const splitTotal = Object.values(splitQuantities).reduce((s, q) => s + q, 0)
@@ -593,7 +572,7 @@ const QuantityPricing = () => {
         state: {
           directOrder: true, orderLink, platform, linkType,
           selectedService: selectedService || { name: serviceTypeKey, serviceKey: serviceTypeKey },
-          orders, totalPrice: calculatePrice(), appliedCoupon,
+          orders, totalPrice: getEffectiveSubtotal(),
         }
       })
       return
@@ -602,7 +581,7 @@ const QuantityPricing = () => {
     navigate('/payment', {
       state: {
         username, platform, selectedService, userdata, selectedPosts,
-        orders, totalPrice: calculatePrice(), appliedCoupon,
+        orders, totalPrice: getEffectiveSubtotal(),
         selectedItems: contentType ? selectedItems : undefined
       }
     })
@@ -994,44 +973,32 @@ const QuantityPricing = () => {
                 </div>
                 <div className="flex justify-between text-sm py-1">
                   <span className="text-gray-600 font-semibold">Cost Per {currentConfig.unitLabel}:</span>
-                  <span className="font-bold text-gray-900">${(calculatePrice() / (postCount || 1)).toFixed(2)}</span>
+                  <span className="font-bold text-gray-900">${(getEffectiveSubtotal() / (postCount || 1)).toFixed(2)}</span>
                 </div>
 
                 <div className="border-t pt-4">
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">Subtotal:</span>
-                    <span className="font-semibold">${getEffectiveSubtotal().toFixed(2)}</span>
-                  </div>
-
-                  {appliedCoupon && (
-                    <div className="flex justify-between text-sm text-green-600 mb-2">
-                      <span>Discount ({(appliedCoupon.discount * 100).toFixed(0)}%):</span>
-                      <span>${(getEffectiveSubtotal() * appliedCoupon.discount).toFixed(2)}</span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between">
-                    <span className="font-bold text-gray-900">Total:</span>
+                  <div className="flex justify-between font-bold text-gray-900">
+                    <span>Total:</span>
                     <span className={`font-bold text-2xl bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                      ${calculatePrice().toFixed(2)}
+                      ${getEffectiveSubtotal().toFixed(2)}
                     </span>
                   </div>
                 </div>
+
+                <button
+                  onClick={handleContinue}
+                  disabled={quantity < contentMinRequired || !splitValid}
+                  className={`w-full bg-gradient-to-r ${config.color} text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+                >
+                  Proceed to Payment
+                </button>
+
+                {quantity < contentMinRequired && (
+                  <p className="text-red-500 text-xs text-center mt-2">
+                    Minimum quantity: {contentMinRequired}
+                  </p>
+                )}
               </div>
-
-              <button
-                onClick={handleContinue}
-                disabled={quantity < contentMinRequired || !splitValid}
-                className={`w-full bg-gradient-to-r ${config.color} text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
-              >
-                Proceed to Payment
-              </button>
-
-              {quantity < contentMinRequired && (
-                <p className="text-red-500 text-xs text-center mt-2">
-                  Minimum quantity: {contentMinRequired}
-                </p>
-              )}
             </div>
           </div>
         </div>

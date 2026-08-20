@@ -42,7 +42,6 @@ const OrderPayment = () => {
     selectedPosts = [],
     orders        = [],
     totalPrice    = 0,
-    appliedCoupon,
     // Direct order extras
     directOrder   = false,
     orderLink     = '',
@@ -599,21 +598,21 @@ const OrderPayment = () => {
 
           {/* ── Left: Order info ── */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Details</h2>
+            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 border border-gray-100">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Order Details</h2>
 
                {/* Orders list */}
-               <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 mb-6">
+               <div className="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-100 mb-6">
                  <div className="flex justify-between items-center mb-4">
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 capitalize">
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 capitalize">
                         {selectedService?.name}
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1">
                         {orders.length === 1 ? '1 Target Link' : `${orders.length} Posts Selected`}
                       </p>
                     </div>
-                    <div className={`text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize`}>
+                    <div className={`text-lg sm:text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize`}>
                       {platform}
                     </div>
                   </div>
@@ -627,7 +626,7 @@ const OrderPayment = () => {
                        {orders.map((o, idx) => {
                          const orderQty = o.order ? Object.values(o.order)[0] : 0
                          return (
-                           <div key={idx} className="text-sm font-medium text-gray-800 bg-white px-3 py-2 rounded-xl border border-gray-100 break-all flex items-center justify-between gap-3">
+                           <div key={idx} className="text-xs sm:text-sm font-medium text-gray-800 bg-white px-3 py-2 rounded-xl border border-gray-100 break-all flex items-center justify-between gap-2 sm:gap-3">
                              <span className="truncate max-w-[60%]">{o.link || "Profile Link"}</span>
                              <span className="font-semibold text-pink-600 shrink-0">{orderQty}</span>
                              <a href={o.link || "Profile Link"} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline shrink-0 font-semibold">
@@ -642,63 +641,67 @@ const OrderPayment = () => {
           
 
               {/* Payment methods section */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
-                <div className="flex items-center gap-3 mb-3">
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 sm:p-6 border border-blue-100">
+                <div className="flex items-center gap-3 mb-2 sm:mb-3">
                   <div>
-                    <div className="font-semibold text-gray-900">Select Payment Method</div>
-                    <div className="text-sm text-gray-600">Cards, Net Banking, UPI, Wallets accepted</div>
+                    <div className="font-semibold text-sm sm:text-base text-gray-900">Select Payment Method</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Cards, Net Banking, UPI, Wallets accepted</div>
                   </div>
                 </div>
                
-                <div className="flex flex-wrap items-center gap-6 mt-4">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-4">
+                  <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'coins' ? 'border-pink-500 bg-pink-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
                     <input type="radio" name="payment" value="coins" checked={paymentMethod === "coins"}
                       onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="accent-pink-600"
                     />
-                    <span className="font-semibold text-sm">
-                     🎁 Free Coins
+                    <span className="font-semibold text-xs sm:text-sm text-gray-800 whitespace-nowrap">
+                     🎁 Coins
                     </span>
                   </label>
        
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'razorpay' ? 'border-purple-500 bg-purple-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
                     <input
                       type="radio"
                       name="payment"
                       value="razorpay"
                       checked={paymentMethod === "razorpay"}
                       onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="accent-purple-600"
                     />
                     <img
                       src={Razorpay}
                       alt="Razorpay"
-                      className="h-5"
+                      className="h-4 sm:h-5 object-contain max-w-[65px] sm:max-w-[75px]"
                     />
                   </label>
 
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
                     <input
                       type="radio"
                       name="payment"
                       value="paypal"
                       checked={paymentMethod === "paypal"}
                       onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="accent-blue-600"
                     />
                     <img
                       src={Paypal}
                       alt="PayPal"
-                      className="h-5"
+                      className="h-4 sm:h-5 object-contain max-w-[65px] sm:max-w-[75px]"
                     />  
                   </label>
 
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'payu' ? 'border-emerald-500 bg-emerald-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
                     <input
                       type="radio"
                       name="payment"
                       value="payu"
                       checked={paymentMethod === "payu"}
                       onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="accent-emerald-600"
                     />
-                    <span className="font-black text-xs text-white bg-gradient-to-r from-emerald-600 to-green-500 px-2.5 py-1 rounded shadow-sm">
+                    <span className="font-black text-xs text-white bg-gradient-to-r from-emerald-600 to-green-500 px-2 py-0.5 rounded shadow-sm">
                       PayU
                     </span>
                   </label>
@@ -709,19 +712,13 @@ const OrderPayment = () => {
 
           {/* ── Right: Summary + Pay button ── */}
           <div>
-            <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100 sticky top-4">
+            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-100 sticky top-4">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm text-gray-600">
                   <span>Subtotal</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
-                {appliedCoupon && (
-                  <div className="flex justify-between text-sm text-green-600">
-                    <span>Discount ({appliedCoupon.description})</span>
-                    <span>-${(total * appliedCoupon.discount).toFixed(2)}</span>
-                  </div>
-                )}
                 <div className="border-t border-gray-150 pt-4 flex justify-between font-bold text-lg text-gray-900">
                   <span>Total</span>
                   <span>${total.toFixed(2)}</span>
