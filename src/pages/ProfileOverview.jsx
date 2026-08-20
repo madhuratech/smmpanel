@@ -476,10 +476,10 @@ const getServiceIcon = (serviceName) => {
         </div>
         
         {/* Profile Section */}
-        <div className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100">
-          <div className="flex items-center gap-6">
-            <div className="relative">
-              <div className="w-24 h-24 rounded-full border-4 border-gray-200 shadow-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+        <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 mb-8 border border-gray-100 min-w-0 w-full overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left min-w-0 w-full">
+            <div className="relative flex-shrink-0">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-gray-200 shadow-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                 {userdata?.avatar ? (
                   <img 
                     src={userdata.avatar} 
@@ -497,17 +497,17 @@ const getServiceIcon = (serviceName) => {
                 )}
               </div>
               {userdata?.verified && (
-                <div className="absolute -bottom-1 -right-1 bg-blue-500 w-7 h-7 rounded-full border-4 border-white flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <div className="absolute -bottom-1 -right-1 bg-blue-500 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 sm:border-4 border-white flex items-center justify-center">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
               )}
             </div>
             
-            <div className="flex-1">
-               <div className="flex items-center gap-3 mb-2">
-                 <h1 className="text-3xl font-bold text-gray-900">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
+            <div className="flex-1 min-w-0 w-full">
+               <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3 mb-2 flex-wrap min-w-0">
+                 <h1 className="text-xl sm:text-3xl font-bold text-gray-900 break-all max-w-full">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
                  {userdata?.verified && <span className="text-blue-500">✔</span>}
                  {userdata?.isPrivate && (
                    <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">Private</span>
@@ -519,27 +519,27 @@ const getServiceIcon = (serviceName) => {
                    href={userdata.url} 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   className="text-blue-600 text-sm hover:underline block mb-3"
+                   className="text-blue-600 text-xs sm:text-sm hover:underline block mb-3 break-all max-w-full"
                  >
                    {userdata.url}
                  </a>
                )}
 
-               <p className="text-gray-600 mb-4">{userdata?.bio || userdata?.description}</p>
+               <p className="text-xs sm:text-sm text-gray-600 mb-4 break-words max-w-full">{userdata?.bio || userdata?.description}</p>
               
-              <div className="flex gap-8">
+              <div className="flex items-center justify-center sm:justify-start gap-4 sm:gap-8 flex-wrap w-full">
                {(platform === "instagram" || platform === "facebook" || platform === "tiktok") &&  (
                 <div className="text-center">
-                  <div className="text-xl font-bold text-gray-900">{formatnumber(userdata?.postsCount || userdata?.posts_count)}</div>
-                  <div className="text-sm text-gray-600">Posts</div>
+                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.postsCount || userdata?.posts_count)}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Posts</div>
                 </div>
                 )}
                  {platform === "youtube" && (
                   <div className="text-center">
-                  <div className="text-xl font-bold text-gray-900">
+                  <div className="text-lg sm:text-xl font-bold text-gray-900">
                    {formatnumber(userdata?.videosCount)}
                   </div>
-                 <div className="text-sm text-gray-600">Videos</div>
+                 <div className="text-xs sm:text-sm text-gray-600">Videos</div>
                 </div>
                  )}
 
@@ -547,24 +547,24 @@ const getServiceIcon = (serviceName) => {
 
                 {(platform === "facebook" || platform === "instagram" || platform === "tiktok") && (
                 <div className="text-center">
-                  <div className="text-xl font-bold text-gray-900">{formatnumber(userdata?.followers)}</div>
-                  <div className="text-sm text-gray-600">Followers</div>
+                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.followers)}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Followers</div>
                 </div>
                 )}
 
                 
                 {platform === "youtube" && (
                 <div className="text-center">
-                  <div className="text-xl font-bold text-gray-900">{formatnumber
+                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber
                     (userdata?.subscribers)}</div>
-                  <div className="text-sm text-gray-600">Subscribers</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Subscribers</div>
                 </div>
                 )}
 
 
                 <div className="text-center">
-                  <div className="text-xl font-bold text-gray-900">{formatnumber(userdata?.following)}</div>
-                  <div className="text-sm text-gray-600">Following</div>
+                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.following)}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Following</div>
                 </div>
               </div>
             </div>
@@ -573,15 +573,15 @@ const getServiceIcon = (serviceName) => {
 
 
         {/* Services Section */}
-        <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 border border-gray-100 min-w-0 w-full">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-3xl font-bold text-gray-900 mb-2">
               Choose Your <span className={`bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>{config.name}</span> Service
             </h2>
-            <p className="text-gray-600">Select the service you want to boost for this profile</p>
+            <p className="text-xs sm:text-sm text-gray-600">Select the service you want to boost for this profile</p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {services.map((service) => (
               <div
                 key={service.id}

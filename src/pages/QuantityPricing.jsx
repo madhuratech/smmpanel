@@ -492,8 +492,6 @@ const QuantityPricing = () => {
     })
   }
 
-
-
   const platformConfig = {
     instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50' },
     youtube: { color: 'from-red-500 to-red-600', name: 'YouTube', bgColor: 'bg-gradient-to-br from-red-50 to-orange-50' },
@@ -634,21 +632,20 @@ const QuantityPricing = () => {
         </div>
 
         {isDirectOrder ? (
-          <div className="bg-white rounded-3xl shadow-xl p-6 mb-8 border border-gray-100">
-            <div className="flex items-center gap-4">
+          <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 mb-8 border border-gray-100 min-w-0 w-full overflow-hidden">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left min-w-0 w-full">
               <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${config.color} flex items-center justify-center text-2xl flex-shrink-0 shadow-lg`}>
                 {linkType === 'profile' ? '👤' : '📄'}
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <div className="flex-1 min-w-0 w-full">
+                <div className="flex items-center justify-center sm:justify-start gap-2 mb-1 flex-wrap">
                   <h1 className="text-xl font-bold text-gray-900 capitalize">{platform} Direct Order</h1>
-                  <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${linkType === 'profile' ? 'bg-violet-100 text-violet-700' : 'bg-orange-100 text-orange-700'
-                    }`}>
+                  <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${linkType === 'profile' ? 'bg-violet-100 text-violet-700' : 'bg-orange-100 text-orange-700'}`}>
                     {linkType === 'profile' ? 'Profile' : 'Post'}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 truncate mb-2">{orderLink}</p>
-                <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                <p className="text-xs sm:text-sm text-gray-500 truncate mb-2 break-all max-w-full">{orderLink}</p>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs sm:text-sm text-gray-600">
                   <span>Service: <span className="font-semibold capitalize">{serviceTypeKey}</span></span>
                   <span className="text-gray-300">•</span>
                   <span>Platform: <span className="font-semibold capitalize">{platform}</span></span>
@@ -657,9 +654,9 @@ const QuantityPricing = () => {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl shadow-xl p-6 mb-8 border border-gray-100">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full border-2 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center">
+          <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 mb-8 border border-gray-100 min-w-0 w-full overflow-hidden">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left min-w-0 w-full">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center shrink-0">
                 {userdata?.avatar ? (
                   <img
                     src={userdata.avatar}
@@ -675,14 +672,14 @@ const QuantityPricing = () => {
                   </div>
                 )}
               </div>
-              <div className="flex-1">
-                <h1 className="text-xl font-bold text-gray-900">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
+              <div className="flex-1 min-w-0 w-full">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-all max-w-full">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 mt-1">
                   <span>Service: <span className="font-semibold">{selectedService?.name}</span></span>
                   <span>•</span>
                   <span>{currentConfig.targetLabel}: <span className="font-semibold">{postCount}</span></span>
                 </div>
-                <div className="mt-3 flex flex-wrap gap-4 text-sm">
+                <div className="mt-3 flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 text-xs sm:text-sm">
                   {isProfileService ? (
                     <div className="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg border border-blue-100 flex items-center gap-2">
                       <span className="font-bold">{platform === 'youtube' ? 'Channel ID' : 'Account ID'}:</span>
@@ -712,19 +709,19 @@ const QuantityPricing = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 border border-gray-100">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
                 Select Quantity for <span className={`bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>{selectedService?.name}</span>
               </h2>
 
               <div className="mb-8">
                 <div>
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-gray-700 font-semibold text-lg">Select Package</span>
-                    <span className="text-2xl font-bold text-pink-600">{quantity}</span>
+                    <span className="text-gray-700 font-semibold text-base sm:text-lg">Select Package</span>
+                    <span className="text-xl sm:text-2xl font-bold text-pink-600">{quantity}</span>
                   </div>
                   {computedPackages && computedPackages.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-6 mb-8 pt-4 justify-items-center">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-3 sm:gap-6 mb-8 pt-4 justify-items-center">
                       {computedPackages.map((pkg, index) => {
                         const hasBadge = pkg.badge && pkg.badge.toLowerCase().trim() !== "none" && pkg.badge.toLowerCase().trim() !== "null" && pkg.badge.trim() !== "";
 
@@ -818,7 +815,7 @@ const QuantityPricing = () => {
                               setSelectedPackage(pkg);
                               setQuantity(pkg.quantity);
                             }}
-                            className={`relative rounded-[20px] transition-all duration-300 flex flex-col items-center justify-center p-4 cursor-pointer select-none w-[145px] h-[135px] ${isSelected
+                            className={`relative rounded-[20px] transition-all duration-300 flex flex-col items-center justify-center p-3 sm:p-4 cursor-pointer select-none w-full max-w-[145px] h-[120px] sm:h-[135px] ${isSelected
                               ? `animate-border-run ${theme.borderVarClass} ${theme.selectedClass} shadow-xl scale-105`
                               : `border-2 hover:-translate-y-1.5 hover:scale-[1.03] hover:shadow-lg ${theme.cardClass}`
                               }`}
@@ -834,8 +831,8 @@ const QuantityPricing = () => {
                             )}
 
                             {/* Content wrapper */}
-                            <div className="relative z-10 flex flex-col  items-center justify-center h-full">
-                              <h3 className="text-3xl font-black text-gray-900">{pkg.quantity}</h3>
+                            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+                              <h3 className="text-2xl sm:text-3xl font-black text-gray-900">{pkg.quantity}</h3>
 
                               {pkg.offerText && pkg.offerText.trim() !== "" && (
                                 <span className={`mt-2 px-2 py-0.5 rounded font-extrabold text-[10px] tracking-wide ${theme.offerClass}`}>
@@ -852,8 +849,8 @@ const QuantityPricing = () => {
 
                 <div>
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-gray-600 font-medium capitalize">{currentConfig.quantityLabel}</span>
-                    <span className="text-2xl font-bold text-gray-900">{quantity.toLocaleString()}</span>
+                    <span className="text-gray-600 font-medium capitalize text-xs sm:text-base">{currentConfig.quantityLabel}</span>
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900">{quantity.toLocaleString()}</span>
                   </div>
                   <input
                     type="range"
@@ -881,32 +878,32 @@ const QuantityPricing = () => {
               )}
 
               {/* Distribution Breakdown */}
-              <div className="bg-blue-50 rounded-2xl p-6 mb-8">
-                <h3 className="font-semibold text-blue-900 mb-3">Distribution Breakdown</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-blue-700">Total {currentConfig.quantityLabel}:</span>
-                    <span className="font-bold text-blue-900 ml-2">{quantity.toLocaleString()}</span>
+              <div className="bg-blue-50 rounded-2xl p-4 sm:p-6 mb-8">
+                <h3 className="font-semibold text-blue-900 text-sm sm:text-base mb-3">Distribution Breakdown</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 text-xs sm:text-sm">
+                  <div className="flex justify-between items-center bg-white/70 px-3 py-2 rounded-xl border border-blue-100/60">
+                    <span className="text-blue-700 font-medium">Total {currentConfig.quantityLabel}:</span>
+                    <span className="font-bold text-blue-900">{quantity.toLocaleString()}</span>
                   </div>
-                  <div>
-                    <span className="text-blue-700">Unit Rate:</span>
+                  <div className="flex justify-between items-center bg-white/70 px-3 py-2 rounded-xl border border-blue-100/60">
+                    <span className="text-blue-700 font-medium">Unit Rate:</span>
                     <span className="font-medium text-gray-700">${(computedUnitPrice || 0).toFixed(4)}</span>
                   </div>
-                  <div>
-                    <span className="text-blue-700">{currentConfig.targetLabel}:</span>
-                    <span className="font-bold text-blue-900 ml-2">{postCount}</span>
+                  <div className="flex justify-between items-center bg-white/70 px-3 py-2 rounded-xl border border-blue-100/60">
+                    <span className="text-blue-700 font-medium">{currentConfig.targetLabel}:</span>
+                    <span className="font-bold text-blue-900">{postCount}</span>
                   </div>
-                  <div>
-                    <span className="text-blue-700">Platform:</span>
-                    <span className="font-bold text-blue-900 ml-2 capitalize">{platform}</span>
+                  <div className="flex justify-between items-center bg-white/70 px-3 py-2 rounded-xl border border-blue-100/60">
+                    <span className="text-blue-700 font-medium">Platform:</span>
+                    <span className="font-bold text-blue-900 capitalize">{platform}</span>
                   </div>
                 </div>
               </div>
 
               {/* Per-Post Split Editor */}
               {contentType && selectedItems.length > 0 && quantity >= contentMinRequired && (
-                <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-8">
-                  <h3 className="font-semibold text-gray-900 mb-4">Per-{currentConfig.unitLabel} Quantity Split</h3>
+                <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 mb-8">
+                  <h3 className="font-semibold text-gray-900 text-sm sm:text-base mb-4">Per-{currentConfig.unitLabel} Quantity Split</h3>
                   <div className="space-y-3 mb-4">
                     {selectedItems.map((item) => {
                       const qty = splitQuantities[item.id] || 0
@@ -945,13 +942,12 @@ const QuantityPricing = () => {
                 </div>
               )}
 
-
             </div>
           </div>
 
           {/* Price Summary */}
           <div>
-            <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100 sticky top-4">
+            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-100 sticky top-4">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
 
               <div className="space-y-4 mb-6">
