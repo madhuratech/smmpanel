@@ -3,7 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const OrderComplete = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { orderId, username, platform, service, quantity, price } = location.state || {}
+  const queryParams = new URLSearchParams(location.search)
+  const state = location.state || {}
+
+  const orderId = state.orderId || queryParams.get("orderId")
+  const username = state.username || queryParams.get("username")
+  const platform = state.platform || queryParams.get("platform")
+  const service = state.service || queryParams.get("service")
+  const quantity = state.quantity ? Number(state.quantity) : (queryParams.get("quantity") ? Number(queryParams.get("quantity")) : 0)
+  const rawPrice = state.price !== undefined ? state.price : queryParams.get("price")
+  const price = rawPrice ? Number(rawPrice) : 0
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFD9E8] to-[#FFF5E6] flex items-center justify-center py-8 sm:py-12 px-4">

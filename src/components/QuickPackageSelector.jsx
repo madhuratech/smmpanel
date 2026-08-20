@@ -32,7 +32,10 @@ export default function QuickPackageSelector({
             const targetKey = serviceKey.toLowerCase().trim();
             const fullTargetKey = `${targetPlatform}_${targetKey}`;
 
-            const isPlatformMatch = itemPlatform === targetPlatform;
+            const normItemPlatform = itemPlatform?.replace(/[\s_-]+/g, '');
+            const normTargetPlatform = targetPlatform?.replace(/[\s_-]+/g, '');
+
+            const isPlatformMatch = normItemPlatform === normTargetPlatform;
             const isKeyMatch = itemKey === targetKey || itemKey === fullTargetKey || item.service?.toLowerCase().includes(targetKey);
             return isPlatformMatch && isKeyMatch && item.status !== "Inactive";
           });
@@ -42,7 +45,6 @@ export default function QuickPackageSelector({
               const sorted = [...matchedItem.packages].sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0) || a.quantity - b.quantity);
               setPackages(sorted);
             } else if (matchedItem.price && matchedItem.price > 0) {
-              // Generate tiers from base price if no custom package array exists
               const tiers = [500, 1000, 2500, 5000, 10000, 25000];
               const generated = tiers.map((qty, idx) => {
                 const pkgPrice = ((qty / (matchedItem.baseQuantity || 1000)) * matchedItem.price).toFixed(2);
@@ -58,12 +60,18 @@ export default function QuickPackageSelector({
                 };
               });
               setPackages(generated);
+            } else {
+              setPackages([]);
             }
+          } else {
+            setPackages([]);
           }
+        } else {
+          setError("Unable to load packages. Please try again.");
         }
       } catch (err) {
         console.error("QuickPackageSelector Fetch Error:", err);
-        if (isMounted) setError("Failed to load packages");
+        if (isMounted) setError("Unable to load packages. Please try again.");
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -88,7 +96,7 @@ export default function QuickPackageSelector({
 
   if (loading) {
     return (
-      <div className="py-12 px-4 text-center bg-slate-50">
+      <div className="py-12 px-4 text-center bg-slate-50 border-t border-b border-slate-200/80">
         <div className="inline-flex items-center gap-2 text-pink-600 font-semibold text-sm animate-pulse">
           <div className="w-4 h-4 border-2 border-pink-600 border-t-transparent rounded-full animate-spin"></div>
           Loading {serviceTitle} Packages...
@@ -97,8 +105,22 @@ export default function QuickPackageSelector({
     );
   }
 
+  if (error) {
+    return (
+      <div className="py-12 px-4 text-center bg-slate-50 border-t border-b border-slate-200/80">
+        <div className="max-w-md mx-auto bg-red-50 border border-red-200 text-red-600 rounded-2xl p-6 font-medium text-sm">
+          {error}
+        </div>
+      </div>
+    );
+  }
+
   if (!packages || packages.length === 0) {
-    return null;
+    return (
+      <div className="py-12 px-4 text-center bg-slate-50 border-t border-b border-slate-200/80 text-slate-500 font-medium text-sm">
+        No packages currently available for {serviceTitle}.
+      </div>
+    );
   }
 
   return (

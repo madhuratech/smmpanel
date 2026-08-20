@@ -19,8 +19,21 @@ const OrderPayment = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  //  Read state from QuantityPricing 
-  const orderData = location.state || {}
+  // Read state from location.state or restore from sessionStorage if returning from PayPal redirect
+  const getInitialOrderData = () => {
+    if (location.state && Object.keys(location.state).length > 0) {
+      return location.state;
+    }
+    const saved = sessionStorage.getItem("tikytop_paypal_pending");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+    return {};
+  };
+
+  const orderData = getInitialOrderData()
   const {
     username,
     platform,
@@ -48,16 +61,99 @@ const OrderPayment = () => {
   const [paymentMethod, setPaymentMethod] = useState("coins");
   const config = platformConfig[platform] || platformConfig.instagram
 
-  //  Guard — skip redirect for direct orders (no username/userdata needed)
+  // Guard & PayPal Redirect return handler
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const paypalStatus = searchParams.get("paypal_status");
+    const token = searchParams.get("token");
+    const errorParam = searchParams.get("error");
+
+    if (errorParam) {
+      window.history.replaceState({}, document.title, location.pathname);
+      if (errorParam === "payment_userCancelled" || errorParam === "userCancelled") {
+        alert("Payment was cancelled.");
+      } else {
+        alert("Payment failed or could not be completed. Please try again.");
+      }
+      return;
+    }
+
+    if (paypalStatus === "cancel") {
+      window.history.replaceState({}, document.title, location.pathname);
+      sessionStorage.removeItem("tikytop_paypal_pending");
+      alert("PayPal payment was cancelled.");
+      return;
+    }
+
+    if (paypalStatus === "success" && token) {
+      window.history.replaceState({}, document.title, location.pathname);
+
+      const savedCheckout = sessionStorage.getItem("tikytop_paypal_pending");
+      let checkoutInfo = orderData;
+      if (savedCheckout) {
+        try {
+          checkoutInfo = JSON.parse(savedCheckout);
+        } catch (e) {}
+      }
+
+      const ordersToCapture = checkoutInfo.orders || orders;
+      const amountToCapture = checkoutInfo.totalPrice || total;
+      const platformToCapture = checkoutInfo.platform || platform;
+      const usernameToCapture = checkoutInfo.username || username;
+
+      const processCapture = async () => {
+        setPaying(true);
+        try {
+          const res = await fetch(`${API_URL}/api/payment/paypal/capture`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderID: token,
+              orders: ordersToCapture,
+              amount: amountToCapture,
+              platform: platformToCapture,
+              username: usernameToCapture,
+              directOrder: checkoutInfo.directOrder,
+              orderLink: checkoutInfo.orderLink,
+            }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            sessionStorage.removeItem("tikytop_paypal_pending");
+            alert("PayPal Payment Successful 🎉 Your order is being processed!");
+            navigate("/complete", {
+              state: {
+                orderId: data.orderId || data.order?.order_id,
+                username: usernameToCapture,
+                platform: platformToCapture,
+                service: checkoutInfo.selectedService?.name || selectedService?.name || "SMM Service",
+                quantity: ordersToCapture?.[0]?.quantity || 50,
+                price: amountToCapture,
+              },
+            });
+          } else {
+            alert(data.message || "PayPal payment verification failed. Contact support.");
+          }
+        } catch (err) {
+          console.error("PayPal capture error:", err);
+          alert("Error capturing PayPal payment. Please contact support.");
+        } finally {
+          setPaying(false);
+        }
+      };
+
+      processCapture();
+      return;
+    }
+
     if (!directOrder && (!username || !userdata)) {
-      navigate('/' + (platform || 'instagram'), { replace: true })
-      return
+      navigate('/' + (platform || 'instagram'), { replace: true });
+      return;
     }
     if (orders.length > 0 && orders[0].link) {
-      setProfileUrl(orders[0].link)
+      setProfileUrl(orders[0].link);
     }
-  }, [])
+  }, [location.search]);
 
   if (!directOrder && (!username || !userdata)) return null
 
@@ -216,53 +312,144 @@ const OrderPayment = () => {
 
   }
 
-  // handle Paypal 
-  const handlePaypalPayment = async () => {
-    if (!validateOrdersPlatform()) {
-      return
-    }
-
+  // Load PayPal SDK dynamically
+  const loadPaypalSDK = async () => {
+    if (window.paypal) return true;
     try {
-      const response = await fetch(
-        `${API_URL}/api/payment/paypal/order`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: totalPrice,
-            orders,
-            platform,
-            username: directOrder ? (orderLink || 'Direct Order') : username,
-            directOrder,
-            orderLink,
-          }),
-        }
-      );
-
-      // IMPORTANT
-      if (!response.ok) {
-        const text = await response.text();
-        console.log(text);
-        throw new Error("Paypal API failed");
+      const res = await fetch(`${API_URL}/api/payment/paypal/config`);
+      const data = await res.json();
+      if (!data.clientId) {
+        throw new Error("PayPal Client ID missing");
       }
-
-      const data = await response.json();
-      console.log("Paypal Response:", data);
-
-      if (!data.success || !data.approvalUrl) {
-        throw new Error("PayPal order creation failed");
-      }
-
-      navigate('/')
-      // Redirect to PayPal
-      window.location.href = data.approvalUrl;
-
-    } catch (error) {
-      console.log("Paypal Error:", error);
-      alert("Paypal payment failed");
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.id = "paypal-js-sdk";
+        script.src = `https://www.paypal.com/sdk/js?client-id=${data.clientId}&currency=USD`;
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      });
+    } catch (err) {
+      console.error("PayPal SDK load error:", err);
+      return false;
     }
+  };
+
+  // Render PayPal Buttons dynamically when PayPal payment method is selected
+  useEffect(() => {
+    let paypalButtonsInstance = null;
+    let isMounted = true;
+
+    if (paymentMethod === "paypal") {
+      loadPaypalSDK().then((loaded) => {
+        if (!loaded || !isMounted) return;
+
+        const container = document.getElementById("paypal-button-container");
+        if (!container) return;
+        container.innerHTML = "";
+
+        if (window.paypal && window.paypal.Buttons) {
+          paypalButtonsInstance = window.paypal.Buttons({
+            style: {
+              layout: "vertical",
+              color: "gold",
+              shape: "rect",
+              label: "paypal"
+            },
+
+            createOrder: async (data, actions) => {
+              if (!validateOrdersPlatform()) {
+                throw new Error("Validation failed");
+              }
+              const response = await fetch(`${API_URL}/api/payment/paypal/order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  amount: total,
+                  orders,
+                  platform,
+                  username: directOrder ? (orderLink || "Direct Order") : username,
+                  directOrder,
+                  orderLink,
+                }),
+              });
+              const resData = await response.json();
+              if (!resData.success || !resData.orderID) {
+                throw new Error(resData.message || "PayPal order creation failed");
+              }
+              return resData.orderID;
+            },
+
+            onApprove: async (data, actions) => {
+              setPaying(true);
+              try {
+                const res = await fetch(`${API_URL}/api/payment/paypal/capture`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    orderID: data.orderID,
+                    orders,
+                    amount: total,
+                    platform,
+                    username: directOrder ? (orderLink || "Direct Order") : username,
+                    directOrder,
+                    orderLink,
+                  }),
+                });
+                const captureData = await res.json();
+                if (captureData.success) {
+                  alert("PayPal Payment Successful 🎉 Your order is being processed!");
+                  navigate("/complete", {
+                    state: {
+                      orderId: captureData.orderId || captureData.order?.order_id,
+                      username: directOrder ? (orderLink || "Direct Order") : username,
+                      platform,
+                      service: selectedService?.name || "SMM Service",
+                      quantity: orders?.[0]?.quantity || 50,
+                      price: total,
+                    },
+                  });
+                } else {
+                  alert(captureData.message || "PayPal payment verification failed. Contact support.");
+                }
+              } catch (err) {
+                console.error("PayPal capture error:", err);
+                alert("PayPal payment could not be completed. Please try again.");
+              } finally {
+                setPaying(false);
+              }
+            },
+
+            onCancel: (data) => {
+              console.log("PayPal payment cancelled by user:", data);
+              alert("Payment cancelled. You can try PayPal again or choose another payment method.");
+              setPaying(false);
+            },
+
+            onError: (err) => {
+              console.error("PayPal SDK error:", err);
+              alert("PayPal payment could not be completed. Please try again.");
+              setPaying(false);
+            }
+          });
+
+          if (paypalButtonsInstance.isEligible && paypalButtonsInstance.isEligible()) {
+            paypalButtonsInstance.render("#paypal-button-container");
+          }
+        }
+      });
+    }
+
+    return () => {
+      isMounted = false;
+      const container = document.getElementById("paypal-button-container");
+      if (container) container.innerHTML = "";
+    };
+  }, [paymentMethod, total, platform, username, orders, directOrder, orderLink]);
+
+  // handle Paypal fallback
+  const handlePaypalPayment = async () => {
+    // PayPal buttons are rendered directly via PayPal SDK
   };
 
   // Coins Use payment
@@ -312,13 +499,72 @@ const OrderPayment = () => {
     }
   };
 
-  // Handle Paypal payment (placeholder)
+  // PayU Payment
+  const handlePayuPayment = async () => {
+    if (paying) return;
+    setPaying(true);
+
+    if (!validateOrdersPlatform()) {
+      setPaying(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/payu/create-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: total,
+          platform,
+          username: directOrder ? (orderLink || "Direct Order") : username,
+          orders,
+          directOrder,
+          orderLink,
+          email: user?.email || "",
+          phone: user?.phone || "",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success || !data.params || !data.payuUrl) {
+        alert(data.message || "PayU payment initialization failed");
+        setPaying(false);
+        return;
+      }
+
+      // Dynamically create and submit HTML form to PayU gateway
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.payuUrl;
+
+      Object.keys(data.params).forEach((key) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = data.params[key];
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+
+    } catch (error) {
+      console.error("PayU Payment Error:", error);
+      alert("PayU payment failed to connect. Please try again.");
+      setPaying(false);
+    }
+  };
+
+  // Handle payment method dispatch
   const handlePayment = () => {
-    if(paymentMethod === "coins"){
+    if (paymentMethod === "coins") {
       handleCoinsPayment();
-    }else if(paymentMethod === "paypal"){
-      handlePaypalPayment();
-    }else{
+    } else if (paymentMethod === "payu") {
+      handlePayuPayment();
+    } else {
       handleRazorpayPayment();
     }
   };
@@ -329,12 +575,24 @@ const OrderPayment = () => {
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-block bg-white px-6 py-2 rounded-full shadow-md mb-4">
-            <span className="text-sm text-gray-600">Final Step</span>
+        <div className="relative text-center mb-8">
+          <div className="flex items-center justify-between max-w-6xl mx-auto mb-4 px-2">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-100 text-gray-700 text-sm font-semibold rounded-full shadow-md border border-gray-200 transition-all hover:scale-105"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back
+            </button>
+            <div className="inline-block bg-white px-6 py-2 rounded-full shadow-md">
+              <span className="text-sm text-gray-600">Final Step</span>
+            </div>
+            <div className="w-20 hidden sm:block"></div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Complete Your Payment</h1>
-          <p className="text-gray-600">Powered by Razorpay — 100% secure</p>
+          <p className="text-gray-600">Fast & Secure Checkout</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -383,16 +641,16 @@ const OrderPayment = () => {
                </div>  
           
 
-              {/* Razorpay trust badge */}
+              {/* Payment methods section */}
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
                 <div className="flex items-center gap-3 mb-3">
                   <div>
-                    <div className="font-semibold text-gray-900">Secure Payment via Razorpay</div>
-                    <div className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets accepted</div>
+                    <div className="font-semibold text-gray-900">Select Payment Method</div>
+                    <div className="text-sm text-gray-600">Cards, Net Banking, UPI, Wallets accepted</div>
                   </div>
                 </div>
                
-                <div className="flex items-center gap-6 mt-4">
+                <div className="flex flex-wrap items-center gap-6 mt-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="payment" value="coins" checked={paymentMethod === "coins"}
                       onChange={(e) => setPaymentMethod(e.target.value)}
@@ -431,6 +689,19 @@ const OrderPayment = () => {
                       className="h-5"
                     />  
                   </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="payu"
+                      checked={paymentMethod === "payu"}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <span className="font-black text-xs text-white bg-gradient-to-r from-emerald-600 to-green-500 px-2.5 py-1 rounded shadow-sm">
+                      PayU
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -464,22 +735,28 @@ const OrderPayment = () => {
                 </div>
               )}
 
-              <button
-                onClick={handlePayment}
-                disabled={paying}
-                className={`w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r ${config.color} hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2`}
-              >
-                {paying ? (
-                  <>
-                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    Pay ${total.toFixed(2)}
-                  </>
-                )}
-              </button>
+              {paymentMethod === "paypal" ? (
+                <div className="w-full min-h-[120px] flex flex-col justify-center items-center">
+                  <div id="paypal-button-container" className="w-full"></div>
+                </div>
+              ) : (
+                <button
+                  onClick={handlePayment}
+                  disabled={paying}
+                  className={`w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r ${config.color} hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2`}
+                >
+                  {paying ? (
+                    <>
+                      <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Pay ${total.toFixed(2)}
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 

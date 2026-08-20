@@ -590,7 +590,6 @@ export default function BuyTikTokFollowers() {
         scrollTargetId="tiktok-search-box"
       />
 
-
       {/* ── MID-PAGE CTA BANNER 1 ── */}
       <section className="py-16 md:py-24 px-4 bg-slate-50 relative overflow-hidden flex justify-center items-center">
         <div className="max-w-4xl w-[92%] md:w-full mx-auto relative z-10 flex justify-center">

@@ -966,42 +966,7 @@ const QuantityPricing = () => {
                 </div>
               )}
 
-              {/* Coupon Section */}
-              <div className="border-t pt-6">
-                <h3 className="font-semibold text-gray-900 mb-4">Apply Coupon Code</h3>
-                <div className="flex gap-3 mb-4">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        applyCoupon();
-                      }
-                    }}
-                    placeholder="Enter coupon code"
-                    className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <button
-                    onClick={applyCoupon}
-                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
-                  >
-                    Apply
-                  </button>
-                </div>
-                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {Object.entries(coupons).map(([code, coupon]) => (
-                    <div
-                      key={code}
-                      onClick={() => setCouponCode(code)}
-                      className="border-2 border-dashed border-green-300 bg-green-50 p-3 rounded-xl cursor-pointer hover:bg-green-100 transition-colors"
-                    >
-                      <div className="font-semibold text-green-700">{code}</div>
-                      <div className="text-sm text-green-600">{coupon.description}</div>
-                    </div>
-                  ))}
-                </div> */}
-              </div>
+
             </div>
           </div>
 
