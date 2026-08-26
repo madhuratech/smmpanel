@@ -501,6 +501,15 @@ const QuantityPricing = () => {
 
   const config = platformConfig[platform] || platformConfig.instagram
 
+  // Strip bracket metadata + country codes from raw API service names
+  const cleanServiceName = (name) => {
+    if (!name) return ''
+    let clean = name.replace(/\[.*?\]/g, '').trim()
+    clean = clean.replace(/^[A-Z]{2,3}\s+/g, '').trim()
+    return clean
+  }
+  const displayServiceName = cleanServiceName(selectedService?.name)
+
   // FRONTEND PRICE CALCULATION LOGIC
   const getPricingDetails = () => {
     const packages = currentPricing?.packages || selectedService?.packages || selectedService?.pricing?.packages || [];
@@ -675,7 +684,7 @@ const QuantityPricing = () => {
               <div className="flex-1 min-w-0 w-full">
                 <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-all max-w-full">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 mt-1">
-                  <span>Service: <span className="font-semibold">{selectedService?.name}</span></span>
+                  <span>Service: <span className="font-semibold">{displayServiceName || selectedService?.name}</span></span>
                   <span>•</span>
                   <span>{currentConfig.targetLabel}: <span className="font-semibold">{postCount}</span></span>
                 </div>
@@ -686,9 +695,9 @@ const QuantityPricing = () => {
                       <code>{userdata?.channelId || userdata?.instagramId || userdata?.id || 'N/A'}</code>
                     </div>
                   ) : (
-                    <div className="bg-purple-50 text-purple-700 px-3 py-1.5 rounded-lg border border-purple-100 flex flex-col gap-1 w-full max-w-md">
-                      <span className="font-bold">{platform === 'youtube' ? 'Video IDs' : 'Post/Shortcodes'}:</span>
-                      <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto pr-2">
+                    <div className="bg-purple-50 text-purple-700 px-3 py-1.5 rounded-lg border border-purple-100 flex flex-col gap-1 w-full max-w-md items-center sm:items-start">
+                      <span className="font-bold text-center sm:text-left w-full">{platform === 'youtube' ? 'Video IDs' : 'Post/Shortcodes'}:</span>
+                      <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto pr-2 justify-center sm:justify-start">
                         {posts.map((p, idx) => (
                           <code key={idx} className="bg-white/50 px-2 py-0.5 rounded text-xs border border-purple-200">
                             {p.id || p.videoId || p.shortcode || p.pk}
@@ -710,8 +719,11 @@ const QuantityPricing = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 border border-gray-100">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
-                Select Quantity for <span className={`bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>{selectedService?.name}</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight break-words">
+                Select Quantity for{' '}
+                <span className={`bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
+                  {displayServiceName || selectedService?.name}
+                </span>
               </h2>
 
               <div className="mb-8">
@@ -951,9 +963,9 @@ const QuantityPricing = () => {
               <h3 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
 
               <div className="space-y-4 mb-6">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Service:</span>
-                  <span className="font-semibold">{selectedService?.name}</span>
+                <div className="flex justify-between text-sm gap-2">
+                  <span className="text-gray-600 flex-shrink-0">Service:</span>
+                  <span className="font-semibold text-right break-words">{displayServiceName || selectedService?.name}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Quantity:</span>

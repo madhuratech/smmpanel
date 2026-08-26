@@ -60,6 +60,15 @@ const OrderPayment = () => {
   const [paymentMethod, setPaymentMethod] = useState("coins");
   const config = platformConfig[platform] || platformConfig.instagram
 
+  // Strip bracket metadata + country codes from raw API service names
+  const cleanServiceName = (name) => {
+    if (!name) return ''
+    let clean = name.replace(/\[.*?\]/g, '').trim()
+    clean = clean.replace(/^[A-Z]{2,3}\s+/g, '').trim()
+    return clean
+  }
+  const displayServiceName = cleanServiceName(selectedService?.name)
+
   // Guard & PayPal Redirect return handler
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -603,19 +612,19 @@ const OrderPayment = () => {
 
                {/* Orders list */}
                <div className="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-100 mb-6">
-                 <div className="flex justify-between items-center mb-4">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 capitalize">
-                        {selectedService?.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                        {orders.length === 1 ? '1 Target Link' : `${orders.length} Posts Selected`}
-                      </p>
-                    </div>
-                    <div className={`text-lg sm:text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize`}>
-                      {platform}
-                    </div>
-                  </div>
+                 <div className="flex justify-between items-start gap-3 mb-4">
+                     <div className="min-w-0 flex-1">
+                       <h3 className="text-lg sm:text-2xl font-bold text-gray-900 capitalize leading-tight break-words">
+                         {displayServiceName || selectedService?.name}
+                       </h3>
+                       <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                         {orders.length === 1 ? '1 Target Link' : `${orders.length} Posts Selected`}
+                       </p>
+                     </div>
+                     <div className={`text-base sm:text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize flex-shrink-0`}>
+                       {platform}
+                     </div>
+                   </div>
 
                   {/* Show delivery targets */}
                   <div className="mt-4 pt-4 border-t border-gray-200">

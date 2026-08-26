@@ -123,6 +123,8 @@ export default function QuickPackageSelector({
     );
   }
 
+  const displayPlatform = platform ? platform.charAt(0).toUpperCase() + platform.slice(1) : "Social";
+
   return (
     <section className="py-10 sm:py-16 px-4 sm:px-6 bg-slate-50 relative overflow-hidden text-slate-800 border-t border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -132,9 +134,9 @@ export default function QuickPackageSelector({
             <FaFire className="text-pink-500" /> Quick Package Selection
           </div>
           <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Select Your <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">TikTok {serviceTitle}</span> Package
+            Select Your <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">{displayPlatform} {serviceTitle}</span> Package
           </h2>
-          <p className="mt-2 sm:mt-3 text-xs sm:text-base text-slate-600 font-medium px-2">
+          <p className="mt-2 sm:mt-3 text-base sm:text-lg text-slate-600 font-medium px-2">
             Pick a pre-configured package to jump straight into your order with instant processing.
           </p>
         </div>
@@ -150,8 +152,8 @@ export default function QuickPackageSelector({
                 key={index}
                 onClick={() => handleCardClick(pkg)}
                 className={`group relative bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 border ${isSelected
-                    ? "border-2 border-pink-500 ring-4 ring-pink-500/10 bg-gradient-to-b from-pink-50/60 via-white to-white shadow-lg"
-                    : "border-slate-200/90 hover:border-pink-300"
+                  ? "border-2 border-pink-500 ring-4 ring-pink-500/10 bg-gradient-to-b from-pink-50/60 via-white to-white shadow-lg"
+                  : "border-slate-200/90 hover:border-pink-300"
                   }`}
               >
                 {/* Highlight Badge */}
@@ -169,7 +171,7 @@ export default function QuickPackageSelector({
                     {pkg.quantity.toLocaleString()}
                   </div>
                   <div className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-slate-400 mt-1">
-                    TikTok {serviceTitle}
+                    {displayPlatform} {serviceTitle}
                   </div>
                 </div>
 
@@ -177,7 +179,7 @@ export default function QuickPackageSelector({
                 <ul className="py-4 sm:py-5 space-y-2 sm:space-y-2.5 text-xs text-slate-600 font-medium">
                   <li className="flex items-center gap-2">
                     <FaUserCheck className="text-pink-500 flex-shrink-0 text-xs" />
-                    <span className="truncate">Active TikTok {serviceTitle}</span>
+                    <span className="truncate">Active {displayPlatform} {serviceTitle}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <FaHeadset className="text-pink-500 flex-shrink-0 text-xs" />
@@ -208,8 +210,8 @@ export default function QuickPackageSelector({
                   <button
                     type="button"
                     className={`w-full py-2.5 px-3 sm:px-4 rounded-full font-bold text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-2 ${isSelected
-                        ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md shadow-pink-500/20"
-                        : "bg-pink-50 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-600 text-pink-600 group-hover:text-white"
+                      ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md shadow-pink-500/20"
+                      : "bg-pink-50 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-600 text-pink-600 group-hover:text-white"
                       }`}
                   >
                     {isSelected ? (

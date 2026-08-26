@@ -55,6 +55,8 @@ export default function Testimonials() {
 
   const duplicatedTestimonials = [...testimonials, ...testimonials]
 
+  const isHoveredRef = useRef(false)
+
   useEffect(() => {
     const scrollContainer = scrollRef.current
     if (!scrollContainer) return
@@ -62,9 +64,11 @@ export default function Testimonials() {
     let animationId
 
     const autoScroll = () => {
-      scrollContainer.scrollLeft += 0.5
-      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-        scrollContainer.scrollLeft = 0
+      if (!isHoveredRef.current) {
+        scrollContainer.scrollLeft += 0.5
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft = 0
+        }
       }
       animationId = requestAnimationFrame(autoScroll)
     }
@@ -129,6 +133,8 @@ export default function Testimonials() {
         {/* Carousel */}
         <div
           ref={scrollRef}
+          onMouseEnter={() => (isHoveredRef.current = true)}
+          onMouseLeave={() => (isHoveredRef.current = false)}
           className="flex overflow-x-auto scrollbar-hide"
         >
           {duplicatedTestimonials.map((testimonial, index) => (

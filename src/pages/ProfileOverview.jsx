@@ -446,7 +446,17 @@ const getServiceIcon = (serviceName) => {
     const key = getServiceKey(platform, serviceName);
     const item = livePrices[key];
     if (item && item.description) return item.description;
-    return `Boost your ${serviceName} instantly.`;
+    return `Boost your ${cleanServiceName(serviceName)} instantly.`;
+  };
+
+  // Strip bracket metadata from API service names e.g. "IN Instagram Likes [INDIA] [Refill...]" → "Instagram Likes"
+  const cleanServiceName = (name) => {
+    if (!name) return '';
+    // Remove anything in square brackets
+    let clean = name.replace(/\[.*?\]/g, '').trim();
+    // Remove leading country/region codes like "IN ", "US ", "UK " etc.
+    clean = clean.replace(/^[A-Z]{2,3}\s+/g, '').trim();
+    return clean;
   };
 
   if (selectedServiceKey) {
@@ -603,7 +613,7 @@ const getServiceIcon = (serviceName) => {
                       </div>
 
                     <h3 className="font-bold text-lg text-gray-900 mb-1 line-clamp-2 min-h-[56px]">
-                      {service.name}
+                      {cleanServiceName(service.name)}
                      </h3>
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[40px]">{getServiceDescription(service.name)}</p>
                     <div className={`text-lg font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>

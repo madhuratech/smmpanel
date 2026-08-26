@@ -12,7 +12,6 @@ const PostsSelection = () => {
     location.state?.selectedPostsIds || []
   );
 
-
   const userdata = location.state?.userdata
 
   const TOTAL_ALLOWED = Number(quantity) || Number(selectedPackage?.quantity) || 0;
@@ -83,6 +82,7 @@ const PostsSelection = () => {
   }
   const headingText = headings[contentType] || 'Select Posts'
 
+
   const emptyMessages = {
     post: 'No posts found',
     story: 'No active stories found',
@@ -98,6 +98,18 @@ const PostsSelection = () => {
     reel: 'Reel'
   }
   const label = labels[contentType] || 'Post'
+
+  // Strip bracket metadata + country codes from raw API service names
+  // e.g. "IN Instagram Likes [INDIA] [Refill: 30 Days]" → "Instagram Likes"
+  const cleanServiceName = (name) => {
+    if (!name) return ''
+    let clean = name.replace(/\[.*?\]/g, '').trim()
+    clean = clean.replace(/^[A-Z]{2,3}\s+/g, '').trim()
+    return clean
+  }
+
+  const displayHeadingService = cleanServiceName(selectedService?.name)
+  const displayDescription = `Choose which ${label.toLowerCase()}s you want to boost with ${displayHeadingService.toLowerCase() || 'this service'}.`
 
   // Pick the right posts/videos/media array based on platform and contentType
   const getMedia = () => {
@@ -125,13 +137,15 @@ const PostsSelection = () => {
   const [visibleCount, setVisibleCount] = useState(10);
 
   const platformConfig = {
-    instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50' },
-    youtube: { color: 'from-red-500 to-red-600', name: 'YouTube', bgColor: 'bg-gradient-to-br from-red-50 to-orange-50' },
-    facebook: { color: 'from-blue-600 to-blue-700', name: 'Facebook', bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
-    tiktok: { color: 'from-black to-gray-800', name: 'TikTok', bgColor: 'bg-gradient-to-br from-gray-50 to-slate-50' }
+    instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50', label: 'Instagram Profile' },
+    youtube: { color: 'from-red-500 to-red-600', name: 'YouTube', bgColor: 'bg-gradient-to-br from-red-50 to-orange-50', label: 'YouTube Channel' },
+    facebook: { color: 'from-blue-600 to-blue-700', name: 'Facebook', bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50', label: 'Facebook Profile' },
+    tiktok: { color: 'from-black to-gray-800', name: 'TikTok', bgColor: 'bg-gradient-to-br from-gray-50 to-slate-50', label: 'TikTok Profile' }
   }
 
   const config = platformConfig[platform] || platformConfig.instagram
+  // Static platform profile label — no original name fetched or displayed
+  const platformProfileLabel = config.label
 
   const autoDistribute = (postIds) => {
     if (!postIds.length) return {};
@@ -221,9 +235,10 @@ const PostsSelection = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-transparent py-8 px-4`}>
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
+    <div className="min-h-screen bg-transparent py-6 px-3 sm:px-4">
+      <div className="w-full max-w-6xl mx-auto">
+        {/* Back Button */}
+        <div className="mb-5">
           <button
             onClick={() => {
               if (entryPath) {
@@ -246,10 +261,11 @@ const PostsSelection = () => {
           </button>
         </div>
 
-        {/* Profile Header */}
-        <div className="bg-white rounded-3xl shadow-xl p-6 mb-8 border border-gray-100">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full border-2 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center">
+        {/* Profile Header — responsive grid */}
+        <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 mb-6 border border-gray-100">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            {/* Avatar */}
+            <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center">
               {userdata?.avatar ? (
                 <img
                   src={userdata.avatar}
@@ -262,48 +278,61 @@ const PostsSelection = () => {
                   }}
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl">
                   {userdata?.username?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
               )}
             </div>
-            <div className="flex-1">
-              <h1 className="text-xl font-bold text-gray-900">@{userdata?.username}</h1>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span>Service: <span className="font-semibold">{selectedService?.name}</span></span>
-                <span>•</span>
-                <span>Platform: <span className="font-semibold capitalize">{platform}</span></span>
+
+            {/* Profile info — static platform label, no fetched name */}
+            <div className="flex-1 min-w-0">
+              <h1 className="text-sm sm:text-base font-bold text-gray-900 truncate leading-tight">
+                {platformProfileLabel}
+              </h1>
+              <div className="mt-0.5 flex flex-col sm:flex-row sm:items-center sm:gap-2 text-xs text-gray-500">
+                <span className="truncate">
+                  <span className="font-medium text-gray-700">Service: </span>
+                  <span className="font-semibold text-gray-800 break-words">{displayHeadingService}</span>
+                </span>
+                <span className="hidden sm:inline text-gray-300">•</span>
+                <span className="capitalize">
+                  <span className="font-medium text-gray-700">Platform: </span>
+                  <span className="font-semibold text-gray-800">{platform}</span>
+                </span>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-sm text-gray-600">Selected {label}s</div>
-              <div className={`text-2xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
+
+            {/* Selected count — single line */}
+            <div className="flex-shrink-0 flex items-center gap-1.5 whitespace-nowrap">
+              <span className="text-xs text-gray-500">Selected {label}s:</span>
+              <span className={`text-base sm:text-lg font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
                 {selectedPosts.length}
-              </div>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Posts Selection */}
-        <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        {/* Posts Selection Card */}
+        <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 lg:p-8 border border-gray-100">
+          {/* Heading */}
+          <div className="text-center mb-6 px-1">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight break-words">
               {headingText} for{' '}
               <span className={`bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                {selectedService?.name}
+                {displayHeadingService}
               </span>
             </h2>
-            <p className="text-gray-600">
-              Choose which {label.toLowerCase()}s you want to boost with {selectedService?.name?.toLowerCase()}
+            <p className="text-sm sm:text-base text-gray-600 max-w-xl mx-auto leading-snug">
+              {displayDescription}
             </p>
           </div>
 
           {/* No posts fallback */}
           {media.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">📭</div>
-              <h3 className="text-xl font-bold text-gray-700 mb-2">{emptyMessage}</h3>
-              <p className="text-gray-500 mb-6">
+            <div className="text-center py-12 px-4">
+              <div className="text-5xl mb-4">📭</div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-700 mb-2">{emptyMessage}</h3>
+              <p className="text-sm sm:text-base text-gray-500 mb-6">
                 We couldn't load any {label.toLowerCase()}s for <span className="font-semibold">@{userdata?.username}</span>.
                 The account may be private or have no {label.toLowerCase()}s.
               </p>
@@ -319,33 +348,33 @@ const PostsSelection = () => {
             </div>
           ) : (
             <>
-              {/* Select All / Deselect All */}
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex gap-3">
+              {/* Select All / Deselect All Controls */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-between mb-5">
+                <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => {
                       const allpost = media.map((p, i) => getPostId(p, i));
                       setSelectedPosts(allpost)
                       setSplitQuantities(autoDistribute(allpost))
                     }}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                   >
                     Select All
                   </button>
                   <button
                     onClick={() => { setSelectedPosts([]); setSplitQuantities({}); }}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                   >
                     Deselect All
                   </button>
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">
                   {selectedPosts.length} of {media.length} {label.toLowerCase()}s selected
                 </div>
               </div>
 
               {/* Posts Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 mb-6">
                 {media.slice(0, visibleCount).map((post, index) => {
                   const postId = getPostId(post, index);
                   const postDisplayImg = post.image || post.thumbnail || post.cover || post.display_url;
@@ -354,7 +383,7 @@ const PostsSelection = () => {
                     <div
                       key={postId}
                       onClick={() => handlePostToggle(postId)}
-                      className={`relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 ${selectedPosts.includes(postId)
+                      className={`relative cursor-pointer rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 ${selectedPosts.includes(postId)
                         ? 'ring-4 ring-blue-500 shadow-2xl scale-105'
                         : 'hover:shadow-xl'
                         }`}
@@ -372,7 +401,7 @@ const PostsSelection = () => {
                             }}
                           />
                         ) : (
-                          <div className="text-gray-400 text-4xl">
+                          <div className="text-gray-400 text-3xl sm:text-4xl">
                             {contentType === 'story' ? '📸' : contentType === 'highlight' ? '⭐' : contentType === 'reel' ? '🎬' : '🖼️'}
                           </div>
                         )}
@@ -381,10 +410,9 @@ const PostsSelection = () => {
                       {/* ✅ Selection Indicator */}
                       {selectedPosts.includes(postId) && (
                         <>
-
                           {/* CHECK ICON */}
-                          <div className="absolute top-2 right-2 z-20 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 w-6 h-6 sm:w-8 sm:h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd"
                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                 clipRule="evenodd"
@@ -393,8 +421,8 @@ const PostsSelection = () => {
                           </div>
 
                           {/* SPLIT QUANTITY */}
-                          <div className="absolute top-2 left-2 z-20">
-                            <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                          <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-20">
+                            <div className="bg-black/80 backdrop-blur-sm text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                               {splitQuantities[postId] ?? (selectedPosts.includes(postId) ?
                                 Math.floor(TOTAL_ALLOWED / selectedPosts.length) : 0)}
                             </div>
@@ -404,8 +432,8 @@ const PostsSelection = () => {
 
                       {/* Stats */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                      <div className="absolute bottom-2 left-2 right-2 text-white pointer-events-none">
-                        <div className="flex justify-between text-xs">
+                      <div className="absolute bottom-1.5 left-1.5 right-1.5 sm:bottom-2 sm:left-2 sm:right-2 text-white pointer-events-none">
+                        <div className="flex justify-between text-[10px] sm:text-xs">
                           {contentType === 'post' && (
                             <>
                               <span>❤️ {post.likes ?? ''}</span>
@@ -418,12 +446,13 @@ const PostsSelection = () => {
                   );
                 })}
               </div>
+
               {/* Continue Button */}
-              <div className="text-center ">
+              <div className="text-center px-2">
                 <button
                   onClick={handleContinue}
                   disabled={selectedPosts.length === 0}
-                  className={`bg-gradient-to-r ${config.color} text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+                  className={`bg-gradient-to-r ${config.color} text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none w-full sm:w-auto`}
                 >
                   Continue with {selectedPosts.length} {label}{selectedPosts.length !== 1 ? 's' : ''}
                 </button>
@@ -433,10 +462,12 @@ const PostsSelection = () => {
               </div>
             </>
           )}
+
+          {/* Load More */}
           {visibleCount < media.length && (
-            <div className="text-center mb-6 mt-5">
+            <div className="text-center mt-5 px-2">
               <button onClick={() => setVisibleCount(prev => prev + 12)}
-                className={`bg-gradient-to-r ${config.color} text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+                className={`bg-gradient-to-r ${config.color} text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
               >
                 Load More {label}s
               </button>
