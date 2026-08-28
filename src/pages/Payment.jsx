@@ -9,9 +9,9 @@ import Paypal from "../assets/icons/Paypal.jpeg"
 
 const platformConfig = {
   instagram: { color: 'from-pink-500 to-purple-600', name: 'Instagram', bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50' },
-  youtube:   { color: 'from-red-500 to-red-600',    name: 'YouTube',   bgColor: 'bg-gradient-to-br from-red-50 to-orange-50' },
-  facebook:  { color: 'from-blue-600 to-blue-700',  name: 'Facebook',  bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
-  tiktok:    { color: 'from-black to-gray-800',     name: 'TikTok',    bgColor: 'bg-gradient-to-br from-gray-50 to-slate-50' },
+  youtube: { color: 'from-red-500 to-red-600', name: 'YouTube', bgColor: 'bg-gradient-to-br from-red-50 to-orange-50' },
+  facebook: { color: 'from-blue-600 to-blue-700', name: 'Facebook', bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
+  tiktok: { color: 'from-black to-gray-800', name: 'TikTok', bgColor: 'bg-gradient-to-br from-gray-50 to-slate-50' },
 }
 
 const OrderPayment = () => {
@@ -28,7 +28,7 @@ const OrderPayment = () => {
     if (saved) {
       try {
         return JSON.parse(saved);
-      } catch (e) {}
+      } catch (e) { }
     }
     return {};
   };
@@ -40,15 +40,15 @@ const OrderPayment = () => {
     selectedService,
     userdata,
     selectedPosts = [],
-    orders        = [],
-    totalPrice    = 0,
+    orders = [],
+    totalPrice = 0,
     // Direct order extras
-    directOrder   = false,
-    orderLink     = '',
-    linkType      = '',
+    directOrder = false,
+    orderLink = '',
+    linkType = '',
   } = orderData
 
-  const [paying,     setPaying]     = useState(false)
+  const [paying, setPaying] = useState(false)
   const [profileUrl, setProfileUrl] = useState('')
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -101,7 +101,7 @@ const OrderPayment = () => {
       if (savedCheckout) {
         try {
           checkoutInfo = JSON.parse(savedCheckout);
-        } catch (e) {}
+        } catch (e) { }
       }
 
       const ordersToCapture = checkoutInfo.orders || orders;
@@ -166,7 +166,7 @@ const OrderPayment = () => {
   if (!directOrder && (!username || !userdata)) return null
 
   //  Total to charge 
-  const total = totalPrice || 0
+  const total = Number(totalPrice || 0)
   console.log("TOTAL:", total);
 
   const validateOrdersPlatform = () => {
@@ -177,7 +177,7 @@ const OrderPayment = () => {
         alert(`Checkout Blocked: URL (${o.link}) does not match the selected platform (${platform}).`);
         return false;
       }
-      
+
       const linkLower = o.link.toLowerCase();
       if (platform && platform.toLowerCase() === 'tiktok') {
         if (linkLower.includes('instagram.com')) {
@@ -207,13 +207,13 @@ const OrderPayment = () => {
       if (window.Razorpay) return resolve(true)
       const script = document.createElement('script')
       script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-      script.onload  = () => resolve(true)
+      script.onload = () => resolve(true)
       script.onerror = () => resolve(false)
       document.body.appendChild(script)
     })
 
   //  Main payment handler (exact flow you provided) 
-  const handleRazorpayPayment  = async () => {
+  const handleRazorpayPayment = async () => {
     if (paying) return
     setPaying(true)
 
@@ -247,25 +247,25 @@ const OrderPayment = () => {
       const data = await response.json()
 
       if (!data.success) {
-        alert('Could not create payment order. Please try again.')
+        alert(data.message || 'Could not create payment order. Please try again.')
         setPaying(false)
         return
       }
 
       // 2 — Open Razorpay checkout
       const options = {
-        key:       RAZORPAY_KEY,
-        amount:    data.order.amount,     
-        currency:  'INR',
-        name:   platform === 'youtube'
-                ? 'YouTube Services'
-                : platform === 'tiktok'
-                 ? 'TikTok Services'
-                : 'Instagram Services',
+        key: RAZORPAY_KEY,
+        amount: data.order.amount,
+        currency: 'USD',
+        name: platform === 'youtube'
+          ? 'YouTube Services'
+          : platform === 'tiktok'
+            ? 'TikTok Services'
+            : 'Instagram Services',
         description: selectedService?.name || 'SMM Service',
-        order_id:  data.order.id,
+        order_id: data.order.id,
         prefill: {
-          name:  userdata?.username || username,
+          name: userdata?.username || username,
           email: '',
           contact: '',
         },
@@ -278,13 +278,13 @@ const OrderPayment = () => {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                razorpay_order_id:   razorpayResponse.razorpay_order_id,
+                razorpay_order_id: razorpayResponse.razorpay_order_id,
                 razorpay_payment_id: razorpayResponse.razorpay_payment_id,
-                razorpay_signature:  razorpayResponse.razorpay_signature,
+                razorpay_signature: razorpayResponse.razorpay_signature,
                 orders,
-                amount:   total,
+                amount: total,
                 platform,
-                username,
+                username: directOrder ? (orderLink || 'Direct Order') : username,
               }),
             })
 
@@ -292,7 +292,16 @@ const OrderPayment = () => {
 
             if (verifyData.success) {
               alert('Payment Successful 🎉 Your order is being processed!')
-              navigate('/')     
+              navigate('/complete', {
+                state: {
+                  orderId: verifyData.orderId,
+                  username: directOrder ? (orderLink || 'Direct Order') : username,
+                  platform,
+                  service: selectedService?.name || 'SMM Service',
+                  quantity: orders?.[0]?.quantity || 50,
+                  price: total,
+                },
+              })
             } else {
               alert('Payment verification failed. Contact support.')
             }
@@ -610,44 +619,44 @@ const OrderPayment = () => {
             <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 border border-gray-100">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Order Details</h2>
 
-               {/* Orders list */}
-               <div className="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-100 mb-6">
-                 <div className="flex justify-between items-start gap-3 mb-4">
-                     <div className="min-w-0 flex-1">
-                       <h3 className="text-lg sm:text-2xl font-bold text-gray-900 capitalize leading-tight break-words">
-                         {displayServiceName || selectedService?.name}
-                       </h3>
-                       <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                         {orders.length === 1 ? '1 Target Link' : `${orders.length} Posts Selected`}
-                       </p>
-                     </div>
-                     <div className={`text-base sm:text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize flex-shrink-0`}>
-                       {platform}
-                     </div>
-                   </div>
-
-                  {/* Show delivery targets */}
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
-                      Delivery Target Link(s):
-                    </span>
-                    <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
-                       {orders.map((o, idx) => {
-                         const orderQty = o.order ? Object.values(o.order)[0] : 0
-                         return (
-                           <div key={idx} className="text-xs sm:text-sm font-medium text-gray-800 bg-white px-3 py-2 rounded-xl border border-gray-100 break-all flex items-center justify-between gap-2 sm:gap-3">
-                             <span className="truncate max-w-[60%]">{o.link || "Profile Link"}</span>
-                             <span className="font-semibold text-pink-600 shrink-0">{orderQty}</span>
-                             <a href={o.link || "Profile Link"} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline shrink-0 font-semibold">
-                               View
-                             </a>
-                           </div>
-                         )
-                       })}
-                     </div>
+              {/* Orders list */}
+              <div className="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-100 mb-6">
+                <div className="flex justify-between items-start gap-3 mb-4">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg sm:text-2xl font-bold text-gray-900 capitalize leading-tight break-words">
+                      {displayServiceName || selectedService?.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                      {orders.length === 1 ? '1 Target Link' : `${orders.length} Posts Selected`}
+                    </p>
                   </div>
-               </div>  
-          
+                  <div className={`text-base sm:text-xl font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent capitalize flex-shrink-0`}>
+                    {platform}
+                  </div>
+                </div>
+
+                {/* Show delivery targets */}
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
+                    Delivery Target Link(s):
+                  </span>
+                  <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    {orders.map((o, idx) => {
+                      const orderQty = o.order ? Object.values(o.order)[0] : 0
+                      return (
+                        <div key={idx} className="text-xs sm:text-sm font-medium text-gray-800 bg-white px-3 py-2 rounded-xl border border-gray-100 break-all flex items-center justify-between gap-2 sm:gap-3">
+                          <span className="truncate max-w-[60%]">{o.link || "Profile Link"}</span>
+                          <span className="font-semibold text-pink-600 shrink-0">{orderQty}</span>
+                          <a href={o.link || "Profile Link"} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline shrink-0 font-semibold">
+                            View
+                          </a>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+
 
               {/* Payment methods section */}
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 sm:p-6 border border-blue-100">
@@ -657,7 +666,7 @@ const OrderPayment = () => {
                     <div className="text-xs sm:text-sm text-gray-600">Cards, Net Banking, UPI, Wallets accepted</div>
                   </div>
                 </div>
-               
+
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-4">
                   <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'coins' ? 'border-pink-500 bg-pink-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
                     <input type="radio" name="payment" value="coins" checked={paymentMethod === "coins"}
@@ -665,10 +674,10 @@ const OrderPayment = () => {
                       className="accent-pink-600"
                     />
                     <span className="font-semibold text-xs sm:text-sm text-gray-800 whitespace-nowrap">
-                     🎁 Coins
+                      🎁 Coins
                     </span>
                   </label>
-       
+
                   <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'razorpay' ? 'border-purple-500 bg-purple-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
                     <input
                       type="radio"
@@ -698,7 +707,7 @@ const OrderPayment = () => {
                       src={Paypal}
                       alt="PayPal"
                       className="h-4 sm:h-5 object-contain max-w-[65px] sm:max-w-[75px]"
-                    />  
+                    />
                   </label>
 
                   <label className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all cursor-pointer ${paymentMethod === 'payu' ? 'border-emerald-500 bg-emerald-50/70 shadow-sm' : 'border-gray-200 bg-white hover:border-gray-300'}`}>

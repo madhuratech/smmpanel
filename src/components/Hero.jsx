@@ -382,17 +382,39 @@ export default function Hero({ platform: propPlatform, onSearch }) {
 
     try {
       setIsSearching(true);
-      const response = await fetch(`${API_URL}${input}`);
-      const data = await response.json();
+
+      let response;
+      try {
+        response = await fetch(`${API_URL}${encodeURIComponent(input)}`);
+      } catch (netErr) {
+        console.error("Network connection error:", netErr);
+        alert("Network error. Please check your connection and try again.");
+        return;
+      }
+
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (jsonErr) {
+        console.error("Failed to parse JSON response:", jsonErr);
+      }
 
       if (!response.ok) {
-        alert(data.error || "User not found");
+        const errorMsg = data?.message || data?.error || (response.status === 404 ? "User not found" : "Profile fetch failed");
+        alert(errorMsg);
+        return;
+      }
+
+      const profileData = (data && data.success && data.data) ? data.data : data;
+
+      if (!profileData || (!profileData.username && !profileData.name)) {
+        alert(data?.message || "User not found");
         return;
       }
 
       navigate("/profile-overview", {
         state: {
-          userdata: data,
+          userdata: profileData,
           platform,
           username: input,
           selectedServiceKey: location.state?.selectedServiceKey,
@@ -400,7 +422,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
         }
       });
     } catch (error) {
-      console.log(error);
+      console.error("Getuser execution error:", error);
       alert(
         "Profile fetch failed.\n\nPlease copy and paste profile/post URL for direct order."
       );
