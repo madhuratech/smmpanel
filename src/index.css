@@ -1056,3 +1056,92 @@
 .pause-hover:hover .animate-marquee {
   animation-play-state: paused;
 }
+
+/* ── Animated Card Glowing Border Effect ── */
+@keyframes card-blob-bounce {
+  0%, 100% {
+    top: 0%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+  }
+  38% {
+    top: 0%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    top: 100%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+  }
+  88% {
+    top: 100%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.blob-border-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 4px;
+  background: rgba(226, 232, 240, 0.7);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06), 0 10px 30px rgba(255, 22, 129, 0.08);
+}
+
+.dark .blob-border-card {
+  background: rgba(51, 65, 85, 0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 640px) {
+  .blob-border-card {
+    border-radius: 34px;
+    padding: 5px;
+  }
+}
+
+.blob-border-blob {
+  position: absolute;
+  z-index: 1;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background-color: #ff0000;
+  background: radial-gradient(circle, #ff0000 15%, #ff1681 70%, transparent 100%);
+  opacity: 1;
+  filter: blur(14px);
+  animation: card-blob-bounce 5s infinite linear;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .blob-border-blob {
+    width: 290px;
+    height: 290px;
+    filter: blur(16px);
+  }
+}
+
+.blob-border-bg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 246, 0.98));
+  backdrop-filter: blur(24px);
+  border-radius: 24px;
+  overflow: hidden;
+  outline: 2px solid white;
+}
+
+.dark .blob-border-bg {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+  outline: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+@media (min-width: 640px) {
+  .blob-border-bg {
+    border-radius: 29px;
+  }
+}

@@ -25,6 +25,7 @@ import BuyTikTokLikes from './pages/BuyTikTokLikes';
 import BuyTikTokViews from './pages/BuyTikTokViews';
 import BuyTikTokFollowers from './pages/BuyTikTokFollowers';
 import BuyInstagramLikes from './pages/BuyInstagramLikes';
+import BuyInstagramViews from './pages/BuyInstagramViews';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
 import Terms from './pages/Terms';
@@ -53,7 +54,7 @@ export default function AppRoutes() {
       
       <Route path="/instagram" element={<Instagram />} />
       <Route path="/buy-instagram-likes" element={<BuyInstagramLikes />} />
-      <Route path="/buy-instagram-views" element={<Instagram />} />
+      <Route path="/buy-instagram-views" element={<BuyInstagramViews />} />
       <Route path="/buy-instagram-followers" element={<Instagram />} />
       <Route path="/buy-instagram-comments" element={<Instagram />} />
       

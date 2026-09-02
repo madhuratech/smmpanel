@@ -3,7 +3,8 @@ import API_URL_BASE from '../config/api'
 import { useNavigate, useLocation } from 'react-router-dom'
 import useScrollToTop from '../hooks/useScrollToTop'
 import { resolveContentType } from '../utils/contentTypeMap'
-import {Users,
+import {
+  Users,
   Heart,
   Eye,
   MessageCircle,
@@ -76,7 +77,7 @@ const getServiceKey = (platform, serviceName) => {
   } else {
     key = s.replace(/[^a-z0-9]/g, "_");
   }
-  
+
   return `${p}_${key}`;
 };
 
@@ -93,11 +94,12 @@ const ProfileOverview = () => {
     postsCount: 0,
     posts: []
   } : null);
-  
+
   const [selectedService, setSelectedService] = useState(null)
   const [livePrices, setLivePrices] = useState({});
   const [services, setServices] = useState([]);
   const [isLoadingContent, setIsLoadingContent] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
 
   // Auto-redirect if service is pre-selected from Navbar
   useEffect(() => {
@@ -153,233 +155,233 @@ const ProfileOverview = () => {
   const API_URL = `${API_URL_BASE}/api/pricing/all`;
   const SERVICES_API = `${API_URL_BASE}/api/services`;
 
-  useEffect(() =>{
-    if(!username && !userdata){
-      navigate("/instagram",{replace: true});
+  useEffect(() => {
+    if (!username && !userdata) {
+      navigate("/instagram", { replace: true });
     }
-  },[username, userdata, navigate]);
+  }, [username, userdata, navigate]);
 
   if (!username && !userdata) return null;
 
 
   useEffect(() => {
 
-  const fetchLivePrices = async () => {
+    const fetchLivePrices = async () => {
 
-    try {
+      try {
 
-      const response = await fetch(API_URL, {
-        cache: "no-store"
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-
-        const formatted = {};
-
-        data.data.forEach((item) => {
-
-          const key = item.serviceKey;
-
-          formatted[key] = {
-            startingPrice: item.startingPrice ?? 0,
-            description: item.description || "",
-            baseQty: item.baseQuantity ?? item.packages?.[0]?.quantity ?? 100,
-            packages: item.packages || [],
-            pricing: item
-          };
-
+        const response = await fetch(API_URL, {
+          cache: "no-store"
         });
 
-        setLivePrices(formatted);
+        const data = await response.json();
+
+        if (data.success) {
+
+          const formatted = {};
+
+          data.data.forEach((item) => {
+
+            const key = item.serviceKey;
+
+            formatted[key] = {
+              startingPrice: item.startingPrice ?? 0,
+              description: item.description || "",
+              baseQty: item.baseQuantity ?? item.packages?.[0]?.quantity ?? 100,
+              packages: item.packages || [],
+              pricing: item
+            };
+
+          });
+
+          setLivePrices(formatted);
+        }
+
+      } catch (error) {
+
+        console.log("LIVE PRICE ERROR:", error);
+
       }
 
-    } catch (error) {
+    };
 
-      console.log("LIVE PRICE ERROR:", error);
+    fetchLivePrices();
 
-    }
+    // AUTO LIVE UPDATE
+    const interval = setInterval(fetchLivePrices, 3000);
 
-  };
+    return () => clearInterval(interval);
 
-  fetchLivePrices();
-
-  // AUTO LIVE UPDATE
-  const interval = setInterval(fetchLivePrices, 3000);
-
-  return () => clearInterval(interval);
-
-}, []);
+  }, []);
 
 
   // Platform-specific services
-useEffect(() => {
+  useEffect(() => {
 
-  const fetchServices = async () => {
+    const fetchServices = async () => {
 
-    try {
+      try {
 
-      const response = await fetch(
-        SERVICES_API
-      );
+        const response = await fetch(
+          SERVICES_API
+        );
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Services API failed: ${response.status} ${errorText}`);
-      }
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Services API failed: ${response.status} ${errorText}`);
+        }
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (data.success) {
+        if (data.success) {
 
-        const filtered =
-          data.services.filter(
-            (s) =>
-              s.type?.toLowerCase() ===
-              platform?.toLowerCase()
-          );
+          const filtered =
+            data.services.filter(
+              (s) =>
+                s.type?.toLowerCase() ===
+                platform?.toLowerCase()
+            );
 
-        const formatted =
-          filtered.map((s) => ({
-            ...s,
+          const formatted =
+            filtered.map((s) => ({
+              ...s,
 
-            id: s._id,
+              id: s._id,
 
-            provider_service_id:
-              s.provider_service_id,
+              provider_service_id:
+                s.provider_service_id,
 
-            name:
-              s.name.split("|")[0].trim(),
+              name:
+                s.name.split("|")[0].trim(),
 
-            serviceKey:
-              s.name
-                .toLowerCase()
-                .replace(/\s+/g, "-"),
+              serviceKey:
+                s.name
+                  .toLowerCase()
+                  .replace(/\s+/g, "-"),
 
-            icon:
+              icon:
                 s.name,
 
-            contentType: s.contentType,
+              contentType: s.contentType,
 
-            description:
-              `Boost your ${s.name.split("|")[0].trim()} instantly`,
+              description:
+                `Boost your ${s.name.split("|")[0].trim()} instantly`,
 
-            popular: false
+              popular: false
 
-          }));
+            }));
 
-        setServices(formatted);
+          setServices(formatted);
+
+        }
+
+      } catch (error) {
+
+        console.log(
+          "SERVICE FETCH ERROR:",
+          error
+        );
 
       }
 
-    } catch (error) {
+    };
 
-      console.log(
-        "SERVICE FETCH ERROR:",
-        error
-      );
+    fetchServices();
 
-    }
+    // AUTO LIVE REFRESH
+    const interval =
+      setInterval(fetchServices, 3000);
+
+    return () =>
+      clearInterval(interval);
+
+  }, [platform]);
+
+
+  const config = {
+
+    color:
+      "from-pink-500 to-purple-600",
+
+    name:
+      platform
+        ?.charAt(0)
+        ?.toUpperCase() +
+      platform?.slice(1)
 
   };
 
-  fetchServices();
-
-  // AUTO LIVE REFRESH
-  const interval =
-    setInterval(fetchServices, 3000);
-
-  return () =>
-    clearInterval(interval);
-
-}, [platform]);
 
 
-const config = {
+  const getServiceIcon = (serviceName) => {
 
-  color:
-    "from-pink-500 to-purple-600",
+    const name =
+      serviceName?.toLowerCase();
 
-  name:
-    platform
-      ?.charAt(0)
-      ?.toUpperCase() +
-    platform?.slice(1)
+    if (
+      name.includes("followers") ||
+      name.includes("subscriber")
+    ) {
+      return (
+        <Users
+          size={30}
+          className="text-white fill-white"
+        />
+      );
+    }
 
-};
+    if (name.includes("likes")) {
+      return (
+        <Heart
+          size={30}
+          className="text-white fill-white"
+        />
+      );
+    }
 
+    if (name.includes("views")) {
+      return (
+        <Eye
+          size={30}
+          className="text-white"
+        />
+      );
+    }
 
+    if (name.includes("comments")) {
+      return (
+        <MessageCircle
+          size={40}
+          className="text-green-300"
+        />
+      );
+    }
 
-const getServiceIcon = (serviceName) => {
+    if (name.includes("shares")) {
+      return (
+        <Share2
+          size={40}
+          className="text-yellow-300"
+        />
+      );
+    }
 
-  const name =
-    serviceName?.toLowerCase();
+    if (name.includes("saves")) {
+      return (
+        <Bookmark
+          size={40}
+          className="text-pink-300 fill-pink-300"
+        />
+      );
+    }
 
-  if (
-    name.includes("followers") ||
-    name.includes("subscriber")
-  ) {
     return (
-      <Users
-        size={30}
-        className="text-white fill-white"
-      />
-    );
-  }
-
-  if (name.includes("likes")) {
-    return (
-      <Heart
-        size={30}
-        className="text-white fill-white"
-      />
-    );
-  }
-
-  if (name.includes("views")) {
-    return (
-      <Eye
-        size={30}
+      <Rocket
+        size={40}
         className="text-white"
       />
     );
-  }
-
-  if (name.includes("comments")) {
-    return (
-      <MessageCircle
-        size={40}
-        className="text-green-300"
-      />
-    );
-  }
-
-  if (name.includes("shares")) {
-    return (
-      <Share2
-        size={40}
-        className="text-yellow-300"
-      />
-    );
-  }
-
-  if (name.includes("saves")) {
-    return (
-      <Bookmark
-        size={40}
-        className="text-pink-300 fill-pink-300"
-      />
-    );
-  }
-
-  return (
-    <Rocket
-      size={40}
-      className="text-white"
-    />
-  );
-};
+  };
 
   const handleServiceSelect = async (service) => {
     setSelectedService(service.id);
@@ -426,11 +428,11 @@ const getServiceIcon = (serviceName) => {
     });
   };
 
-// Formatnumber;
- const formatnumber = (num) => {
-    if(num === undefined || num === null) return "0";
-    if(num > 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if(num > 1000) return (num / 1000).toFixed(1) + 'K';
+  // Formatnumber;
+  const formatnumber = (num) => {
+    if (num === undefined || num === null) return "0";
+    if (num > 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num > 1000) return (num / 1000).toFixed(1) + 'K';
     return num.toString();
   };
 
@@ -484,25 +486,30 @@ const getServiceIcon = (serviceName) => {
             </span>
           </button>
         </div>
-        
+
         {/* Profile Section */}
         <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-8 mb-8 border border-gray-100 min-w-0 w-full overflow-hidden">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left min-w-0 w-full">
             <div className="relative flex-shrink-0">
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-gray-200 shadow-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                {userdata?.avatar ? (
-                  <img 
-                    src={userdata.avatar} 
-                    alt="Profile" 
+                {userdata?.avatar && !avatarError ? (
+                  <img
+                    src={userdata.avatar}
+                    alt="Profile"
+                    referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.target.src =`${API_URL_BASE}/api/instagram/image?url=${encodeURIComponent(userdata?.avatar)}`
-
+                      const profileUsername = userdata?.username || username || '';
+                      if (!e.target.src.includes('/instagram/image')) {
+                        e.target.src = `${API_URL_BASE}/api/instagram/image?url=${encodeURIComponent(userdata?.avatar || '')}&username=${encodeURIComponent(profileUsername)}`;
+                      } else {
+                        setAvatarError(true);
+                      }
                     }}
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-2xl">
-                    {userdata?.username?.charAt(0)?.toUpperCase() || 'U'}
+                  <div className="w-full h-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold text-2xl shadow-inner">
+                    {userdata?.username?.replace(/^@/, '').charAt(0)?.toUpperCase() || 'U'}
                   </div>
                 )}
               </div>
@@ -514,61 +521,61 @@ const getServiceIcon = (serviceName) => {
                 </div>
               )}
             </div>
-            
+
             <div className="flex-1 min-w-0 w-full">
-               <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3 mb-2 flex-wrap min-w-0">
-                 <h1 className="text-xl sm:text-3xl font-bold text-gray-900 break-all max-w-full">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
-                 {userdata?.verified && <span className="text-blue-500">✔</span>}
-                 {userdata?.isPrivate && (
-                   <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">Private</span>
-                 )}
-               </div>
-               
-               {userdata?.url && (
-                 <a 
-                   href={userdata.url} 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="text-blue-600 text-xs sm:text-sm hover:underline block mb-3 break-all max-w-full"
-                 >
-                   {userdata.url}
-                 </a>
-               )}
-
-               <p className="text-xs sm:text-sm text-gray-600 mb-4 break-words max-w-full">{userdata?.bio || userdata?.description}</p>
-              
-              <div className="flex items-center justify-center sm:justify-start gap-4 sm:gap-8 flex-wrap w-full">
-               {(platform === "instagram" || platform === "facebook" || platform === "tiktok") &&  (
-                <div className="text-center">
-                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.postsCount || userdata?.posts_count)}</div>
-                  <div className="text-xs sm:text-sm text-gray-600">Posts</div>
-                </div>
+              <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3 mb-2 flex-wrap min-w-0">
+                <h1 className="text-xl sm:text-3xl font-bold text-gray-900 break-all max-w-full">@{userdata?.username?.startsWith('@') ? userdata.username.slice(1) : userdata?.username}</h1>
+                {userdata?.verified && <span className="text-blue-500">✔</span>}
+                {userdata?.isPrivate && (
+                  <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">Private</span>
                 )}
-                 {platform === "youtube" && (
-                  <div className="text-center">
-                  <div className="text-lg sm:text-xl font-bold text-gray-900">
-                   {formatnumber(userdata?.videosCount)}
-                  </div>
-                 <div className="text-xs sm:text-sm text-gray-600">Videos</div>
-                </div>
-                 )}
+              </div>
 
-                 {/* instagram followers */}
+              {userdata?.url && (
+                <a
+                  href={userdata.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 text-xs sm:text-sm hover:underline block mb-3 break-all max-w-full"
+                >
+                  {userdata.url}
+                </a>
+              )}
+
+              <p className="text-xs sm:text-sm text-gray-600 mb-4 break-words max-w-full">{userdata?.bio || userdata?.description}</p>
+
+              <div className="flex items-center justify-center sm:justify-start gap-4 sm:gap-8 flex-wrap w-full">
+                {(platform === "instagram" || platform === "facebook" || platform === "tiktok") && (
+                  <div className="text-center">
+                    <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.postsCount || userdata?.posts_count)}</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Posts</div>
+                  </div>
+                )}
+                {platform === "youtube" && (
+                  <div className="text-center">
+                    <div className="text-lg sm:text-xl font-bold text-gray-900">
+                      {formatnumber(userdata?.videosCount)}
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-600">Videos</div>
+                  </div>
+                )}
+
+                {/* instagram followers */}
 
                 {(platform === "facebook" || platform === "instagram" || platform === "tiktok") && (
-                <div className="text-center">
-                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.followers)}</div>
-                  <div className="text-xs sm:text-sm text-gray-600">Followers</div>
-                </div>
+                  <div className="text-center">
+                    <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber(userdata?.followers)}</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Followers</div>
+                  </div>
                 )}
 
-                
+
                 {platform === "youtube" && (
-                <div className="text-center">
-                  <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber
-                    (userdata?.subscribers)}</div>
-                  <div className="text-xs sm:text-sm text-gray-600">Subscribers</div>
-                </div>
+                  <div className="text-center">
+                    <div className="text-lg sm:text-xl font-bold text-gray-900">{formatnumber
+                      (userdata?.subscribers)}</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Subscribers</div>
+                  </div>
                 )}
 
 
@@ -590,7 +597,7 @@ const getServiceIcon = (serviceName) => {
             </h2>
             <p className="text-xs sm:text-sm text-gray-600">Select the service you want to boost for this profile</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {services.map((service) => (
               <div
@@ -603,27 +610,27 @@ const getServiceIcon = (serviceName) => {
                     POPULAR
                   </div>
                 )}
-                
+
                 <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-gray-200 transition-all group-hover:shadow-lg h-full flex flex-col justify-between">
                   <div className="text-center mb-4">
                     <div className={`w-16 h-16 bg-gradient-to-r ${config.color} rounded-2xl flex items-center justify-center text-white mx-auto mb-3 shadow-lg`}>
-                     <span className="drop-shadow-lg">
-                       {getServiceIcon(service.name)}
-                        </span>
-                      </div>
+                      <span className="drop-shadow-lg">
+                        {getServiceIcon(service.name)}
+                      </span>
+                    </div>
 
                     <h3 className="font-bold text-lg text-gray-900 mb-1 line-clamp-2 min-h-[56px]">
                       {cleanServiceName(service.name)}
-                     </h3>
+                    </h3>
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2 min-h-[40px]">{getServiceDescription(service.name)}</p>
                     <div className={`text-lg font-bold bg-gradient-to-r ${config.color} bg-clip-text text-transparent`}>
-                       {getLivePrice(service.name)}
+                      {getLivePrice(service.name)}
                     </div>
                   </div>
-                  
-                  <button   onClick={() => handleServiceSelect(service)}className={`w-full bg-gradient-to-r ${config.color} text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200`}>
-                  Select Service 
-                 </button>
+
+                  <button onClick={() => handleServiceSelect(service)} className={`w-full bg-gradient-to-r ${config.color} text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200`}>
+                    Select Service
+                  </button>
                 </div>
               </div>
             ))}

@@ -8,7 +8,7 @@ const ContentSelection = () => {
   useScrollToTop()
   const navigate = useNavigate()
   const location = useLocation()
-  
+
   const { username, platform, selectedService, userdata, contentType, quantity } = location.state || {}
   const [selectedItems, setSelectedItems] = useState(location.state?.selectedItems || [])
 
@@ -97,9 +97,8 @@ const ContentSelection = () => {
                   <div
                     key={item.id}
                     onClick={() => handleCardClick(item)}
-                    className={`cursor-pointer rounded-xl overflow-hidden shadow-md border-2 transition-all ${
-                      isSelected ? 'border-[#ff1681] scale-105' : 'border-transparent hover:border-gray-300'
-                    }`}
+                    className={`cursor-pointer rounded-xl overflow-hidden shadow-md border-2 transition-all ${isSelected ? 'border-[#ff1681] scale-105' : 'border-transparent hover:border-gray-300'
+                      }`}
                   >
                     <img src={getItemImage(item)} alt="" className="w-full h-48 object-cover" />
                     {getItemTitle(item) && (

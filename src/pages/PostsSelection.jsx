@@ -11,6 +11,7 @@ const PostsSelection = () => {
   const [selectedPosts, setSelectedPosts] = useState(
     location.state?.selectedPostsIds || []
   );
+  const [avatarError, setAvatarError] = useState(false);
 
   const userdata = location.state?.userdata
 
@@ -229,9 +230,13 @@ const PostsSelection = () => {
 
   // Image proxy helper for broken images
   const API_BASE = `${API_URL}/api`;
-  const proxyUrl = (url) => {
-    if (!url) return '';
-    return `${API_BASE}/instagram/image?url=${encodeURIComponent(url)}`;
+  const proxyUrl = (url, shortcode, profileUsername) => {
+    if (!url && !shortcode && !profileUsername) return '';
+    const params = new URLSearchParams();
+    if (url) params.set('url', url);
+    if (shortcode) params.set('shortcode', shortcode);
+    if (profileUsername) params.set('username', profileUsername);
+    return `${API_BASE}/instagram/image?${params.toString()}`;
   };
 
   return (
@@ -266,20 +271,24 @@ const PostsSelection = () => {
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             {/* Avatar */}
             <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center">
-              {userdata?.avatar ? (
+              {userdata?.avatar && !avatarError ? (
                 <img
                   src={userdata.avatar}
                   alt="Profile"
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    if (!e.target.src.includes('/image?url=')) {
-                      e.target.src = proxyUrl(userdata.avatar);
+                    const profileUsername = userdata?.username || username || '';
+                    if (!e.target.src.includes('/instagram/image')) {
+                      e.target.src = proxyUrl(userdata.avatar, null, profileUsername);
+                    } else {
+                      setAvatarError(true);
                     }
                   }}
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl">
-                  {userdata?.username?.charAt(0)?.toUpperCase() || 'U'}
+                <div className="w-full h-full bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-inner">
+                  {(userdata?.username || username || 'U').replace(/^@/, '').charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
@@ -393,10 +402,13 @@ const PostsSelection = () => {
                           <img
                             src={postDisplayImg}
                             alt={label}
+                            referrerPolicy="no-referrer"
                             className="w-full h-full object-cover"
                             onError={(e) => {
-                              if (!e.target.src.includes('/image?url=')) {
-                                e.target.src = proxyUrl(postDisplayImg);
+                              if (!e.target.src.includes('/instagram/image')) {
+                                e.target.src = proxyUrl(postDisplayImg, post.shortcode);
+                              } else {
+                                e.target.style.display = 'none';
                               }
                             }}
                           />

@@ -20,6 +20,7 @@ import { FaTiktok, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
+import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
@@ -509,13 +510,18 @@ export default function BuyTikTokLikes() {
       </section>
 
       {/* ── HOW IT WORKS SECTION ── */}
-      <section className="py-24 px-6 bg-gradient-to-b from-white via-slate-50 to-white">
+      <section className="pt-14 sm:pt-16 pb-20 px-6 bg-gradient-to-b from-white via-slate-50 to-white">
         <div className="max-w-7xl mx-auto">
+
+          {/* Real-time Loop Delivery Counter */}
+          <div className="flex justify-center mb-8 sm:mb-10">
+            <LiveDeliveryCounter service="likes" platform="TikTok" />
+          </div>
 
           {/* Heading */}
           <div className="max-w-3xl mx-auto text-center">
 
-            <h2 className="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               How to Buy TikTok Likes
             </h2>
 

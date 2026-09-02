@@ -89,6 +89,46 @@ export default function Steps() {
             </motion.div>
           ))}
         </div>
+
+        {/* ── Boost Your Profile CTA Section ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mt-14 sm:mt-16 w-full max-w-4xl mx-auto blob-border-card"
+        >
+          {/* Animated Blobs along borders */}
+          <div className="blob-border-blob" />
+          <div className="blob-border-blob" style={{ animationDelay: '-2.5s', opacity: 0.8 }} />
+
+          {/* Inner Content Card (bg) */}
+          <div className="blob-border-bg p-8 sm:p-12 text-center flex flex-col items-center justify-center">
+            {/* Decorative Glow */}
+            <div className="absolute -top-12 -left-12 w-44 h-44 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-44 h-44 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            {/* Title */}
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">
+              Boost Your Profile Now
+            </h3>
+
+            {/* Subtext */}
+            <p className="text-base sm:text-lg font-medium text-gray-600 max-w-xl mx-auto mb-8 leading-relaxed">
+              Want to enhance your profile? Yes! You are in the right spot.
+            </p>
+
+            {/* CTA Button */}
+            <button
+              onClick={() => {
+                document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center justify-center px-9 py-4 rounded-full text-white font-bold text-base sm:text-lg bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-purple-700 shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+              Choose Service
+            </button>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -21,6 +21,7 @@ import { FaTiktok, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
+import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
@@ -487,10 +488,16 @@ export default function BuyTikTokFollowers() {
       </section>
 
       {/* ── HOW TO BUY TIKTOK FOLLOWERS SECTION (WHITE THEME) ── */}
-      <section className="py-24 px-6 bg-gradient-to-b from-white via-slate-50 to-white text-slate-900">
+      <section className="pt-14 sm:pt-16 pb-20 px-6 bg-gradient-to-b from-white via-slate-50 to-white text-slate-900">
         <div className="max-w-7xl mx-auto">
+
+          {/* Real-time Loop Delivery Counter */}
+          <div className="flex justify-center mb-8 sm:mb-10">
+            <LiveDeliveryCounter service="followers" platform="TikTok" />
+          </div>
+
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               How to Buy TikTok Followers?
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-500">
