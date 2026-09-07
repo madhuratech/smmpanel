@@ -87,11 +87,12 @@ const Navbar = () => {
   }, [animState, showRegisterModal]);
 
   const handleManualRegisterClick = (e) => {
-    if (e) e.preventDefault();
     hasManuallyClicked.current = true;
     clearAllAnimTimeouts();
     setAnimState('done');
-    navigate('/register');
+    if (e && (e.ctrlKey || e.metaKey || e.button === 1)) {
+      return;
+    }
   };
 
   useEffect(() => {
@@ -128,9 +129,9 @@ const Navbar = () => {
       services: [
         { name: 'TikTok Views', service: 'views', path: '/buy-tiktok-views' },
         { name: 'TikTok Followers', service: 'followers', path: '/buy-tiktok-followers' },
-        { name: 'TikTok Likes', service: 'likes', path: '/buy-tiktok-likes' },
-        { name: 'TikTok Comments', service: 'comments', path: '/buy-tiktok-comments' },
-        { name: 'TikTok Shares', service: 'shares', path: '/buy-tiktok-shares' }
+        { name: 'TikTok Likes', service: 'likes', path: '/buy-tiktok-likes' }
+        // { name: 'TikTok Comments', service: 'comments', path: '/buy-tiktok-comments' },
+        // { name: 'TikTok Shares', service: 'shares', path: '/buy-tiktok-shares' }
       ]
     },
     {
@@ -139,8 +140,8 @@ const Navbar = () => {
       services: [
         { name: 'Instagram Followers', service: 'followers', path: '/buy-instagram-followers' },
         { name: 'Instagram Likes', service: 'likes', path: '/buy-instagram-likes' },
-        { name: 'Instagram Views', service: 'views', path: '/buy-instagram-views' },
-        { name: 'Instagram Comments', service: 'comments', path: '/buy-instagram-comments' }
+        { name: 'Instagram Views', service: 'views', path: '/buy-instagram-views' }
+        // { name: 'Instagram Comments', service: 'comments', path: '/buy-instagram-comments' }
       ]
     },
     {
@@ -149,8 +150,8 @@ const Navbar = () => {
       services: [
         { name: 'YouTube Views', service: 'views', path: '/buy-youtube-views' },
         { name: 'YouTube Subscribers', service: 'subscribers', path: '/buy-youtube-subscribers' },
-        { name: 'YouTube Likes', service: 'likes', path: '/buy-youtube-likes' },
-        { name: 'YouTube Comments', service: 'comments', path: '/buy-youtube-comments' }
+        { name: 'YouTube Likes', service: 'likes', path: '/buy-youtube-likes' }
+        // { name: 'YouTube Comments', service: 'comments', path: '/buy-youtube-comments' }
       ]
     },
   ];
@@ -169,30 +170,23 @@ const Navbar = () => {
 
   const extraPlatforms = [
     { name: "Facebook", icon: <FaFacebook className="text-[#1877F2]" />, path: "/facebook" },
-    { name: "Twitter", icon: <FaXTwitter className="text-black" />, path: "/", state: { selectPlatform: "twitter" } },
-    { name: "Telegram", icon: <FaTelegram className="text-[#0088cc]" />, path: "/", state: { selectPlatform: "telegram" } },
-    { name: "Pinterest", icon: <FaPinterest className="text-[#E60023]" />, path: "/", state: { selectPlatform: "pinterest" } },
-    { name: "Spotify", icon: <FaSpotify className="text-[#1DB954]" />, path: "/", state: { selectPlatform: "spotify" } },
-    { name: "LinkedIn", icon: <FaLinkedin className="text-[#0A66C2]" />, path: "/", state: { selectPlatform: "linkedin" } },
-    { name: "Reddit", icon: <FaReddit className="text-[#FF4500]" />, path: "/", state: { selectPlatform: "reddit" } },
-    { name: "Threads", icon: <FaThreads className="text-black" />, path: "/", state: { selectPlatform: "threads" } },
-    { name: "Twitch", icon: <FaTwitch className="text-[#9146FF]" />, path: "/", state: { selectPlatform: "twitch" } },
-    { name: "Discord", icon: <FaDiscord className="text-[#5865F2]" />, path: "/", state: { selectPlatform: "discord" } },
-    { name: "Snapchat", icon: <FaSnapchat className="text-[#FFFC00]" />, path: "/", state: { selectPlatform: "snapchat" } },
-    { name: "SoundCloud", icon: <FaSoundcloud className="text-[#FF5500]" />, path: "/", state: { selectPlatform: "soundcloud" } },
-    { name: "Google Reviews", icon: <FaGoogle className="text-[#4285F4]" />, path: "/", state: { selectPlatform: "google" } },
-    { name: "Trustpilot", icon: <FaStar className="text-[#00B67A]" />, path: "/", state: { selectPlatform: "trustpilot" } },
-    { name: "Website Traffic", icon: <FaGlobe className="text-[#00A86B]" />, path: "/", state: { selectPlatform: "traffic" } }
+    { name: "Twitter", icon: <FaXTwitter className="text-black" />, path: "/?platform=twitter", state: { selectPlatform: "twitter" } },
+    { name: "Telegram", icon: <FaTelegram className="text-[#0088cc]" />, path: "/?platform=telegram", state: { selectPlatform: "telegram" } },
+    { name: "Pinterest", icon: <FaPinterest className="text-[#E60023]" />, path: "/?platform=pinterest", state: { selectPlatform: "pinterest" } },
+    { name: "Spotify", icon: <FaSpotify className="text-[#1DB954]" />, path: "/?platform=spotify", state: { selectPlatform: "spotify" } },
+    { name: "LinkedIn", icon: <FaLinkedin className="text-[#0A66C2]" />, path: "/?platform=linkedin", state: { selectPlatform: "linkedin" } },
+    { name: "Reddit", icon: <FaReddit className="text-[#FF4500]" />, path: "/?platform=reddit", state: { selectPlatform: "reddit" } },
+    { name: "Threads", icon: <FaThreads className="text-black" />, path: "/?platform=threads", state: { selectPlatform: "threads" } },
+    { name: "Twitch", icon: <FaTwitch className="text-[#9146FF]" />, path: "/?platform=twitch", state: { selectPlatform: "twitch" } },
+    { name: "Discord", icon: <FaDiscord className="text-[#5865F2]" />, path: "/?platform=discord", state: { selectPlatform: "discord" } },
+    { name: "Snapchat", icon: <FaSnapchat className="text-[#FFFC00]" />, path: "/?platform=snapchat", state: { selectPlatform: "snapchat" } },
+    { name: "SoundCloud", icon: <FaSoundcloud className="text-[#FF5500]" />, path: "/?platform=soundcloud", state: { selectPlatform: "soundcloud" } },
+    { name: "Google Reviews", icon: <FaGoogle className="text-[#4285F4]" />, path: "/?platform=google", state: { selectPlatform: "google" } },
+    { name: "Trustpilot", icon: <FaStar className="text-[#00B67A]" />, path: "/?platform=trustpilot", state: { selectPlatform: "trustpilot" } },
+    { name: "Website Traffic", icon: <FaGlobe className="text-[#00A86B]" />, path: "/?platform=traffic", state: { selectPlatform: "traffic" } }
   ];
 
   const isActive = (path) => location.pathname === path;
-
-  const handleServiceClick = (service, plat) => {
-    navigate(service.path || plat.path, {
-      state: { selectedServiceKey: service.service }
-    });
-    setActiveDropdown(null);
-  };
 
   const handleMouseEnter = (dropdown) => {
     if (closeTimeout) {
@@ -333,7 +327,11 @@ const Navbar = () => {
             <Link
               to="/"
               className="flex items-center"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={(e) => {
+                if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
             >
               <img
                 src={TikyTop}
@@ -375,14 +373,18 @@ const Navbar = () => {
                     >
                       <div className="w-52 bg-white rounded-xl shadow-xl py-2 border border-gray-100">
                         {plat.services.map((service, idx) => (
-                          <button
+                          <Link
                             key={idx}
-                            onClick={() => handleServiceClick(service, plat)}
+                            to={service.path || plat.path}
+                            state={{ selectedServiceKey: service.service }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setActiveDropdown(null)}
                             className="w-full text-left px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] transition-all flex items-center gap-1.5"
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d95]"></span>
                             {service.name}
-                          </button>
+                          </Link>
                         ))}
                       </div>
                     </motion.div>
@@ -431,17 +433,18 @@ const Navbar = () => {
                       </div>
 
                       {extraPlatforms.map((plat) => (
-                        <button
+                        <Link
                           key={plat.name}
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            navigate(plat.path, { state: plat.state });
-                          }}
+                          to={plat.path}
+                          state={plat.state}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setActiveDropdown(null)}
                           className="flex items-center gap-3 px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-sm font-semibold text-gray-800 text-left transition duration-200 hover:bg-pink-50 hover:border-pink-200/50 hover:text-[#ff1681]"
                         >
                           <span className="text-[18px] flex-shrink-0 flex items-center">{plat.icon}</span>
                           <span className="truncate">{plat.name}</span>
-                        </button>
+                        </Link>
                       ))}
                     </div>
                   </motion.div>
@@ -516,7 +519,11 @@ const Navbar = () => {
                     >
                       <Link
                         to="/profile"
-                        onClick={() => setShowUserMenu(false)}
+                        onClick={(e) => {
+                          if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                            setShowUserMenu(false);
+                          }
+                        }}
                         className="block px-4 py-1.5 text-xs text-gray-700 hover:bg-pink-50 hover:text-[#ff1681] font-medium transition-colors"
                       >
                         Profile / Account
@@ -535,19 +542,24 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center gap-3 xl:gap-2">
-                <Link to="/login">
-                  <button className="h-[32px] px-[20px] rounded-[24px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[16px] transition-all duration-300 hover:border-[#ff1681]/60 hover:text-[#ff1681] hover:bg-pink-50/20 hover:scale-[1.02] hover:shadow-[0_0_12px_rgba(255,22,129,0.15)] active:scale-[0.97]">
-                    Login
-                  </button>
+                <Link
+                  to="/login"
+                  className="h-[32px] px-[20px] rounded-[24px] bg-white border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[16px] transition-all duration-300 hover:border-[#ff1681]/60 hover:text-[#ff1681] hover:bg-pink-50/20 hover:scale-[1.02] hover:shadow-[0_0_12px_rgba(255,22,129,0.15)] active:scale-[0.97] inline-flex items-center justify-center"
+                >
+                  Login
                 </Link>
-                <div onClick={handleManualRegisterClick} className="relative group cursor-pointer">
+                <Link
+                  to="/register"
+                  onClick={handleManualRegisterClick}
+                  className="relative group cursor-pointer block"
+                >
                   {/* Tiny Micro Badge */}
                   {animState !== 'fading-out' && animState !== 'done' && (
                     <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-[8px] font-bold py-0.5 px-1.5 rounded-full uppercase tracking-wider scale-90 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none select-none z-30 whitespace-nowrap">
                       JOIN FREE
                     </span>
                   )}
-                  <button
+                  <div
                     style={{
                       opacity: animState === 'fading-out' ? 0 : 1,
                       transform: animState === 'fading-out' ? 'scale(0.85)' : animState === 'clicking' ? 'scale(0.96)' : undefined,
@@ -567,7 +579,7 @@ const Navbar = () => {
                       )}
                     </span>
                     <span className="absolute inset-y-0 -left-full w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] animate-shine pointer-events-none z-20" />
-                  </button>
+                  </div>
 
                   {/* Click ripple element */}
                   {(animState === 'clicking' || animState === 'clicked-success') && (
@@ -583,7 +595,7 @@ const Navbar = () => {
                       <img src={HandCursor} alt="" className="w-[55px] lg:w-[65px] h-auto pointer-events-none select-none" />
                     </div>
                   )}
-                </div>
+                </Link>
               </div>
             )}
           </div>
@@ -637,16 +649,17 @@ const Navbar = () => {
                           className="pl-6 py-1 space-y-1 overflow-hidden"
                         >
                           {plat.services.map((s, idx) => (
-                            <button
+                            <Link
                               key={idx}
-                              onClick={() => {
-                                handleServiceClick(s, plat);
-                                setIsOpen(false);
-                              }}
+                              to={s.path || plat.path}
+                              state={{ selectedServiceKey: s.service }}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => setIsOpen(false)}
                               className="block w-full text-left text-sm text-gray-600 py-2 hover:text-[#ff1681]"
                             >
                               {s.name}
-                            </button>
+                            </Link>
                           ))}
                         </motion.div>
                       )}
@@ -673,17 +686,18 @@ const Navbar = () => {
                       className="pl-6 py-2 grid grid-cols-2 gap-2 overflow-hidden"
                     >
                       {extraPlatforms.map((plat) => (
-                        <button
+                        <Link
                           key={plat.name}
-                          onClick={() => {
-                            setIsOpen(false);
-                            navigate(plat.path, { state: plat.state });
-                          }}
+                          to={plat.path}
+                          state={plat.state}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsOpen(false)}
                           className="flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-100 rounded-lg text-xs font-semibold text-gray-800 text-left hover:text-[#ff1681]"
                         >
                           <span className="text-sm flex-shrink-0">{plat.icon}</span>
                           <span className="truncate">{plat.name}</span>
-                        </button>
+                        </Link>
                       ))}
                     </motion.div>
                   )}
@@ -708,16 +722,16 @@ const Navbar = () => {
                       className="pl-6 py-1 space-y-1 overflow-hidden"
                     >
                       {freeTrials.map((s, idx) => (
-                        <button
+                        <Link
                           key={idx}
-                          onClick={() => {
-                            navigate(s.path);
-                            setIsOpen(false);
-                          }}
+                          to={s.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsOpen(false)}
                           className="block w-full text-left text-sm text-gray-600 py-2 hover:text-[#ff1681]"
                         >
                           {s.name}
-                        </button>
+                        </Link>
                       ))}
                     </motion.div>
                   )}
@@ -728,7 +742,11 @@ const Navbar = () => {
               <div className="border-b border-gray-100 pb-2">
                 <Link
                   to="/about"
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                      setIsOpen(false);
+                    }
+                  }}
                   className="block py-2 text-lg font-bold text-[#1d3557] hover:text-[#ff1681]"
                 >
                   ℹ️ About Us
@@ -739,10 +757,26 @@ const Navbar = () => {
               {user ? (
                 <div className="space-y-2 pt-2">
                   <div className="text-sm font-semibold text-gray-500">Logged in as {user.name}</div>
-                  <Link to="/profile" onClick={() => setIsOpen(false)} className="block py-2 text-gray-700 font-medium">
+                  <Link
+                    to="/profile"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                        setIsOpen(false);
+                      }
+                    }}
+                    className="block py-2 text-gray-700 font-medium hover:text-[#ff1681]"
+                  >
                     My Profile
                   </Link>
-                  <Link to="/my-orders" onClick={() => setIsOpen(false)} className="block py-2 text-gray-700 font-medium">
+                  <Link
+                    to="/my-orders"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                        setIsOpen(false);
+                      }
+                    }}
+                    className="block py-2 text-gray-700 font-medium hover:text-[#ff1681]"
+                  >
                     My Orders
                   </Link>
                   <button onClick={() => { handleLogout(); setIsOpen(false); }} className="w-full text-left py-2 text-red-600 font-medium">
@@ -751,15 +785,27 @@ const Navbar = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-3 pt-2">
-                  <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <button className="w-full h-[48px] rounded-full border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[15px]">
-                      Login
-                    </button>
+                  <Link
+                    to="/login"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                        setIsOpen(false);
+                      }
+                    }}
+                    className="w-full h-[48px] rounded-full border-2 border-[#d9d9d9] text-[#1d3557] font-semibold text-[15px] flex items-center justify-center hover:border-[#ff1681] hover:text-[#ff1681]"
+                  >
+                    Login
                   </Link>
-                  <Link to="/register" onClick={() => setIsOpen(false)}>
-                    <button className="w-full h-[48px] rounded-full bg-[#ff1681] text-white font-semibold text-[15px]">
-                      Register
-                    </button>
+                  <Link
+                    to="/register"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && e.button === 0) {
+                        setIsOpen(false);
+                      }
+                    }}
+                    className="w-full h-[48px] rounded-full bg-[#ff1681] text-white font-semibold text-[15px] flex items-center justify-center hover:brightness-110"
+                  >
+                    Register
                   </Link>
                 </div>
               )}

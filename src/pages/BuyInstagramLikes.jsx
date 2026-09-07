@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
+import InputValidationPopup from "../components/InputValidationPopup";
 import Tiky from "../assets/images/Instagramlikesbg.png";
 import Username from "../assets/images/username.png";
 import Post from "../assets/images/Likeimage.png";
@@ -41,9 +42,14 @@ export default function BuyInstagramLikes() {
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [validationError, setValidationError] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
 
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
+
+  // Search input ref
+  const searchInputRef = React.useRef(null);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -132,8 +138,14 @@ export default function BuyInstagramLikes() {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
-    const input = username.trim();
-    if (!input) return;
+    const input = (username || "").trim();
+    if (!input) {
+      setValidationError("Please enter your Instagram username here...");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      searchInputRef.current?.focus();
+      return;
+    }
 
     const isProfileLink = input.includes("instagram.com") && !input.includes("/p/") && !input.includes("/reel/");
     const isPostLink = input.includes("instagram.com") && (input.includes("/p/") || input.includes("/reel/"));
@@ -184,6 +196,13 @@ export default function BuyInstagramLikes() {
 
   const scrollToSearch = () => {
     document.getElementById("instagram-search-box")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 400);
+  };
+
+  const handlePackagesClick = () => {
+    document.getElementById("quick-package-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   // 7 FAQs from PDF
@@ -387,19 +406,33 @@ export default function BuyInstagramLikes() {
                 )}
 
                 {/* Input Search Form */}
-                <form onSubmit={handleSearchSubmit} className="w-full">
+                <form onSubmit={handleSearchSubmit} className="w-full relative">
+                  <InputValidationPopup
+                    show={!!validationError}
+                    message={validationError}
+                    onClose={() => setValidationError("")}
+                  />
                   <div
-                    className={`flex items-center bg-white rounded-full p-1.5 w-full h-[58px] sm:h-[62px] transition-all duration-300 shadow-2xl ${isFocused ? "ring-4 ring-pink-500/30 border-2 border-pink-500" : "border border-slate-200"
-                      }`}
+                    className={`flex items-center bg-white rounded-full p-1.5 w-full h-[58px] sm:h-[62px] transition-all duration-300 shadow-2xl ${
+                      validationError
+                        ? "ring-4 ring-pink-500/40 border-2 border-pink-500 shadow-pink-500/20"
+                        : isFocused
+                          ? "ring-4 ring-pink-500/30 border-2 border-pink-500"
+                          : "border border-slate-200"
+                    } ${isShaking ? "animate-input-shake" : ""}`}
                   >
                     <div className="flex-shrink-0 w-11 h-11 rounded-full bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 flex items-center justify-center ml-1 shadow-md">
                       <FaInstagram className="text-white text-xl" />
                     </div>
 
                     <input
+                      ref={searchInputRef}
                       type="text"
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                        if (validationError) setValidationError("");
+                      }}
                       onFocus={() => setIsFocused(true)}
                       onBlur={() => setIsFocused(false)}
                       placeholder={
@@ -646,7 +679,7 @@ export default function BuyInstagramLikes() {
               No more waiting, just growing
             </p>
             <button
-              onClick={scrollToSearch}
+              onClick={handlePackagesClick}
               className="px-10 py-4 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-base sm:text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               Buy Real Likes
@@ -791,7 +824,7 @@ export default function BuyInstagramLikes() {
           </p>
           <div>
             <button
-              onClick={scrollToSearch}
+              onClick={handlePackagesClick}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-pink-600 hover:bg-slate-100 font-extrabold text-base transition-all duration-200 shadow-xl hover:scale-105 cursor-pointer"
             >
               Purchase Likes <ArrowRight className="w-5 h-5" />

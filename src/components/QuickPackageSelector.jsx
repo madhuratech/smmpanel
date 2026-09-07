@@ -123,10 +123,25 @@ export default function QuickPackageSelector({
     );
   }
 
-  const displayPlatform = platform ? platform.charAt(0).toUpperCase() + platform.slice(1) : "Social";
+  const formatPlatform = (name) => {
+    if (!name) return "Social";
+    const lower = name.toLowerCase().trim();
+    if (lower === "tiktok") return "TikTok";
+    if (lower === "youtube") return "YouTube";
+    if (lower === "instagram") return "Instagram";
+    if (lower === "facebook") return "Facebook";
+    if (lower === "twitter") return "Twitter";
+    if (lower === "spotify") return "Spotify";
+    if (lower === "telegram") return "Telegram";
+    if (lower === "threads") return "Threads";
+    if (lower === "soundcloud") return "SoundCloud";
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
+
+  const displayPlatform = formatPlatform(platform);
 
   return (
-    <section className="py-10 sm:py-16 px-4 sm:px-6 bg-slate-50 relative overflow-hidden text-slate-800 border-t border-b border-slate-200/80">
+    <section id="quick-package-section" className="py-10 sm:py-16 px-4 sm:px-6 bg-slate-50 relative overflow-hidden text-slate-800 border-t border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">

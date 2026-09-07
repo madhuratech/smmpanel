@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import API_URL from "../config/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import InputValidationPopup from "../components/InputValidationPopup";
 import bgImage from "../assets/images/direct_link_bg.png";
 
 const detectServiceType = (name, category) => {
@@ -80,11 +81,20 @@ export default function DirectOrderService() {
   const [pricingMap, setPricingMap] = useState({});
   const [localLink, setLocalLink] = useState(orderLink || "");
   const [currentLinkType, setCurrentLinkType] = useState(linkType || "profile");
+  const [validationError, setValidationError] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
+  const inputRef = useRef(null);
 
   const handleSearchSubmit = (e) => {
     if (e) e.preventDefault();
-    if (!localLink.trim()) return;
-    const input = localLink.trim();
+    const input = (localLink || "").trim();
+    if (!input) {
+      setValidationError("Please enter your profile link or username here...");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      inputRef.current?.focus();
+      return;
+    }
     const isPost = input.includes("/p/") || input.includes("/reel/") || input.includes("/video/") || input.includes("/posts/") || input.includes("/watch?v=") || input.includes("/watch") || input.includes("/track/");
     setCurrentLinkType(isPost ? "post" : "profile");
   };
@@ -134,6 +144,15 @@ export default function DirectOrderService() {
 
   // ── Navigate to Quantity Page ─────────────────────────────────
   const handleService = (service) => {
+    const input = (localLink || "").trim();
+    if (!input) {
+      setValidationError("Please enter your profile link or username first...");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      inputRef.current?.focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     const key = getServiceKey(platform, service.name);
     const pricing = pricingMap[key] || {};
     navigate("/quantity-pricing", {
@@ -384,8 +403,18 @@ export default function DirectOrderService() {
           {/* Profile / Target Link search bar */}
           <form
             onSubmit={handleSearchSubmit}
-            className="w-full max-w-2xl bg-white rounded-full p-1.5 flex items-center shadow-lg border border-white/20"
+            className={`w-full max-w-2xl bg-white rounded-full p-1.5 flex items-center shadow-lg border relative transition-all duration-300 ${
+              validationError
+                ? "border-pink-500 ring-4 ring-pink-500/40 shadow-pink-500/20"
+                : "border-white/20"
+            } ${isShaking ? "animate-input-shake" : ""}`}
           >
+            <InputValidationPopup
+              show={!!validationError}
+              message={validationError}
+              onClose={() => setValidationError("")}
+            />
+
             {/* Platform Circular Badge */}
             <div className="flex-shrink-0 w-11 h-11 rounded-full bg-slate-900 flex items-center justify-center ml-1 text-lg shadow">
               {config.icon}
@@ -393,9 +422,13 @@ export default function DirectOrderService() {
 
             {/* Input Field */}
             <input
+              ref={inputRef}
               type="text"
               value={localLink}
-              onChange={(e) => setLocalLink(e.target.value)}
+              onChange={(e) => {
+                setLocalLink(e.target.value);
+                if (validationError) setValidationError("");
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   handleSearchSubmit(e);

@@ -14,63 +14,63 @@ export default function Login() {
     setError('');
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  setError("");
+    setError("");
 
-  try {
+    try {
 
-    const response = await fetch(
-      `${API_URL}/api/auth/login`,
-      {
-        method: "POST",
+      const response = await fetch(
+        `${API_URL}/api/auth/login`,
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+          headers: {
+            "Content-Type": "application/json",
+          },
 
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.message || "Login Failed"
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
       );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Login Failed"
+        );
+      }
+
+      // SAVE TOKEN
+      localStorage.setItem(
+        "token",
+        data.token
+      );
+
+      // SAVE USER
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
+
+      navigate("/");
+
+    } catch (err) {
+
+      setError(err.message);
+
+    } finally {
+
+      setIsLoading(false);
     }
-
-    // SAVE TOKEN
-    localStorage.setItem(
-      "token",
-      data.token
-    );
-
-    // SAVE USER
-    localStorage.setItem(
-      "user",
-      JSON.stringify(data.user)
-    );
-
-    navigate("/");
-
-  } catch (err) {
-
-    setError(err.message);
-
-  } finally {
-
-    setIsLoading(false);
-  }
-};
+  };
 
   const handleGoogleResponse = async (response) => {
     setIsLoading(true);
@@ -127,7 +127,7 @@ const handleSubmit = async (e) => {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-gray-600">Login to your SocialBoost account</p>
+          <p className="text-gray-600">Login to your TikyTop account</p>
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">

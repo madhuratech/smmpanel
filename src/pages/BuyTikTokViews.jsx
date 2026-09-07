@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
+import InputValidationPopup from "../components/InputValidationPopup";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
@@ -37,9 +38,14 @@ export default function BuyTikTokViews() {
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [validationError, setValidationError] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
 
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
+
+  // Search input ref
+  const searchInputRef = React.useRef(null);
 
   // Testimonials Auto-scroll Carousel Ref
   const scrollContainerRef = React.useRef(null);
@@ -211,8 +217,14 @@ export default function BuyTikTokViews() {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
-    const input = username.trim();
-    if (!input) return;
+    const input = (username || "").trim();
+    if (!input) {
+      setValidationError("Please enter your TikTok username here...");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      searchInputRef.current?.focus();
+      return;
+    }
 
     const isProfileLink = input.includes("tiktok.com") && !input.includes("/video/");
     const isPostLink = input.includes("tiktok.com") && input.includes("/video/");
@@ -263,6 +275,13 @@ export default function BuyTikTokViews() {
 
   const handleCTAClick = () => {
     document.getElementById("tiktok-search-box")?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 400);
+  };
+
+  const handlePackagesClick = () => {
+    document.getElementById("quick-package-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -375,13 +394,22 @@ export default function BuyTikTokViews() {
                 </div>
               )}
               <form onSubmit={handleSearchSubmit} className="w-full relative">
+                <InputValidationPopup
+                  show={!!validationError}
+                  message={validationError}
+                  onClose={() => setValidationError("")}
+                />
                 <div
                   style={{
-                    boxShadow: isFocused
-                      ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
-                      : "0 20px 50px rgba(0,0,0,0.12)"
+                    boxShadow: validationError
+                      ? "0 20px 50px rgba(255,0,142,0.25), 0 0 0 4px rgba(255, 0, 142, 0.45)"
+                      : isFocused
+                        ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
+                        : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
+                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${
+                    isShaking ? "animate-input-shake" : ""
+                  }`}
                 >
                   {/* Active Platform Card style: TikTok Icon */}
                   <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
@@ -390,9 +418,13 @@ export default function BuyTikTokViews() {
 
                   {/* Input Field */}
                   <input
+                    ref={searchInputRef}
                     type="text"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                      if (validationError) setValidationError("");
+                    }}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     onKeyDown={(e) => {
@@ -734,7 +766,7 @@ export default function BuyTikTokViews() {
 
             {/* Premium Button */}
             <button
-              onClick={handleCTAClick}
+              onClick={handlePackagesClick}
               className="inline-flex items-center justify-center px-8 py-3 rounded-full text-white font-bold text-sm sm:text-[15px] bg-[#ff1788] hover:bg-[#ff2e9c] hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,23,136,0.3)] transition-all duration-300 select-none cursor-pointer"
             >
               Buy Views
@@ -897,7 +929,7 @@ export default function BuyTikTokViews() {
             <p className="text-lg text-gray-700 mb-8 leading-relaxed max-w-2xl mx-auto">
               You can purchase real TikTok views without sharing any of your details. Just your username is enough, and no more details are required.             </p>
             <button
-              onClick={handleCTAClick}
+              onClick={handlePackagesClick}
               className="px-10 py-4.5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105"
             >
               Grow Account Now

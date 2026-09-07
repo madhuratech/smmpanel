@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
+import InputValidationPopup from "../components/InputValidationPopup";
 import Tiky from "../assets/images/Instagramlikesbg.png";
 import Username from "../assets/images/username.png";
 import Post from "../assets/images/Likeimage.png";
@@ -44,9 +45,14 @@ export default function BuyInstagramViews() {
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [validationError, setValidationError] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
 
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
+
+  // Search input ref
+  const searchInputRef = React.useRef(null);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -135,8 +141,14 @@ export default function BuyInstagramViews() {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
-    const input = username.trim();
-    if (!input) return;
+    const input = (username || "").trim();
+    if (!input) {
+      setValidationError("Please enter your Instagram username here...");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      searchInputRef.current?.focus();
+      return;
+    }
 
     const isProfileLink = input.includes("instagram.com") && !input.includes("/p/") && !input.includes("/reel/");
     const isPostLink = input.includes("instagram.com") && (input.includes("/p/") || input.includes("/reel/"));
@@ -187,6 +199,13 @@ export default function BuyInstagramViews() {
 
   const scrollToSearch = () => {
     document.getElementById("instagram-search-box")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 400);
+  };
+
+  const handlePackagesClick = () => {
+    document.getElementById("quick-package-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   // 7 FAQs from PDF
@@ -413,19 +432,33 @@ export default function BuyInstagramViews() {
                 )}
 
                 {/* Input Search Form */}
-                <form onSubmit={handleSearchSubmit} className="w-full">
+                <form onSubmit={handleSearchSubmit} className="w-full relative">
+                  <InputValidationPopup
+                    show={!!validationError}
+                    message={validationError}
+                    onClose={() => setValidationError("")}
+                  />
                   <div
-                    className={`flex items-center bg-white rounded-full p-1.5 w-full h-[58px] sm:h-[62px] transition-all duration-300 shadow-2xl ${isFocused ? "ring-4 ring-pink-500/30 border-2 border-pink-500" : "border border-slate-200"
-                      }`}
+                    className={`flex items-center bg-white rounded-full p-1.5 w-full h-[58px] sm:h-[62px] transition-all duration-300 shadow-2xl ${
+                      validationError
+                        ? "ring-4 ring-pink-500/40 border-2 border-pink-500 shadow-pink-500/20"
+                        : isFocused
+                          ? "ring-4 ring-pink-500/30 border-2 border-pink-500"
+                          : "border border-slate-200"
+                    } ${isShaking ? "animate-input-shake" : ""}`}
                   >
                     <div className="flex-shrink-0 w-11 h-11 rounded-full bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 flex items-center justify-center ml-1 shadow-md">
                       <FaInstagram className="text-white text-xl" />
                     </div>
 
                     <input
+                      ref={searchInputRef}
                       type="text"
                       value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => {
+                        setUsername(e.target.value);
+                        if (validationError) setValidationError("");
+                      }}
                       onFocus={() => setIsFocused(true)}
                       onBlur={() => setIsFocused(false)}
                       placeholder={
@@ -671,7 +704,7 @@ export default function BuyInstagramViews() {
               Get your Instagram views in just a few moments! Finally, make your profile have quality engagement.
             </p>
             <button
-              onClick={scrollToSearch}
+              onClick={handlePackagesClick}
               className="px-10 py-4 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-base sm:text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               Click Here
@@ -807,7 +840,7 @@ export default function BuyInstagramViews() {
           </p>
           <div>
             <button
-              onClick={scrollToSearch}
+              onClick={handlePackagesClick}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-pink-600 hover:bg-slate-100 font-extrabold text-base transition-all duration-200 shadow-xl hover:scale-105 cursor-pointer"
             >
               Grow Profile <ArrowRight className="w-5 h-5" />
@@ -829,38 +862,38 @@ export default function BuyInstagramViews() {
           </div>
 
           {/* Comparison Table Card */}
-          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden">
-            <div className="overflow-x-auto">
+          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden p-2 sm:p-4">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200/70">
               <table className="w-full text-left border-collapse table-fixed">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-900 text-white">
-                    <th className="w-1/2 py-5 px-6 sm:px-8 font-extrabold text-sm sm:text-base uppercase tracking-wider text-pink-400 bg-slate-800/80 border-r border-slate-700/50">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse" />
+                    <th className="w-1/2 py-6 px-6 sm:px-10 font-extrabold text-base sm:text-lg uppercase tracking-wider text-pink-400 bg-slate-800/90 border-r border-slate-700/60">
+                      <div className="flex items-center gap-3">
+                        <span className="w-3 h-3 rounded-full bg-pink-500 shadow-md shadow-pink-500/50 animate-pulse" />
                         <span>TikyTop.com</span>
                       </div>
                     </th>
-                    <th className="w-1/2 py-5 px-6 sm:px-8 font-extrabold text-sm sm:text-base uppercase tracking-wider text-slate-400">
+                    <th className="w-1/2 py-6 px-6 sm:px-10 font-extrabold text-base sm:text-lg uppercase tracking-wider text-slate-400 bg-slate-900">
                       Others
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-sm sm:text-base">
+                <tbody className="divide-y divide-slate-100 text-[15px] sm:text-[17px]">
                   {comparisonData.map((row, idx) => (
                     <tr
                       key={idx}
-                      className={idx % 2 === 0 ? "bg-white hover:bg-slate-50/80 transition-colors" : "bg-slate-50/40 hover:bg-slate-50 transition-colors"}
+                      className={idx % 2 === 0 ? "bg-white hover:bg-slate-50/90 transition-colors" : "bg-slate-50/50 hover:bg-slate-100/70 transition-colors"}
                     >
-                      <td className="py-4.5 px-6 sm:px-8 font-semibold text-slate-900 bg-pink-50/30 border-r border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <CheckCircle2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
-                          <span className="font-semibold text-slate-900">{row.tikytop}</span>
+                      <td className="py-5 sm:py-6 px-6 sm:px-10 font-bold text-slate-900 bg-pink-50/25 border-r border-slate-100">
+                        <div className="flex items-center gap-3.5">
+                          <CheckCircle2 className="w-5 sm:w-6 h-5 sm:h-6 text-pink-500 flex-shrink-0" />
+                          <span className="font-bold text-slate-900 leading-snug">{row.tikytop}</span>
                         </div>
                       </td>
-                      <td className="py-4.5 px-6 sm:px-8 text-slate-500 font-medium">
-                        <div className="flex items-center gap-3">
-                          <XCircle className="w-5 h-5 text-slate-400 flex-shrink-0" />
-                          <span>{row.others}</span>
+                      <td className="py-5 sm:py-6 px-6 sm:px-10 text-slate-500 font-medium">
+                        <div className="flex items-center gap-3.5">
+                          <XCircle className="w-5 sm:w-6 h-5 sm:h-6 text-slate-400 flex-shrink-0" />
+                          <span className="leading-snug">{row.others}</span>
                         </div>
                       </td>
                     </tr>

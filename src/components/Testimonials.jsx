@@ -53,7 +53,12 @@ export default function Testimonials() {
     }
   ]
 
-  const duplicatedTestimonials = [...testimonials, ...testimonials]
+  const duplicatedTestimonials = [
+    ...testimonials,
+    ...testimonials,
+    ...testimonials,
+    ...testimonials
+  ]
 
   const isHoveredRef = useRef(false)
 
@@ -64,8 +69,8 @@ export default function Testimonials() {
     let animationId
 
     const autoScroll = () => {
-      if (!isHoveredRef.current) {
-        scrollContainer.scrollLeft += 0.5
+      if (!isHoveredRef.current && scrollContainer) {
+        scrollContainer.scrollLeft += 0.8
         if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
           scrollContainer.scrollLeft = 0
         }
@@ -79,28 +84,30 @@ export default function Testimonials() {
   }, [])
 
   const TestimonialCard = ({ testimonial }) => (
-    <div className="flex-shrink-0 w-80 mx-4 global-card transition-all duration-500 hover:scale-105 
-    bg-white border border-pink-100 hover:shadow-pink-200/50 relative overflow-hidden group">
+    <div className="flex-shrink-0 w-80 sm:w-[350px] mx-3 sm:mx-4 global-card transition-all duration-300 hover:scale-[1.02] 
+    bg-white border border-pink-100 hover:shadow-xl hover:shadow-pink-200/50 relative overflow-hidden group flex flex-col justify-between">
 
       {/* Glow Effect */}
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/20 blur-3xl rounded-full"></div>
 
-      {/* Stars */}
-      <div className="flex gap-1 mb-4">
-        {[...Array(testimonial.rating)].map((_, i) => (
-          <svg key={i} className="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-        ))}
+      <div>
+        {/* Stars */}
+        <div className="flex gap-1 mb-4">
+          {[...Array(testimonial.rating)].map((_, i) => (
+            <svg key={i} className="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+
+        {/* Text */}
+        <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">
+          "{testimonial.text}"
+        </p>
       </div>
 
-      {/* Text */}
-      <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">
-        "{testimonial.text}"
-      </p>
-
       {/* Profile */}
-      <div className="flex items-center gap-3 pt-4 border-t border-pink-100">
+      <div className="flex items-center gap-3 pt-4 border-t border-pink-100 mt-auto">
         <img 
           src={testimonial.avatar}
           alt={testimonial.name}
@@ -119,34 +126,37 @@ export default function Testimonials() {
   )
 
   return (
-    <div className="section-spacing bg-gradient-to-b from-pink-50 via-white to-pink-100 overflow-hidden">
+    <div className="section-spacing bg-gradient-to-b from-pink-50 via-white to-pink-100 overflow-hidden relative py-16">
+      {/* Header inside global-container */}
       <div className="global-container">
-
-        {/* Header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-12">
           <h2 className="section-heading font-bold text-gray-900 mb-4">
             What Our Esteemed Users Say About TikyTop
           </h2>
-        
         </div>
+      </div>
 
-        {/* Carousel */}
+      {/* Full-width Carousel with edge fade */}
+      <div className="w-full relative py-4">
         <div
           ref={scrollRef}
           onMouseEnter={() => (isHoveredRef.current = true)}
           onMouseLeave={() => (isHoveredRef.current = false)}
-          className="flex overflow-x-auto scrollbar-hide"
+          className="flex overflow-x-auto scrollbar-hide py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
         >
           {duplicatedTestimonials.map((testimonial, index) => (
             <TestimonialCard key={index} testimonial={testimonial} />
           ))}
         </div>
-
       </div>
 
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </div>

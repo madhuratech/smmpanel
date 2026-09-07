@@ -1,6 +1,24 @@
+import { useState, useRef } from "react";
 import { FaInstagram, FaSearch } from "react-icons/fa";
+import InputValidationPopup from "./InputValidationPopup";
 
 export default function Search() {
+  const [username, setUsername] = useState("");
+  const [validationError, setValidationError] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!username.trim()) {
+      setValidationError("Please enter your Instagram username here...");
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      inputRef.current?.focus();
+      return;
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#f3e7ff] via-[#f8ecff] to-[#fdf2ff]">
 
@@ -32,22 +50,40 @@ export default function Search() {
           profile organically.
         </p>
         {/* SEARCH BAR */}
-        <form onSubmit={(e) => e.preventDefault()} className="flex items-center bg-white rounded-full shadow-md overflow-hidden max-w-xl mx-auto">
-          {/* INPUT */}
-          <div className="flex items-center px-4 w-full">
-            <span className="text-gray-400 mr-2">@</span>
-            <input
-              type="text"
-              placeholder="Enter Instagram username"
-              className="w-full py-3 outline-none text-gray-700"
-            />
-          </div>
-          {/* BUTTON */}
-          <button type="submit" className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold hover:opacity-90 transition">
-            <FaSearch />
-            SEARCH
-          </button>
-        </form>
+        <div className="relative max-w-xl mx-auto">
+          <InputValidationPopup
+            show={!!validationError}
+            message={validationError}
+            onClose={() => setValidationError("")}
+          />
+          <form
+            onSubmit={handleSubmit}
+            className={`flex items-center bg-white rounded-full shadow-md overflow-hidden transition-all duration-300 ${
+              validationError ? "ring-4 ring-pink-500/40 border-2 border-pink-500" : ""
+            } ${isShaking ? "animate-input-shake" : ""}`}
+          >
+            {/* INPUT */}
+            <div className="flex items-center px-4 w-full">
+              <span className="text-gray-400 mr-2">@</span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  if (validationError) setValidationError("");
+                }}
+                placeholder="Enter Instagram username"
+                className="w-full py-3 outline-none text-gray-700"
+              />
+            </div>
+            {/* BUTTON */}
+            <button type="submit" className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold hover:opacity-90 transition">
+              <FaSearch />
+              SEARCH
+            </button>
+          </form>
+        </div>
         {/* STATS */}
         <div className="flex justify-center gap-12 mt-10 text-center">
           <div>

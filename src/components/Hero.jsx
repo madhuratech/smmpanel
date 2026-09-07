@@ -24,6 +24,7 @@ import {
 import { FaThreads, FaXTwitter } from "react-icons/fa6";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import InputValidationPopup from "./InputValidationPopup";
 import Tiky from "../assets/images/Landingpage2.png";
 
 const EXTRA_PLATFORMS = [
@@ -61,8 +62,9 @@ export default function Hero({ platform: propPlatform, onSearch }) {
       }
     }
 
-    // 2) Fallback to prop or location state
-    const targetPlatform = propPlatform || location.state?.selectPlatform;
+    // 2) Fallback to prop, location state, or search params (for new tabs)
+    const searchParamPlatform = new URLSearchParams(location.search).get('platform') || new URLSearchParams(location.search).get('selectPlatform');
+    const targetPlatform = propPlatform || location.state?.selectPlatform || searchParamPlatform;
     if (targetPlatform) {
       const name = targetPlatform.toLowerCase();
       if (name === "tiktok") return "TikTok";
@@ -81,7 +83,10 @@ export default function Hero({ platform: propPlatform, onSearch }) {
   const [showPopup, setShowPopup] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [rotateIcon, setRotateIcon] = useState(false);
+  const [validationError, setValidationError] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
   const popupRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Platform Icon helper
   const getPlatformIcon = (platformName) => {
@@ -178,7 +183,8 @@ export default function Hero({ platform: propPlatform, onSearch }) {
   }, []);
 
   useEffect(() => {
-    let targetPlatform = propPlatform || location.state?.selectPlatform;
+    const searchParamPlatform = new URLSearchParams(location.search).get('platform') || new URLSearchParams(location.search).get('selectPlatform');
+    let targetPlatform = propPlatform || location.state?.selectPlatform || searchParamPlatform;
     if (location.pathname.startsWith('/buy-')) {
       const parts = location.pathname.split('-');
       if (parts.length >= 3) {
@@ -201,7 +207,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
       setRotateIcon(true);
       clearCaches();
     }
-  }, [propPlatform, location.state, location.pathname]);
+  }, [propPlatform, location.state, location.pathname, location.search]);
 
   const detectInputType = (input) => {
     const value = input.trim();
@@ -274,9 +280,15 @@ export default function Hero({ platform: propPlatform, onSearch }) {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
-    if (!username) return;
-
-    const input = username.trim();
+    const input = (username || "").trim();
+    if (!input) {
+      const msg = `Please enter your ${active} username or link here...`;
+      setValidationError(msg);
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 450);
+      inputRef.current?.focus();
+      return;
+    }
 
     // =========================
     // DETECT PLATFORM
@@ -552,7 +564,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
                                   right: '-28px',
                                   left: 'auto',
                                   transform: 'none',
-                                  zIndex: 99999,
+                                  zIndex: 999999,
                                   width: 'min(360px, calc(100vw - 24px))'
                                 }}
                                 className="bg-white border border-gray-200 rounded-[24px] p-4 shadow-2xl max-h-[70vh] overflow-y-auto overflow-x-hidden no-scrollbar"
@@ -596,7 +608,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
                                   top: 'calc(100% + 12px)',
                                   left: '50%',
                                   transform: 'translateX(-50%)',
-                                  zIndex: 9999,
+                                  zIndex: 999999,
                                   width: '520px'
                                 }}
                                 className="bg-white border border-gray-200 rounded-[24px] p-5 shadow-2xl max-h-[400px] overflow-y-auto no-scrollbar"
@@ -632,7 +644,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
                                   top: 'calc(100% + 12px)',
                                   left: '0',
                                   transform: 'none',
-                                  zIndex: 99999,
+                                  zIndex: 999999,
                                   width: '680px'
                                 }}
                                 className="bg-white border border-gray-200 rounded-[24px] p-6 shadow-2xl"
@@ -666,15 +678,23 @@ export default function Hero({ platform: propPlatform, onSearch }) {
               {/* Search Bar Wrapper */}
               <form
                 onSubmit={Getuser}
-                className="global-input-wrapper max-w-xl w-full"
+                className="global-input-wrapper max-w-xl w-full relative"
               >
+                <InputValidationPopup
+                  show={!!validationError}
+                  message={validationError}
+                  onClose={() => setValidationError("")}
+                />
                 <div
                   style={{
-                    boxShadow: isFocused
-                      ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
-                      : "0 20px 50px rgba(0,0,0,0.12)"
+                    boxShadow: validationError
+                      ? "0 20px 50px rgba(255,0,142,0.25), 0 0 0 4px rgba(255, 0, 142, 0.45)"
+                      : isFocused
+                        ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
+                        : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className="flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative"
+                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${isShaking ? "animate-input-shake" : ""
+                    }`}
                 >
                   {/* Left Platform Icon Container */}
                   <div
@@ -688,9 +708,13 @@ export default function Hero({ platform: propPlatform, onSearch }) {
 
                   {/* Input Field */}
                   <input
+                    ref={inputRef}
                     type="text"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                      if (validationError) setValidationError("");
+                    }}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     onKeyDown={(e) => {
@@ -792,7 +816,7 @@ export default function Hero({ platform: propPlatform, onSearch }) {
       </div>
 
       {/* Premium Wave Transition Layer */}
-      <div className="absolute bottom-[-3px] left-0 right-0 w-full overflow-hidden leading-[0] z-10 pointer-events-none">
+      <div className="absolute bottom-[-3px] left-0 right-0 w-full overflow-hidden leading-[0] z-[3] pointer-events-none">
         <svg
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"

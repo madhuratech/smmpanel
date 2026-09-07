@@ -23,7 +23,7 @@ const Register = () => {
     }));
     // Clear error when user starts typing
     if (error) setError('');
-  };  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,46 +45,46 @@ const Register = () => {
 
     try {
 
-  const response = await fetch(
-    `${API_URL}/api/auth/register`,
-    {
-      method: "POST",
+      const response = await fetch(
+        `${API_URL}/api/auth/register`,
+        {
+          method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+          headers: {
+            "Content-Type": "application/json",
+          },
 
-      body: JSON.stringify({
-        fullname: formData.fullname,
-        email: formData.email,
-        password: formData.password,
-        confirmpassword:
-          formData.confirmpassword,
-      }),
+          body: JSON.stringify({
+            fullname: formData.fullname,
+            email: formData.email,
+            password: formData.password,
+            confirmpassword:
+              formData.confirmpassword,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Registration failed"
+        );
+      }
+
+      alert("Registration Successful");
+
+      navigate("/login");
+
+    } catch (err) {
+
+      setError(err.message);
+
+    } finally {
+
+      setIsLoading(false);
     }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(
-      data.message || "Registration failed"
-    );
-  }
-
-  alert("Registration Successful");
-
-  navigate("/login");
-
-} catch (err) {
-
-  setError(err.message);
-
-  } finally {
-
-    setIsLoading(false);
-  }
- };
+  };
 
   const handleGoogleResponse = async (response) => {
     setIsLoading(true);
@@ -135,14 +135,14 @@ const Register = () => {
       document.body.removeChild(script);
     };
   }, []);
- 
+
 
   return (
     <div className="min-h-screen bg-transparent flex items-center justify-center pt-28 pb-8 sm:pt-32 sm:pb-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2">Create Account</h1>
-          <p className="text-gray-600">Join SocialBoost and start growing today</p>
+          <p className="text-gray-600">Join TikyTop and start growing today</p>
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
