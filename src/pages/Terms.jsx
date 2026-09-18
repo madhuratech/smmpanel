@@ -7,7 +7,7 @@ export default function Terms() {
   return (
     <div className="bg-white min-h-screen font-sans antialiased text-[#223a5e] pt-32 pb-16 md:pt-40 md:pb-24 px-6">
       <div className="max-w-4xl mx-auto">
-        
+
         {/* Large bold page heading */}
         <div className="border-b border-gray-100 pb-8 mb-8 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold text-[#11223f] tracking-tight relative inline-block pb-3">
@@ -18,7 +18,7 @@ export default function Terms() {
 
         {/* Content Area */}
         <div className="space-y-8 text-base md:text-lg leading-relaxed text-[#223a5e]">
-          
+
           <section className="space-y-3">
             <h2 className="text-xl md:text-2xl font-bold text-[#11223f]">Welcome to TikyTop!</h2>
             <p>
@@ -55,20 +55,10 @@ export default function Terms() {
             </p>
           </section>
 
-          <section className="space-y-3">
-            <h2 className="text-xl md:text-2xl font-bold text-[#11223f]">What do we Collect?</h2>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Your name and email for updates and support.</li>
-              <li>Social media username(public account only).</li>
-            </ul>
-            <p>
-              We never ask for your passwords or any sensitive data.
-            </p>
-          </section>
-
+          {/* Doe's Dont'does */}
           <section className="space-y-4">
             <h2 className="text-xl md:text-2xl font-bold text-[#11223f]">Dos and Don'ts:</h2>
-            
+
             <div className="pl-4 space-y-3">
               <h3 className="text-lg font-semibold text-[#ff1681]">Dos:</h3>
               <ul className="list-disc pl-6 space-y-2">
@@ -83,6 +73,17 @@ export default function Terms() {
                 <li>Collecting data from other users.</li>
               </ul>
             </div>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl md:text-2xl font-bold text-[#11223f]">What do we Collect?</h2>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>Your name and email for updates and support.</li>
+              <li>Social media username(public account only).</li>
+            </ul>
+            <p>
+              We never ask for your passwords or any sensitive data.
+            </p>
           </section>
 
           <section className="space-y-3">

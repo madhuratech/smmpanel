@@ -255,7 +255,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="z-[9999] font-sans absolute top-0 left-0 right-0 bg-transparent w-full">
+    <nav className="z-[9999] font-sans fixed top-0 left-0 right-0 bg-transparent w-full">
       <style>{`
         @keyframes ripple {
           0% {

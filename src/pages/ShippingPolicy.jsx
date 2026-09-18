@@ -171,7 +171,7 @@ export default function ShippingPolicy() {
             </div>
             <div className="pl-12">
               <p className="text-base sm:text-lg text-[#223a5e] leading-relaxed">
-                Sometimes, delivery may take longer than expected because of technical issues, social media platform changes, provider-side maintenance, server updates, or other unexpected reasons. We will do our best to keep you informed if there is any delay.
+                Sometimes, delivery may take longer than expected because of technical issues,natural disasters, wars, social media platform changes, provider-side maintenance, server updates, or other unexpected reasons. We will do our best to keep you informed if there is any delay.
               </p>
             </div>
           </section>
