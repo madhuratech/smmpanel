@@ -17,7 +17,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import { FaTiktok, FaStar } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
@@ -406,9 +406,8 @@ export default function BuyTikTokLikes() {
                         ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
                         : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${
-                    isShaking ? "animate-input-shake" : ""
-                  }`}
+                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${isShaking ? "animate-input-shake" : ""
+                    }`}
                 >
                   {/* Active Platform Card style: TikTok Icon */}
                   <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
@@ -833,7 +832,7 @@ export default function BuyTikTokLikes() {
               </div>
               <h3 className="font-bold text-gray-900 text-lg mb-2">High Engagement</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                The most important thing is that your content should not look inactive, and users should not skip your video. Each and every TikTok like matters more. That is where TikyTop comes in. We provide premium TikTok likes that receive strong engagement and visibility. As your engagement grows, connect with your audience globally.
+                The most important thing is that your content should not look inactive, and users should not skip your video. Each and every TikTok like matters more. That is where TikyTop comes in. We provide premium TikTok likes and you can also <Link to="/buy-tiktok-views" className="text-blue-500 hover:underline">buy TikTok views</Link> to receive strong engagement and visibility. As your engagement grows, connect with your audience globally.
               </p>
             </div>
 

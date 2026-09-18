@@ -18,7 +18,7 @@ import {
   Users,
 } from "lucide-react";
 import { FaTiktok, FaStar } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
@@ -388,9 +388,8 @@ export default function BuyTikTokFollowers() {
                         ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
                         : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${
-                    isShaking ? "animate-input-shake" : ""
-                  }`}
+                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${isShaking ? "animate-input-shake" : ""
+                    }`}
                 >
                   {/* TikTok Icon */}
                   <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
@@ -678,7 +677,7 @@ export default function BuyTikTokFollowers() {
               </div>
               <h3 className="font-bold text-gray-900 text-lg mb-2">Get Real Followers</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                When you buy TikTok followers from us, you will get real and active engagement. Many creators and influencers gain more engagement. No matter how engaged you are, more followers can help your profile grow even faster. TikyTop will connect you with real followers who align with your goals and needs.
+                When you buy TikTok followers from us, you will get real and active engagement. Many creators and influencers gain more engagement. No matter how engaged you are, more followers can help your profile grow even faster. TikyTop will connect you with real followers who align with your goals and needs.You can also<Link to="/buy-tiktok-likes" className="text-[#ff1788] hover:underline"> buy TikTok likes</Link> for better reach
               </p>
             </div>
 
@@ -806,7 +805,7 @@ export default function BuyTikTokFollowers() {
             </p>
             <button
               onClick={handlePackagesClick}
-              className="px-10 py-4.5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105"
+              className="px-10 py-5 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105"
             >
               See our Packages
             </button>

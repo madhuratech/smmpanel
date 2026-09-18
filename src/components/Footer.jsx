@@ -47,6 +47,12 @@ export default function Footer() {
               <li className="min-h-[44px] flex items-center">
                 <Link to="/refund-policy" className="transition duration-300 w-full hover:text-pink-500">Refund Policy</Link>
               </li>
+              <li className="min-h-[44px] flex items-center">
+                <Link to="/privacy-policy" className="transition duration-300 w-full hover:text-pink-500">Privacy Policy</Link>
+              </li>
+              <li className="min-h-[44px] flex items-center">
+                <Link to="/shipping-policy" className="transition duration-300 w-full hover:text-pink-500">Shipping & Tracking Policy</Link>
+              </li>
             </ul>
           </div>
 
@@ -105,7 +111,8 @@ export default function Footer() {
               © {new Date().getFullYear()} TikyTop. All rights reserved.
             </p>
             <ul className="flex flex-col gap-4 text-[14px] font-medium text-white/70">
-              <li className="cursor-pointer" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })}>Privacy Policy</li>
+              <li><Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link></li>
+              <li><Link to="/shipping-policy" className="hover:underline">Shipping & Tracking Policy</Link></li>
               <li><Link to="/terms" className="hover:underline">Terms & Conditions</Link></li>
               <li><Link to="/refund-policy" className="hover:underline">Refund Policy</Link></li>
               <li><Link to="/contact-us" className="hover:underline">Contact Us</Link></li>
@@ -138,6 +145,12 @@ export default function Footer() {
                 </li>
                 <li className="min-h-[44px] flex items-center">
                   <Link to="/refund-policy" className="hover:text-pink-500 transition duration-300">Refund Policy</Link>
+                </li>
+                <li className="min-h-[44px] flex items-center">
+                  <Link to="/privacy-policy" className="hover:text-pink-500 transition duration-300">Privacy Policy</Link>
+                </li>
+                <li className="min-h-[44px] flex items-center">
+                  <Link to="/shipping-policy" className="hover:text-pink-500 transition duration-300">Shipping & Tracking Policy</Link>
                 </li>
               </ul>
             </div>

@@ -407,9 +407,8 @@ export default function BuyTikTokViews() {
                         ? "0 20px 50px rgba(0,0,0,0.12), 0 0 0 4px rgba(255, 0, 142, 0.25)"
                         : "0 20px 50px rgba(0,0,0,0.12)"
                   }}
-                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${
-                    isShaking ? "animate-input-shake" : ""
-                  }`}
+                  className={`flex items-center bg-white rounded-full p-1.5 w-full h-[60px] transition-all duration-300 transform hover:-translate-y-1 relative ${isShaking ? "animate-input-shake" : ""
+                    }`}
                 >
                   {/* Active Platform Card style: TikTok Icon */}
                   <div className="flex-shrink-0 w-[44px] h-[44px] rounded-full bg-slate-900 border border-pink-500/50 flex items-center justify-center ml-1 animate-pulse shadow-[0_0_15px_rgba(236,72,153,0.3)]">
@@ -815,8 +814,7 @@ export default function BuyTikTokViews() {
               </div>
               <h3 className="font-bold text-gray-900 text-lg mb-2">Strong Video Presence</h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Can you buy views on TikTok to strengthen your video? Of course you can do it. We help you reach a new audience and improve your video performance. The video can be about a brand, a promotional video, or an entertaining video; we help you out. Whenever you need a video boost, we will support you.
-              </p>
+                Can you buy views on TikTok to strengthen your video? Of course you can do it. We help you reach a new audience and improve your video performance. The video can be about a brand, a promotional video, or an entertaining video; we help you out. Whenever you need a video boost, we will support you. We also offer an option to <a href="https://tikytop.com/buy-tiktok-followers" className="text-[#f467a4] hover:underline">buy TikTok followers</a>, so your profile can be improved.               </p>
             </div>
 
             {/* Benefit 4 */}

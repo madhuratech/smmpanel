@@ -26,10 +26,13 @@ import BuyTikTokViews from './pages/BuyTikTokViews';
 import BuyTikTokFollowers from './pages/BuyTikTokFollowers';
 import BuyInstagramLikes from './pages/BuyInstagramLikes';
 import BuyInstagramViews from './pages/BuyInstagramViews';
+import BuyInstagramFollowers from './pages/BuyInstagramFollowers';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
 import Terms from './pages/Terms';
 import RefundPolicy from './pages/RefundPolicy';
+import PrivacyPolicy from './pages/LegalPrivacy';
+import ShippingPolicy from './pages/ShippingPolicy';
 
 export default function AppRoutes() {
   return (
@@ -39,6 +42,9 @@ export default function AppRoutes() {
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/refund-policy" element={<RefundPolicy />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/shipping-policy" element={<ShippingPolicy />} />
+      <Route path="/shipping-and-tracking-policy" element={<ShippingPolicy />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
@@ -55,7 +61,7 @@ export default function AppRoutes() {
       <Route path="/instagram" element={<Instagram />} />
       <Route path="/buy-instagram-likes" element={<BuyInstagramLikes />} />
       <Route path="/buy-instagram-views" element={<BuyInstagramViews />} />
-      <Route path="/buy-instagram-followers" element={<Instagram />} />
+      <Route path="/buy-instagram-followers" element={<BuyInstagramFollowers />} />
       <Route path="/buy-instagram-comments" element={<Instagram />} />
       
       <Route path="/facebook" element={<Facebook />} />
