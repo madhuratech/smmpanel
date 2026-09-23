@@ -359,33 +359,33 @@ export default function BuyInstagramLikes() {
               </p>
 
               {/* 3 Highlight Benefits */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-lg pt-1">
-                <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 px-2.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm font-semibold text-slate-200">
-                  <ShieldCheck className="w-4 h-4 text-pink-400 flex-shrink-0" />
-                  <span className="truncate">No Drops</span>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-2.5 w-full max-w-xl pt-1">
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-medium text-slate-200 shadow-sm backdrop-blur-sm whitespace-nowrap">
+                  <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-pink-400 flex-shrink-0" />
+                  <span>No Drops</span>
                 </div>
-                <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 px-2.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm font-semibold text-slate-200">
-                  <UserCheck className="w-4 h-4 text-pink-400 flex-shrink-0" />
-                  <span className="truncate">Real Likes</span>
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-medium text-slate-200 shadow-sm backdrop-blur-sm whitespace-nowrap">
+                  <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-pink-400 flex-shrink-0" />
+                  <span>Real Likes</span>
                 </div>
-                <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 px-2.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm font-semibold text-slate-200">
-                  <Lock className="w-4 h-4 text-pink-400 flex-shrink-0" />
-                  <span className="truncate">100% Safety</span>
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-medium text-slate-200 shadow-sm backdrop-blur-sm whitespace-nowrap">
+                  <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-pink-400 flex-shrink-0" />
+                  <span>100% Safety</span>
                 </div>
               </div>
 
               {/* CTA Input Search Box Container */}
               <div id="instagram-search-box" className="w-full max-w-xl pt-3 space-y-3">
                 {/* CTA Callout Badge */}
-                <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-pink-500/20 border border-pink-500/30 rounded-2xl backdrop-blur-md">
+                <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 px-3.5 sm:px-4 py-2 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-pink-500/20 border border-pink-500/30 rounded-2xl backdrop-blur-md">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-pink-400 animate-pulse" />
+                    <Sparkles className="w-4 h-4 text-pink-400 animate-pulse flex-shrink-0" />
                     <span className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
                       Get IG Likes Now!
                     </span>
                   </div>
                   <span className="text-[11px] sm:text-xs text-pink-200 italic">
-                    No more waiting, just growing
+                    Fast delivery, guaranteed results
                   </span>
                 </div>
 

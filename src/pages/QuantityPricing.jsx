@@ -178,7 +178,12 @@ const QuantityPricing = () => {
   const [prices, setPrices] = useState({})
   const [selectedPackage, setSelectedPackage] = useState(location.state?.selectedPackage || null)
   const [total, setTotal] = useState(0)
-  const [orderLimits, setOrderLimits] = useState({ min: 50, max: 10000, step: 50 })
+  const [orderLimits, setOrderLimits] = useState(() => {
+    const pkgs = location.state?.selectedService?.packages || (location.state?.selectedPackage ? [location.state.selectedPackage] : []);
+    const maxPkg = pkgs.length > 0 ? Math.max(...pkgs.map(p => Number(p.quantity) || 0)) : 100000;
+    const minPkg = pkgs.length > 0 ? Math.min(...pkgs.map(p => Number(p.quantity) || 0)) : 50;
+    return { min: minPkg, max: maxPkg, step: 50 };
+  })
   const [quantity, setQuantity] = useState(location.state?.quantity || (location.state?.selectedPackage ? Number(location.state.selectedPackage.quantity) : 50))
   const [splitQuantities, setSplitQuantities] = useState(() => {
     const passed = location.state?.splitQuantities || {}
@@ -245,8 +250,23 @@ const QuantityPricing = () => {
         setTotal(data.data.total)
         const item = data.data.items?.[serviceKey]
         if (item) {
-          const min = item.minOrder !== undefined ? Number(item.minOrder) : 50
-          const max = item.maxOrder !== undefined ? Number(item.maxOrder) : 10000
+          const allPkgs = (item.packages && item.packages.length > 0)
+            ? item.packages
+            : (selectedService?.packages || (selectedPackage ? [selectedPackage] : []));
+          const maxPkgQty = allPkgs.length > 0
+            ? Math.max(...allPkgs.map(p => Number(p.quantity) || 0))
+            : 0;
+          const minPkgQty = allPkgs.length > 0
+            ? Math.min(...allPkgs.map(p => Number(p.quantity) || 0))
+            : 50;
+
+          const max = maxPkgQty > 0
+            ? (item.maxOrder && Number(item.maxOrder) > maxPkgQty ? Number(item.maxOrder) : maxPkgQty)
+            : (item.maxOrder !== undefined && Number(item.maxOrder) > 0 ? Number(item.maxOrder) : 100000);
+          const min = item.minOrder !== undefined && Number(item.minOrder) > 0
+            ? Math.min(Number(item.minOrder), minPkgQty)
+            : minPkgQty;
+
           setOrderLimits({ min, max, step: min >= 1000 ? 100 : 50 })
           setQuantity((prev) => {
             const minValue = Number(min)
@@ -516,30 +536,31 @@ const QuantityPricing = () => {
 
     if (packages && packages.length > 0) {
       const sortedPackages = [...packages].sort((a, b) => (Number(a.displayOrder) || 0) - (Number(b.displayOrder) || 0) || Number(a.quantity) - Number(b.quantity));
+      const sortedByQty = [...packages].sort((a, b) => Number(a.quantity) - Number(b.quantity));
 
-      const exact = sortedPackages.find(p => Number(p.quantity) === Number(quantity));
+      const exact = sortedByQty.find(p => Number(p.quantity) === Number(quantity));
       if (exact) {
         const price = Number(exact.price);
         return { price, unitPrice: price / quantity, packages: sortedPackages };
       }
 
-      if (quantity <= sortedPackages[0].quantity) {
-        const unitPrice = sortedPackages[0].price / sortedPackages[0].quantity;
+      if (quantity <= sortedByQty[0].quantity) {
+        const unitPrice = sortedByQty[0].price / sortedByQty[0].quantity;
         return { price: unitPrice * quantity, unitPrice, packages: sortedPackages };
       }
 
-      const maxPkg = sortedPackages[sortedPackages.length - 1];
+      const maxPkg = sortedByQty[sortedByQty.length - 1];
       if (quantity >= maxPkg.quantity) {
         const unitPrice = maxPkg.price / maxPkg.quantity;
         return { price: unitPrice * quantity, unitPrice, packages: sortedPackages };
       }
 
-      let lower = sortedPackages[0];
+      let lower = sortedByQty[0];
       let upper = maxPkg;
-      for (let i = 0; i < sortedPackages.length - 1; i++) {
-        if (quantity >= sortedPackages[i].quantity && quantity <= sortedPackages[i + 1].quantity) {
-          lower = sortedPackages[i];
-          upper = sortedPackages[i + 1];
+      for (let i = 0; i < sortedByQty.length - 1; i++) {
+        if (quantity >= sortedByQty[i].quantity && quantity <= sortedByQty[i + 1].quantity) {
+          lower = sortedByQty[i];
+          upper = sortedByQty[i + 1];
           break;
         }
       }
@@ -859,26 +880,37 @@ const QuantityPricing = () => {
                   )}
                 </div>
 
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-gray-600 font-medium capitalize text-xs sm:text-base">{currentConfig.quantityLabel}</span>
-                    <span className="text-xl sm:text-2xl font-bold text-gray-900">{quantity.toLocaleString()}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={computedPackages?.[0]?.quantity || 50}
-                    max={computedPackages?.[computedPackages.length - 1]?.quantity || 1000}
-                    step={1}
-                    value={quantity}
-                    onChange={(e) => setQuantity(Number(e.target.value))}
-                    className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200"
-                  />
-                  <div className="flex justify-between text-xs mt-2 text-gray-400">
-                    <span>{computedPackages?.[0]?.quantity || 50}</span>
-                    <span className="font-semibold text-pink-600">{quantity}</span>
-                    <span>{computedPackages?.[computedPackages.length - 1]?.quantity || 1000}</span>
-                  </div>
-                </div>
+                {(() => {
+                  const sliderMin = computedPackages && computedPackages.length > 0
+                    ? Math.min(...computedPackages.map(p => Number(p.quantity) || 0))
+                    : orderLimits.min;
+                  const sliderMax = computedPackages && computedPackages.length > 0
+                    ? Math.max(...computedPackages.map(p => Number(p.quantity) || 0))
+                    : orderLimits.max;
+
+                  return (
+                    <div>
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-gray-600 font-medium capitalize text-xs sm:text-base">{currentConfig.quantityLabel}</span>
+                        <span className="text-xl sm:text-2xl font-bold text-gray-900">{quantity.toLocaleString()}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min={sliderMin}
+                        max={sliderMax}
+                        step={1}
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        className="w-full h-3 rounded-full appearance-none cursor-pointer bg-gray-200"
+                      />
+                      <div className="flex justify-between text-xs mt-2 text-gray-400">
+                        <span>{sliderMin.toLocaleString()}</span>
+                        <span className="font-semibold text-pink-600">{quantity.toLocaleString()}</span>
+                        <span>{sliderMax.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
 
               {contentType && selectedItems.length > 0 && quantity < contentMinRequired && (

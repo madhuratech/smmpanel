@@ -24,7 +24,7 @@ const TikTok = () => {
         <div className="flex justify-center mb-8 sm:mb-10">
           <LiveDeliveryCounter service={getService()} platform="TikTok" />
         </div>
-        <Steps />
+        <Steps platform="tiktok" />
       </div>
     </div>
   );

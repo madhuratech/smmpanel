@@ -24,7 +24,7 @@ const Instagram = () => {
         <div className="flex justify-center mb-8 sm:mb-10">
           <LiveDeliveryCounter service={getService()} platform="Instagram" />
         </div>
-        <Steps />
+        <Steps platform="instagram" />
       </div>
     </div>
   );
