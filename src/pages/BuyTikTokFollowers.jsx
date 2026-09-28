@@ -23,6 +23,7 @@ import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
 import InputValidationPopup from "../components/InputValidationPopup";
+import QuickServicesLoopNav from "../components/QuickServicesLoopNav";
 import Tiky from "../assets/images/Tiktoklike.png";
 
 import Username from "../assets/images/username.png";
@@ -738,6 +739,9 @@ export default function BuyTikTokFollowers() {
           </div>
         </div>
       </section>
+
+      {/* ── EASY ACCESS SERVICES LOOP NAVIGATION ── */}
+      <QuickServicesLoopNav />
 
       {/* ── WHAT CAN YOU EXPECT FROM TIKYTOP (WHITE THEME) ── */}
       <section className="py-24 px-6 bg-slate-50 text-gray-900">

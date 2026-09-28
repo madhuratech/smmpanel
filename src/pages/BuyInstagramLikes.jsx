@@ -24,6 +24,7 @@ import useScrollToTop from "../hooks/useScrollToTop";
 import QuickPackageSelector from "../components/QuickPackageSelector";
 import LiveDeliveryCounter from "../components/LiveDeliveryCounter";
 import InputValidationPopup from "../components/InputValidationPopup";
+import QuickServicesLoopNav from "../components/QuickServicesLoopNav";
 import Tiky from "../assets/images/Instagramlikesbg.png";
 import Username from "../assets/images/username.png";
 import Post from "../assets/images/Likeimage.png";
@@ -812,6 +813,9 @@ export default function BuyInstagramLikes() {
           </div>
         </div>
       </section>
+
+      {/* ── EASY ACCESS SERVICES LOOP NAVIGATION ── */}
+      <QuickServicesLoopNav />
 
       {/* ── 7. CTA SECTION ── */}
       <section className="py-14 sm:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 text-white relative overflow-hidden">
